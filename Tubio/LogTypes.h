@@ -2,7 +2,7 @@
 
 namespace Logging
 {
-    enum class LOG_TYPE
+    enum LOG_TYPE
     {
         LOG,
         WARN,

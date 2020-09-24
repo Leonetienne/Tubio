@@ -1,8 +1,9 @@
 #pragma once
 #include "Logger.h"
 #include "LogHistory.h"
-#include "RestInterface.h"
+#include "HttpServer.h"
 #include "XGControl.h"
+#include "XGConfig.h"
 
 class Framework
 {
@@ -18,7 +19,7 @@ private:
     void PreInit();
     void PostExit();
 
-    Rest::RestInterface* restInterface;
+    Rest::HttpServer* httpServer;
 
     Logging::Logger* log;
 

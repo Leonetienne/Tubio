@@ -16,9 +16,10 @@ namespace Rest
 		static void PostExit();
 
 	private:
+		static bool Example_Foo(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		static bool KillYourself(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		
-		static bool ValidateField(const std::string name, const JasonPP::JSON_DATA_TYPE type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere);
+		static bool ValidateField(const std::string name, const JasonPP::JDType type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere);
 	
 		static Logging::Logger* log;
 	};

@@ -15,7 +15,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 {
 	log->SetAdditionalInformation(std::string("@") + clientAdress);
 
-	if (!ValidateField("request", JSON_DATA_TYPE::STRING, request, responseBody))
+	if (!ValidateField("request", JDType::STRING, request, responseBody))
 	{
 		responseCode = BAD_REQUEST;
 		return false;
@@ -23,7 +23,10 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	JsonBlock requestBody = request.AsJson;
 	std::string requestName = requestBody.Get("request").AsString;
 	
+
+
 	if (requestName == "kill_yourself") return KillYourself(requestBody, responseBody, responseCode);
+	else if (requestName == "foo") return Example_Foo(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -32,12 +35,21 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	return false;
 }
 
-void Rest::RestQueryHandler::PostExit()
+void RestQueryHandler::PostExit()
 {
 	delete log;
 	log = nullptr;
 
 	return;
+}
+
+bool RestQueryHandler::Example_Foo(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("message") = "Bar!";
+	std::cout << "Bar!" << std::endl;
+	return true;
 }
 
 bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
@@ -53,9 +65,9 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 	return true;
 }
 
-bool RestQueryHandler::ValidateField(const std::string name, const JasonPP::JSON_DATA_TYPE type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere)
+bool RestQueryHandler::ValidateField(const std::string name, const JasonPP::JDType type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere)
 {
-	if (checkThat.GetDataType() != JSON_DATA_TYPE::JSON)
+	if (checkThat.GetDataType() != JDType::JSON)
 	{
 		putErrorResponseHere = RestResponseTemplates::GetByCode(BAD_REQUEST, "The request body must be a json struct! No json array or similar...");
 		return false;
@@ -68,8 +80,8 @@ bool RestQueryHandler::ValidateField(const std::string name, const JasonPP::JSON
 		const JsonData& cached = cachedJson.ShorthandGet(name);
 
 		if ((cached.GetDataType() == type) ||
-			((cached.IsOfNumericType()) && (type == JSON_DATA_TYPE::INT)) ||
-			((cached.IsOfNumericType()) && (type == JSON_DATA_TYPE::FLOAT)))
+			((cached.IsOfNumericType()) && (type == JDType::INT)) ||
+			((cached.IsOfNumericType()) && (type == JDType::FLOAT)))
 		{
 			return true;
 		}

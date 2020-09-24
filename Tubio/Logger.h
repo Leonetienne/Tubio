@@ -3,7 +3,6 @@
 #include <string>
 #include <sstream>
 #include "LogTypes.h"
-#include "LogHistory.h"
 
 namespace Logging
 {

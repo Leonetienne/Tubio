@@ -36,9 +36,6 @@
     <ClCompile Include="Framework.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="RestInterface.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="RestResponseTemplates.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -46,6 +43,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="XGControl.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="XGConfig.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpServer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,9 +74,6 @@
     <ClInclude Include="Framework.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RestInterface.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="RestResponseTemplates.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -78,6 +81,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="XGControl.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="XGConfig.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpServer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

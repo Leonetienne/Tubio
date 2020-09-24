@@ -11,7 +11,7 @@ Framework::Framework()
     log->cout << "Starting Tubio server...";
     log->Flush();
 
-    restInterface = new RestInterface();
+    httpServer = new HttpServer();
 
     PostInit();
 
@@ -23,10 +23,10 @@ Framework::Framework()
 
 Framework::~Framework()
 {
-    delete restInterface;
+    delete httpServer;
     delete log;
 
-    restInterface = nullptr;
+    httpServer = nullptr;
     log = nullptr;
 
     return;
@@ -36,7 +36,7 @@ void Framework::Run()
 {
     while (XGControl::keepServerRunning)
     {
-        restInterface->Update();
+        httpServer->Update();
     }
 
     OnExit();
@@ -50,6 +50,7 @@ void Framework::Run()
 void Framework::PreInit()
 {
     LogHistory::PreInit();
+    XGConfig::PreInit();
     RestQueryHandler::PreInit();
 
     return;
@@ -58,22 +59,23 @@ void Framework::PreInit()
 
 void Framework::PostInit()
 {
-    restInterface->PostInit();
+    httpServer->PostInit();
 
     return;
 }
 
 void Framework::OnExit()
 {
-    restInterface->OnExit();
+    httpServer->OnExit();
 
     return;
 }
 
 void Framework::PostExit()
 {
-    LogHistory::PostExit();
+    XGConfig::PostExit();
     RestQueryHandler::PostExit();
+    LogHistory::PostExit();
 
     return;
 }

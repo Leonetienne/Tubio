@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JASONPP_RENDER_SORTED;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="JasonPP.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -147,10 +148,12 @@
     <ClCompile Include="mongoose.c" />
     <ClCompile Include="RestQueryHandler.cpp" />
     <ClCompile Include="RestResponseTemplates.cpp" />
-    <ClCompile Include="RestInterface.cpp" />
+    <ClCompile Include="HttpServer.cpp" />
+    <ClCompile Include="XGConfig.cpp" />
     <ClCompile Include="XGControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileSystem.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="JasonPP.hpp" />
     <ClInclude Include="Logger.h" />
@@ -159,7 +162,8 @@
     <ClInclude Include="mongoose.h" />
     <ClInclude Include="RestQueryHandler.h" />
     <ClInclude Include="RestResponseTemplates.h" />
-    <ClInclude Include="RestInterface.h" />
+    <ClInclude Include="HttpServer.h" />
+    <ClInclude Include="XGConfig.h" />
     <ClInclude Include="XGControl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

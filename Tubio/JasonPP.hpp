@@ -2142,11 +2142,16 @@ namespace JasonPP
 	};
 }
 
-#define JASONPP_VERSION (1.02)
+#define JASONPP_VERSION (1.021)
 
 namespace JasonPP
 {
 	typedef JsonData Json;
+}
+
+namespace JasonPP
+{
+	typedef JSON_DATA_TYPE JDType;
 }
 
 
@@ -2198,8 +2203,8 @@ namespace JasonPP
 #define AsJson GetJsonData()
 #define AsArray GetArrayData()
 
-#define Arr std::vector<JasonPP::JsonData>
-#define Ele JasonPP::JsonElement
+#define Arr std::vector<::JasonPP::JsonData>
+#define Ele ::JasonPP::JsonElement
 
 #endif
 

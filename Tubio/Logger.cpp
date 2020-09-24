@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "LogHistory.h"
 
 using namespace Logging;
 
@@ -48,7 +49,8 @@ std::string Logger::Flush()
     bufOut << "<" << timeBuf << "> [" << identifier << "]" << TypeToPrefix(type) << ((additionalInfo.length() > 0) ? " " : "") << additionalInfo << ": " << cout.str();
 
     LogEntry* newEntry = new LogEntry;
-    newEntry->message = bufOut.str();
+    newEntry->message = cout.str();
+    newEntry->compiledMessage = bufOut.str();
     newEntry->identifier = identifier;
     newEntry->timestamp = currTime;
     newEntry->type = type;

@@ -1,10 +1,10 @@
-#include "RestInterface.h"
+#include "HttpServer.h"
 
 using namespace Logging;
 using namespace Rest;
 using namespace JasonPP;
 
-RestInterface::RestInterface()
+HttpServer::HttpServer()
 {
 	pMgr = new mg_mgr();
 	pNc = nullptr;
@@ -13,7 +13,7 @@ RestInterface::RestInterface()
 	return;
 }
 
-RestInterface::~RestInterface()
+HttpServer::~HttpServer()
 {
 	delete pMgr;
 	delete log;
@@ -24,31 +24,31 @@ RestInterface::~RestInterface()
 	return;
 }
 
-void RestInterface::PostInit()
+void HttpServer::PostInit()
 {
 	isBootedSuccessfully = InitWebServer();
 
 	return;
 }
 
-bool RestInterface::InitWebServer()
+bool HttpServer::InitWebServer()
 {
 	mg_mgr_init(pMgr, NULL);
 
-	log->cout << "Starting rest api server on port " << WEBAPI_SERVER_PORT << "...";
+	log->cout << "Starting rest api server on port " << XGConfig::httpServer.port << "...";
 	log->Flush();
 
-	pNc = mg_bind(pMgr, WEBAPI_SERVER_PORT, this->EventHandler);
+	pNc = mg_bind(pMgr, XGConfig::httpServer.port.c_str(), this->EventHandler);
 
 	if (pNc == NULL)
 	{
-		log->cout << log->Err() << "Failed to boot rest api web server! - Unable to bind listener! (port: " << WEBAPI_SERVER_PORT << ")";
+		log->cout << log->Err() << "Failed to boot the http server! - Unable to bind listener! (port: " << XGConfig::httpServer.port << ")";
 		log->Flush();
 		return false;
 	}
 
 	mg_set_protocol_http_websocket(pNc);
-	frontend_serve_opts.document_root = "frontend";
+	frontend_serve_opts.document_root = XGConfig::httpServer.rootdir.c_str();
 	frontend_serve_opts.enable_directory_listing = "no";
 
 	log->cout << "Started web server successfully!";
@@ -58,14 +58,14 @@ bool RestInterface::InitWebServer()
 	return true;
 }
 
-void RestInterface::Update()
+void HttpServer::Update()
 {
-	mg_mgr_poll(pMgr, WEBAPI_SERVER_POLLRATE);
+	mg_mgr_poll(pMgr, XGConfig::httpServer.pollingRate);
 
 	return;
 }
 
-void RestInterface::ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode)
+void HttpServer::ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode)
 {
 	mg_send_head(c, httpStatusCode, str.length(), "content-type: application/json\nAccess-Control-Allow-Origin: *");
 	mg_printf(c, str.c_str());
@@ -73,7 +73,7 @@ void RestInterface::ServeStringToConnection(struct mg_connection* c, std::string
 	return;
 }
 
-void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
+void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 {
 	switch (ev)
 	{
@@ -98,7 +98,7 @@ void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
 	return;
 }
 
-void RestInterface::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
+void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 {
 	// Get struct with http message informations
 	http_message* hpm = (http_message*)p;
@@ -131,7 +131,7 @@ void RestInterface::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 	return;
 }
 
-void RestInterface::OnExit()
+void HttpServer::OnExit()
 {
 	log->cout << "Shutting down rest api server...";
 	log->Flush();
@@ -142,7 +142,7 @@ void RestInterface::OnExit()
 }
 
 
-std::string RestInterface::FixUnterminatedString(const char* cstr, const std::size_t len)
+std::string HttpServer::FixUnterminatedString(const char* cstr, const std::size_t len)
 {
 	std::stringstream ss;
 	for (std::size_t i = 0; i < len; i++)
@@ -153,4 +153,4 @@ std::string RestInterface::FixUnterminatedString(const char* cstr, const std::si
 	return ss.str();
 }
 
-mg_serve_http_opts RestInterface::frontend_serve_opts;
+mg_serve_http_opts HttpServer::frontend_serve_opts;

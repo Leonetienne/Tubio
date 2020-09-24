@@ -6,17 +6,15 @@
 #include "Logger.h"
 #include "RestResponseTemplates.h"
 #include "RestQueryHandler.h"
-
-#define WEBAPI_SERVER_POLLRATE 100
-#define WEBAPI_SERVER_PORT "6969"
+#include "XGConfig.h"
 
 namespace Rest
 {
-	class RestInterface
+	class HttpServer
 	{
 	public:
-		RestInterface();
-		~RestInterface();
+		HttpServer();
+		~HttpServer();
 
 		void PostInit();
 		void Update();
