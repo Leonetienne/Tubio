@@ -8,7 +8,7 @@ HttpServer::HttpServer()
 {
 	pMgr = new mg_mgr();
 	pNc = nullptr;
-	log = new Logger("WebServer");
+	log = new Logger("HttpServer");
 
 	return;
 }
@@ -35,14 +35,14 @@ bool HttpServer::InitWebServer()
 {
 	mg_mgr_init(pMgr, NULL);
 
-	log->cout << "Starting rest api server on port " << XGConfig::httpServer.port << "...";
+	log->cout << "Starting http-server on port " << XGConfig::httpServer.port << "...";
 	log->Flush();
 
 	pNc = mg_bind(pMgr, XGConfig::httpServer.port.c_str(), this->EventHandler);
 
 	if (pNc == NULL)
 	{
-		log->cout << log->Err() << "Failed to boot the http server! - Unable to bind listener! (port: " << XGConfig::httpServer.port << ")";
+		log->cout << log->Err() << "Failed to boot the http-server! - Unable to bind listener! (port: " << XGConfig::httpServer.port << ")";
 		log->Flush();
 		return false;
 	}
@@ -51,7 +51,7 @@ bool HttpServer::InitWebServer()
 	frontend_serve_opts.document_root = XGConfig::httpServer.rootdir.c_str();
 	frontend_serve_opts.enable_directory_listing = "no";
 
-	log->cout << "Started web server successfully!";
+	log->cout << "Started http-server successfully!";
 	log->Flush();
 	isBootedSuccessfully = true;
 
@@ -133,7 +133,7 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 
 void HttpServer::OnExit()
 {
-	log->cout << "Shutting down rest api server...";
+	log->cout << "Shutting down http-server...";
 	log->Flush();
 
 	mg_mgr_free(pMgr);
