@@ -48,9 +48,6 @@
     <ClCompile Include="XGControl.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="UIServer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JasonPP.hpp">
@@ -81,9 +78,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="XGControl.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="UIServer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

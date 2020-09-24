@@ -11,7 +11,7 @@ namespace Rest
 	public:
 		static void PreInit();
 
-		static bool ProcessQuery(const JasonPP::Json& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
+		static bool ProcessQuery(const std::string clientAdress, const JasonPP::Json& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 
 		static void PostExit();
 

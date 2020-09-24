@@ -24,6 +24,7 @@ namespace Rest
 
 	private:
 		bool InitWebServer();
+		static void ProcessAPIRequest(struct mg_connection* pNc, int ev, void* p);
 
 		static void EventHandler(struct mg_connection* pNc, int ev, void* p);
 		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);
@@ -32,6 +33,7 @@ namespace Rest
 
 		struct mg_mgr* pMgr;
 		struct mg_connection* pNc;
+		static mg_serve_http_opts frontend_serve_opts;
 
 		Logging::Logger* log;
 

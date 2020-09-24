@@ -11,8 +11,10 @@ void RestQueryHandler::PreInit()
 	return;
 }
 
-bool RestQueryHandler::ProcessQuery(const Json& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
+	log->SetAdditionalInformation(std::string("@") + clientAdress);
+
 	if (!ValidateField("request", JSON_DATA_TYPE::STRING, request, responseBody))
 	{
 		responseCode = BAD_REQUEST;
@@ -42,7 +44,7 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 {
 	XGControl::keepServerRunning = false;
 
-	log->cout << "Shutting down server upon rest request by " << XGControl::lastIPThatRequested << "...";
+	log->cout << "Shutting down server upon rest request...";
 	log->Flush();
 
 	responseCode = OK;

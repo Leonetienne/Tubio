@@ -8,9 +8,7 @@ Logger::Logger(std::string identifier)
 
     std::stringstream ss;
 
-    rawIdentifier = identifier;
-    ss << "[" << rawIdentifier << "]";
-    this->identifier = ss.str();
+    this->identifier = identifier;
 
     return;
 }
@@ -47,11 +45,11 @@ std::string Logger::Flush()
     strftime(timeBuf, 100, "%d.%m.%Y - %T", &currTm);
 
     std::stringstream bufOut;
-    bufOut << "<" << timeBuf << "> " << identifier << TypeToPrefix(type) << ": " << cout.str();
+    bufOut << "<" << timeBuf << "> [" << identifier << "]" << TypeToPrefix(type) << ((additionalInfo.length() > 0) ? " " : "") << additionalInfo << ": " << cout.str();
 
     LogEntry* newEntry = new LogEntry;
     newEntry->message = bufOut.str();
-    newEntry->identifier = rawIdentifier;
+    newEntry->identifier = identifier;
     newEntry->timestamp = currTime;
     newEntry->type = type;
     LogHistory::AddLogToHistory(newEntry);
@@ -66,7 +64,6 @@ std::string Logger::Flush()
 std::string Logger::Type(LOG_TYPE type)
 {
     if (!IsInitializedSanityCheck()) return "";
-
 
     this->type = type;
     return "";

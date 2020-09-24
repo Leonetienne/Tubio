@@ -148,7 +148,6 @@
     <ClCompile Include="RestQueryHandler.cpp" />
     <ClCompile Include="RestResponseTemplates.cpp" />
     <ClCompile Include="RestInterface.cpp" />
-    <ClCompile Include="UIServer.cpp" />
     <ClCompile Include="XGControl.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +160,6 @@
     <ClInclude Include="RestQueryHandler.h" />
     <ClInclude Include="RestResponseTemplates.h" />
     <ClInclude Include="RestInterface.h" />
-    <ClInclude Include="UIServer.h" />
     <ClInclude Include="XGControl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -48,6 +48,8 @@ bool RestInterface::InitWebServer()
 	}
 
 	mg_set_protocol_http_websocket(pNc);
+	frontend_serve_opts.document_root = "frontend";
+	frontend_serve_opts.enable_directory_listing = "no";
 
 	log->cout << "Started web server successfully!";
 	log->Flush();
@@ -78,32 +80,52 @@ void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
 	case MG_EV_HTTP_REQUEST:
 
 		http_message* hpm = (http_message*)p;
-		std::string requestBodyRaw = FixUnterminatedString(hpm->body.p, hpm->body.len);
-
-		if (IsJsonValid(requestBodyRaw))
+		std::string requestedUri = FixUnterminatedString(hpm->uri.p, hpm->uri.len);
+		
+		if ((requestedUri == "/api"))
 		{
-			Json requestBody;
-			requestBody.Parse(requestBodyRaw);
-
-			char addr[32];
-			mg_sock_addr_to_str(&pNc->sa, addr, sizeof(addr), MG_SOCK_STRINGIFY_IP);
-			XGControl::lastIPThatRequested = std::string(addr);
-
-			JsonBlock responseBody;
-			HTTP_STATUS_CODE returnCode;
-			RestQueryHandler::ProcessQuery(requestBody, responseBody, returnCode);
-
-			Json response(responseBody);
-			ServeStringToConnection(pNc, response.Render(), returnCode);
+			ProcessAPIRequest(pNc, ev, p);
 		}
 		else
 		{
-			Json errorJson = RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked up");
-			ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
+			mg_serve_http(pNc, (struct http_message*)p, frontend_serve_opts);
 		}
 
 
 		break;
+	}
+
+	return;
+}
+
+void RestInterface::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
+{
+	// Get struct with http message informations
+	http_message* hpm = (http_message*)p;
+
+	// Get the transmitted message body
+	std::string requestBodyRaw = FixUnterminatedString(hpm->body.p, hpm->body.len);
+
+	// Check for the body being valid json
+	if (IsJsonValid(requestBodyRaw))
+	{
+		Json requestBody;
+		requestBody.Parse(requestBodyRaw);
+
+		char addr[32];
+		mg_sock_addr_to_str(&pNc->sa, addr, sizeof(addr), MG_SOCK_STRINGIFY_IP);
+
+		JsonBlock responseBody;
+		HTTP_STATUS_CODE returnCode;
+		RestQueryHandler::ProcessQuery(std::string(addr), requestBody, responseBody, returnCode);
+
+		Json response(responseBody);
+		ServeStringToConnection(pNc, response.Render(), returnCode);
+	}
+	else // return error message for invalid json
+	{
+		Json errorJson = RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked up");
+		ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
 	}
 
 	return;
@@ -130,3 +152,5 @@ std::string RestInterface::FixUnterminatedString(const char* cstr, const std::si
 
 	return ss.str();
 }
+
+mg_serve_http_opts RestInterface::frontend_serve_opts;

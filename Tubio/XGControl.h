@@ -8,6 +8,5 @@ class XGControl
 {
 public:
 	static bool keepServerRunning;
-	static std::string lastIPThatRequested;
 };
 

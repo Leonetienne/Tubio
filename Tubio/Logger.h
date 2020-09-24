@@ -21,6 +21,9 @@ namespace Logging
         //Sets the buffered string
         void Set(std::string str);
 
+        //Sets additional information to be appended after the identifier
+        void SetAdditionalInformation(std::string str) { additionalInfo = str; };
+
         //Prints the buffered string to the console and clears it
         std::string Flush();
 
@@ -42,7 +45,7 @@ namespace Logging
         bool IsInitializedSanityCheck();
 
         std::string identifier;
-        std::string rawIdentifier;
+        std::string additionalInfo = "";
         LOG_TYPE type = LOG_TYPE::LOG;
 
         bool isInitialized = false;

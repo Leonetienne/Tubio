@@ -1,7 +1,6 @@
 #pragma once
 #include "Logger.h"
 #include "LogHistory.h"
-#include "UIServer.h"
 #include "RestInterface.h"
 #include "XGControl.h"
 
@@ -20,7 +19,6 @@ private:
     void PostExit();
 
     Rest::RestInterface* restInterface;
-    UI::UIServer* uiServer;
 
     Logging::Logger* log;
 
