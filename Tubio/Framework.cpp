@@ -2,6 +2,7 @@
 
 using namespace Logging;
 using namespace Rest;
+using namespace UI;
 
 Framework::Framework()
 {
@@ -10,7 +11,9 @@ Framework::Framework()
     log = new Logger("Framework");
     log->cout << "Starting Tubio server...";
     log->Flush();
+
     restInterface = new RestInterface();
+    uiServer = new UIServer();
 
     PostInit();
 
@@ -23,8 +26,10 @@ Framework::Framework()
 Framework::~Framework()
 {
     delete restInterface;
+    delete uiServer;
     delete log;
 
+    uiServer = nullptr;
     restInterface = nullptr;
     log = nullptr;
 
@@ -36,6 +41,7 @@ void Framework::Run()
     while (XGControl::keepServerRunning)
     {
         restInterface->Update();
+        uiServer->Update();
     }
 
     OnExit();
@@ -58,6 +64,7 @@ void Framework::PreInit()
 void Framework::PostInit()
 {
     restInterface->PostInit();
+    uiServer->PostInit();
 
     return;
 }
@@ -65,6 +72,7 @@ void Framework::PostInit()
 void Framework::OnExit()
 {
     restInterface->OnExit();
+    uiServer->OnExit();
 
     return;
 }

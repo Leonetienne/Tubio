@@ -35,6 +35,6 @@ namespace Rest
 
 		Logging::Logger* log;
 
-		bool isBootedSuccessfully;
+		bool isBootedSuccessfully = false;
 	};
 }

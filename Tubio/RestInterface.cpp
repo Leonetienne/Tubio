@@ -10,8 +10,6 @@ RestInterface::RestInterface()
 	pNc = nullptr;
 	log = new Logger("WebServer");
 
-	isBootedSuccessfully = false;
-
 	return;
 }
 
@@ -37,14 +35,14 @@ bool RestInterface::InitWebServer()
 {
 	mg_mgr_init(pMgr, NULL);
 
-	log->cout << "Starting web server on port " << WEBAPI_SERVER_PORT << "...";
+	log->cout << "Starting rest api server on port " << WEBAPI_SERVER_PORT << "...";
 	log->Flush();
 
 	pNc = mg_bind(pMgr, WEBAPI_SERVER_PORT, this->EventHandler);
 
 	if (pNc == NULL)
 	{
-		log->cout << log->Err() << "Failed to boot the web server! - Unable to bind listener!";
+		log->cout << log->Err() << "Failed to boot rest api web server! - Unable to bind listener! (port: " << WEBAPI_SERVER_PORT << ")";
 		log->Flush();
 		return false;
 	}
@@ -86,7 +84,11 @@ void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
 		{
 			Json requestBody;
 			requestBody.Parse(requestBodyRaw);
-			
+
+			char addr[32];
+			mg_sock_addr_to_str(&pNc->sa, addr, sizeof(addr), MG_SOCK_STRINGIFY_IP);
+			XGControl::lastIPThatRequested = std::string(addr);
+
 			JsonBlock responseBody;
 			HTTP_STATUS_CODE returnCode;
 			RestQueryHandler::ProcessQuery(requestBody, responseBody, returnCode);
@@ -109,6 +111,9 @@ void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
 
 void RestInterface::OnExit()
 {
+	log->cout << "Shutting down rest api server...";
+	log->Flush();
+
 	mg_mgr_free(pMgr);
 
 	return;

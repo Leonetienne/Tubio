@@ -42,7 +42,7 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 {
 	XGControl::keepServerRunning = false;
 
-	log->cout << "Shutting down server upon rest request...";
+	log->cout << "Shutting down server upon rest request by " << XGControl::lastIPThatRequested << "...";
 	log->Flush();
 
 	responseCode = OK;

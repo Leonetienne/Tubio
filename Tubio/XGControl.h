@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 /// <summary>
 /// Class to house control variables
@@ -7,5 +8,6 @@ class XGControl
 {
 public:
 	static bool keepServerRunning;
+	static std::string lastIPThatRequested;
 };
 
