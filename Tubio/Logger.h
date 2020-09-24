@@ -7,43 +7,43 @@
 
 namespace Logging
 {
-    class Log
+    class Logger
     {
     public:
 
     public:
         //Creates a Logger object. Pass an identifier such as MySQL
-        Log(std::string _identifier);
+        Logger(std::string identifier);
 
         //Clears the buffered string and resets the log type to default
         void Clear();
 
         //Sets the buffered string
-        void Set(std::string _str);
+        void Set(std::string str);
 
         //Prints the buffered string to the console and clears it
         std::string Flush();
 
         //Sets a custom log type
-        std::string Type(LOG_TYPE _type);
+        std::string Type(LOG_TYPE type);
 
         //Sets the log type to warning
-        std::string Warn() { return Type(WARN); }
+        std::string Warn() { return Type(LOG_TYPE::WARN); }
 
         //Sets the log type to error
-        std::string Err() { return Type(ERR); }
+        std::string Err() { return Type(LOG_TYPE::ERR); }
 
         std::stringstream cout;
 
     private:
-        std::string TypeToPrefix(LOG_TYPE _type);
-        std::string TypeToColor(LOG_TYPE _type);
+        std::string TypeToPrefix(LOG_TYPE type);
+        std::string TypeToColor(LOG_TYPE type);
 
         bool IsInitializedSanityCheck();
 
         std::string identifier;
         std::string rawIdentifier;
-        LOG_TYPE type = LOG;
+        LOG_TYPE type = LOG_TYPE::LOG;
 
         bool isInitialized = false;
     };

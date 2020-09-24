@@ -1,6 +1,7 @@
 #include "Framework.h"
 
 using namespace Logging;
+using namespace Rest;
 
 Framework::Framework()
 {
@@ -13,7 +14,7 @@ Framework::Framework()
 
     PostInit();
 
-    isRunning = true;
+    XGControl::keepServerRunning = true;
     Run();
 
     return;
@@ -32,7 +33,7 @@ Framework::~Framework()
 
 void Framework::Run()
 {
-    while (isRunning)
+    while (XGControl::keepServerRunning)
     {
         restInterface->Update();
     }
@@ -48,6 +49,7 @@ void Framework::Run()
 void Framework::PreInit()
 {
     LogHistory::PreInit();
+    RestQueryHandler::PreInit();
 
     return;
 }
@@ -70,6 +72,7 @@ void Framework::OnExit()
 void Framework::PostExit()
 {
     LogHistory::PostExit();
+    RestQueryHandler::PostExit();
 
     return;
 }

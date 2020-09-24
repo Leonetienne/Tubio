@@ -1,6 +1,8 @@
 #include "RestInterface.h"
 
 using namespace Logging;
+using namespace Rest;
+using namespace JasonPP;
 
 RestInterface::RestInterface()
 {
@@ -27,7 +29,6 @@ RestInterface::~RestInterface()
 void RestInterface::PostInit()
 {
 	isBootedSuccessfully = InitWebServer();
-
 
 	return;
 }
@@ -64,44 +65,41 @@ void RestInterface::Update()
 	return;
 }
 
-void RestInterface::ServeStringToConnection(struct mg_connection* _c, std::string _str)
+void RestInterface::ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode)
 {
-	mg_send_head(_c, 200, _str.length(), "content-type: application/json\nAccess-Control-Allow-Origin: *");
-	mg_printf(_c, _str.c_str());
+	mg_send_head(c, httpStatusCode, str.length(), "content-type: application/json\nAccess-Control-Allow-Origin: *");
+	mg_printf(c, str.c_str());
 
 	return;
 }
 
-
-void RestInterface::EventHandler(mg_connection* _pNc, int _ev, void* _p)
+void RestInterface::EventHandler(mg_connection* pNc, int ev, void* p)
 {
-	switch (_ev)
+	switch (ev)
 	{
 	case MG_EV_HTTP_REQUEST:
 
-		/*
-		StringParser sp(_pNc->recv_mbuf.buf);
+		http_message* hpm = (http_message*)p;
+		std::string requestBodyRaw = FixUnterminatedString(hpm->body.p, hpm->body.len);
 
-		sp.Skip("GET /");
-		std::string rawRequest = sp.ExtSeek(" HTTP/");
-		std::string jsonQuery = StringTools::UrlDecode(rawRequest);
+		if (IsJsonValid(requestBodyRaw))
+		{
+			Json requestBody;
+			requestBody.Parse(requestBodyRaw);
+			
+			JsonBlock responseBody;
+			HTTP_STATUS_CODE returnCode;
+			RestQueryHandler::ProcessQuery(requestBody, responseBody, returnCode);
 
-		std::string queryResult = RestAPIQueryHandler::ProcessQuery(jsonQuery);
+			Json response(responseBody);
+			ServeStringToConnection(pNc, response.Render(), returnCode);
+		}
+		else
+		{
+			Json errorJson = RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked up");
+			ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
+		}
 
-
-
-		ServeStringToConnection(_pNc, queryResult);
-		*/
-
-		//std::cout << _pNc->recv_mbuf.buf << std::endl;
-		
-		http_message* hpm = (http_message*)_p;
-		
-		char buf[500];
-		mg_get_http_var(&hpm->body, "data", buf, 500);
-		std::cout << buf << std::endl;
-
-		ServeStringToConnection(_pNc, _pNc->recv_mbuf.buf);
 
 		break;
 	}
@@ -114,4 +112,16 @@ void RestInterface::OnExit()
 	mg_mgr_free(pMgr);
 
 	return;
+}
+
+
+std::string RestInterface::FixUnterminatedString(const char* cstr, const std::size_t len)
+{
+	std::stringstream ss;
+	for (std::size_t i = 0; i < len; i++)
+	{
+		ss << *(cstr + i);
+	}
+
+	return ss.str();
 }

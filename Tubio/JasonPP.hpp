@@ -1053,7 +1053,7 @@ namespace JasonPP
 			/// </summary>
 			/// <param name="str">The original string to work in</param>
 			/// <returns>The string with escaped characters</returns>
-			static std::string Escape(std::string str);
+			static std::string Escape(const std::string str);
 
 			/// <summary>
 			/// Will unescape json strings
@@ -1240,6 +1240,12 @@ namespace JasonPP
 		/// </summary>
 		/// <returns>The json data type of this object</returns>
 		JSON_DATA_TYPE GetDataType() const { return dataType; };
+
+		/// <summary>
+		/// Returns whether or not this JsonData is either of type FLOAT or INT
+		/// </summary>
+		/// <returns>Whether or not this JsonData is either of type FLOAT or INT</returns>
+		bool IsOfNumericType() const;
 
 		/// <summary>
 		/// Returns the bool value of this element, exception if of wrong type
@@ -2136,7 +2142,7 @@ namespace JasonPP
 	};
 }
 
-#define JASONPP_VERSION (1.01)
+#define JASONPP_VERSION (1.02)
 
 namespace JasonPP
 {

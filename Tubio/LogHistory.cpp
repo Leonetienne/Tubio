@@ -23,9 +23,9 @@ void LogHistory::PostExit()
     return;
 }
 
-void LogHistory::AddLogToHistory(LogEntry* _newEntry)
+void LogHistory::AddLogToHistory(LogEntry* newEntry)
 {
-    history->push_back(_newEntry);
+    history->push_back(newEntry);
 
     return;
 }

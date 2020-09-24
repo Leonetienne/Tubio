@@ -145,7 +145,10 @@
     <ClCompile Include="LogHistory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mongoose.c" />
+    <ClCompile Include="RestQueryHandler.cpp" />
+    <ClCompile Include="RestResponseTemplates.cpp" />
     <ClCompile Include="RestInterface.cpp" />
+    <ClCompile Include="XGControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
@@ -154,7 +157,10 @@
     <ClInclude Include="LogHistory.h" />
     <ClInclude Include="LogTypes.h" />
     <ClInclude Include="mongoose.h" />
+    <ClInclude Include="RestQueryHandler.h" />
+    <ClInclude Include="RestResponseTemplates.h" />
     <ClInclude Include="RestInterface.h" />
+    <ClInclude Include="XGControl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

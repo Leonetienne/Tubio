@@ -948,6 +948,7 @@ void JsonArray::Parse(const std::string jsonCode)
 		bool areWeInString = false;
 		bool areWeInCode = false;
 		bool isCharEscaped = false;
+		bool areWeBetweenCommaAndValue = false; // Has the parser found a comma, but is still looking for the next value?
 
 		for (std::size_t i = 0; i < minifiedCode.length(); i++)
 		{
@@ -957,13 +958,25 @@ void JsonArray::Parse(const std::string jsonCode)
 			{
 				start = i;
 				areWeInCode = true;
+				areWeBetweenCommaAndValue = true;
 			}
 
 			else if ((!areWeInString) && (areWeInCode) && (arrayBracketLevel == 1) && (curlyBracketLevel == 0) && ((c == ',') || (i == minifiedCode.length() - 1)))
 			{
+				if (c != ',') areWeBetweenCommaAndValue = false;
 				end = i;
 				areWeInCode = false;
-				dataJsonSnippets.push_back(minifiedCode.substr(start, end - start));
+
+				std::string codeSnippet = minifiedCode.substr(start, end - start);
+				if (codeSnippet.length() > 0) // A json data snippet can't be of size 0!
+				{
+					dataJsonSnippets.push_back(codeSnippet);
+				}
+				else
+				{
+					// JsonElement too short to be valid.
+					throw JsonParsingGeneralException(std::string("Fucked up a comma around position ") + Jstring((long long int)start));
+				}
 			}
 
 			if ((!areWeInString) && (c == ']') && (arrayBracketLevel == 1) && (i != minifiedCode.length() - 1)) throw JsonParsingExpectedEOFException(minifiedCode.substr(i, minifiedCode.length() - i));
@@ -984,6 +997,7 @@ void JsonArray::Parse(const std::string jsonCode)
 		// Someone fucked up his json code
 		if (arrayBracketLevel != 0) throw JsonParsingMissingBracketsException();
 		if (curlyBracketLevel != 0) throw JsonParsingMissingBracketsException();
+		if (areWeBetweenCommaAndValue) throw JsonParsingGeneralException("Unexpected EOF. Don't put a comma after the last value of a json array!");
 		if (areWeInString) throw JsonParsingMissingQuotesException();
 	}
 
@@ -1090,7 +1104,7 @@ std::string StringHelpers::Replace(const std::string str, const std::string find
     return ss.str();
 }
 
-std::string StringHelpers::Escape(std::string str)
+std::string StringHelpers::Escape(const std::string str)
 {
     std::stringstream ss;
 
@@ -1120,7 +1134,6 @@ std::string StringHelpers::Escape(std::string str)
             ss << "\\\\";
             break;
         default:
-
             if (str[i] < 0) ss << EscapeUTF8(str[i]);
             else ss << str[i];
         }
@@ -1669,6 +1682,11 @@ double JsonData::GetFloatPrecision() const
 		else return parentNode->GetFloatPrecision(); // Inherit from parent
 	}
 	return customFloatPrecision;
+}
+
+bool JsonData::IsOfNumericType() const
+{
+	return (dataType == JSON_DATA_TYPE::INT) || (dataType == JSON_DATA_TYPE::FLOAT);
 }
 
 bool JsonData::GetBoolData() const
@@ -2963,22 +2981,43 @@ void JsonBlock::Parse(const std::string jsonCode)
 		bool areWeInString = false;
 		bool areWeInCode = false;
 		bool isCharEscaped = false;
+		bool areWeBetweenCommaAndLabel = false; // Has the parser found a comma, but is still looking for the next label?
 
 		for (std::size_t i = 0; i < minifiedCode.length(); i++)
 		{
 			const char c = minifiedCode[i];
 
-			if ((!areWeInString) && (c == '\"') && (arrayBracketLevel == 0) && (curlyBracketLevel == 1) && (!areWeInCode))
+			if ((!areWeInString) && (arrayBracketLevel == 0) && (curlyBracketLevel == 1) && (!areWeInCode))
 			{
-				start = i;
-				areWeInCode = true;
+				if (c == '\"')
+				{
+					start = i;
+					areWeInCode = true;
+					areWeBetweenCommaAndLabel = false;
+				}
+				else if (c == ',')
+				{
+					// Did not find a label between two commas!
+					throw JsonParsingGeneralException(std::string("Fucked up a comma around position ") + Jstring((long long int)i));
+				}
 			}
 
 			else if ((areWeInCode) && (arrayBracketLevel == 0) && (curlyBracketLevel == 1) && (!areWeInString) && ((c == ',') || (c == '}')))
 			{
 				end = i;
 				areWeInCode = false;
-				elementCodeSnippets.push_back(minifiedCode.substr(start, end - start));
+				if (c == ',') areWeBetweenCommaAndLabel = true;
+
+				std::string codeSnippet = minifiedCode.substr(start, end - start);
+				if (codeSnippet.length() >= 4) // Minimum length for valid JsonElement code. "":0
+				{
+					elementCodeSnippets.push_back(codeSnippet);
+				}
+				else
+				{
+					// JsonElement too short to be valid.
+					throw JsonParsingGeneralException(std::string("Fucked up a comma around position ") + Jstring((long long int)start));
+				}
 			}
 
 			// Our } at level 1 is not the last char? It should be! EXPECTED_END_OF_FILE_EXCEPTION :)
@@ -2987,7 +3026,7 @@ void JsonBlock::Parse(const std::string jsonCode)
 			if ((c == '\"') && (!areWeInString)) areWeInString = true;
 			else if ((c == '\"') && (!isCharEscaped) && (areWeInString)) areWeInString = false;
 
-			// No need to check for char escaping since we are already checking if we are in a string or not. Chars are ever escaped outside of strings
+			// No need to check for char escaping since we are already checking if we are in a string or not. Chars are never escaped outside of strings
 			if ((c == '[') && (!areWeInString)) arrayBracketLevel++;
 			else if ((c == ']') && (!areWeInString)) arrayBracketLevel--;
 			else if ((c == '{') && (!areWeInString)) curlyBracketLevel++;
@@ -3001,6 +3040,7 @@ void JsonBlock::Parse(const std::string jsonCode)
 		if (arrayBracketLevel != 0) throw JsonParsingMissingBracketsException();
 		if (curlyBracketLevel != 0) throw JsonParsingMissingBracketsException();
 		if (areWeInString) throw JsonParsingMissingQuotesException();
+		if (areWeBetweenCommaAndLabel) throw JsonParsingGeneralException("Unexpected EOF. Don't put a comma after the last value of a json block!");
 		if ((elementCodeSnippets.size() == 0) && (minifiedCode.length() > 2)) throw JsonParsingGeneralException("Found no members in json block, but code is too long for no members");
 	}
 	

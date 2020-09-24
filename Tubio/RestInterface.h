@@ -4,34 +4,37 @@
 #include <sstream>
 #include "mongoose.h"
 #include "Logger.h"
+#include "RestResponseTemplates.h"
+#include "RestQueryHandler.h"
 
 #define WEBAPI_SERVER_POLLRATE 100
 #define WEBAPI_SERVER_PORT "6969"
 
-class RestInterface
+namespace Rest
 {
-public:
-	RestInterface();
-	~RestInterface();
+	class RestInterface
+	{
+	public:
+		RestInterface();
+		~RestInterface();
 
-	void PostInit();
-	void Update();
-	void OnExit();
+		void PostInit();
+		void Update();
+		void OnExit();
 
-private:
-	bool InitWebServer();
+	private:
+		bool InitWebServer();
 
-	static void EventHandler(struct mg_connection* _pNc, int _ev, void* _p);
+		static void EventHandler(struct mg_connection* pNc, int ev, void* p);
+		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);
+		static std::string FixUnterminatedString(const char* cstr, const std::size_t len);
 
-	static void ServeStringToConnection(struct mg_connection* _c, std::string _str);
 
+		struct mg_mgr* pMgr;
+		struct mg_connection* pNc;
 
-	struct mg_mgr* pMgr;
-	struct mg_connection* pNc;
-	static mg_serve_http_opts pServeOpts;
+		Logging::Logger* log;
 
-	Logging::Logger* log;
-
-	bool isBootedSuccessfully;
-};
-
+		bool isBootedSuccessfully;
+	};
+}

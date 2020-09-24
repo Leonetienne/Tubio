@@ -2,15 +2,15 @@
 
 using namespace Logging;
 
-Logger::Logger(std::string _identifier)
+Logger::Logger(std::string identifier)
 {
     isInitialized = true;
 
     std::stringstream ss;
 
-    rawIdentifier = _identifier;
+    rawIdentifier = identifier;
     ss << "[" << rawIdentifier << "]";
-    identifier = ss.str();
+    this->identifier = ss.str();
 
     return;
 }
@@ -25,12 +25,12 @@ void Logger::Clear()
     return;
 }
 
-void Logger::Set(std::string _str)
+void Logger::Set(std::string str)
 {
     if (!IsInitializedSanityCheck()) return;
 
     Clear();
-    cout << _str;
+    cout << str;
 
     return;
 }
@@ -44,7 +44,7 @@ std::string Logger::Flush()
     tm currTm;
     localtime_s(&currTm, &currTime);
     char timeBuf[256];
-    strftime(timeBuf, 100, "%d.%m.%Y - %T", currTm);
+    strftime(timeBuf, 100, "%d.%m.%Y - %T", &currTm);
 
     std::stringstream bufOut;
     bufOut << "<" << timeBuf << "> " << identifier << TypeToPrefix(type) << ": " << cout.str();
@@ -56,25 +56,25 @@ std::string Logger::Flush()
     newEntry->type = type;
     LogHistory::AddLogToHistory(newEntry);
 
-    std::cout << TypeToColor(type) << bufOut.str() << "\033[0m" << std::endl;
+    std::cout << bufOut.str() << std::endl;
 
     Clear();
 
     return "";
 }
 
-std::string Logger::Type(LOG_TYPE _type)
+std::string Logger::Type(LOG_TYPE type)
 {
     if (!IsInitializedSanityCheck()) return "";
 
 
-    type = _type;
+    this->type = type;
     return "";
 }
 
-std::string Logger::TypeToPrefix(LOG_TYPE _type)
+std::string Logger::TypeToPrefix(LOG_TYPE type)
 {
-    switch (_type)
+    switch (type)
     {
     case LOG_TYPE::LOG:
         return "";
@@ -94,7 +94,7 @@ std::string Logger::TypeToPrefix(LOG_TYPE _type)
 
 std::string Logger::TypeToColor(LOG_TYPE _type)
 {
-    switch (_type)
+    /*switch (_type)
     {
     case LOG_TYPE::LOG:
         return "\033[0m";
@@ -109,7 +109,8 @@ std::string Logger::TypeToColor(LOG_TYPE _type)
         return "\033[0m";
     }
 
-    return "\033[0m";
+    return "\033[0m";*/
+    return "";
 }
 
 bool Logger::IsInitializedSanityCheck()
@@ -117,7 +118,8 @@ bool Logger::IsInitializedSanityCheck()
     if (!isInitialized)
     {
         Logger log("Logger"); //A Log object cannot always have a Log-member because of its recursive nature. Only create them when needed!
-        log.cout << log.Err() << "Attempted to use logger object without being initialized!" << log.Flush();
+        log.cout << log.Err() << "Attempted to use logger object without being initialized!";
+        log.Flush();
         return false;
     }
 

@@ -39,6 +39,15 @@
     <ClCompile Include="RestInterface.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="RestResponseTemplates.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RestQueryHandler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="XGControl.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JasonPP.hpp">
@@ -60,6 +69,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="RestInterface.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RestResponseTemplates.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RestQueryHandler.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="XGControl.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
