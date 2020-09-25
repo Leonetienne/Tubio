@@ -39,6 +39,15 @@ void XGConfig::InitializeDefaultValues()
 	logging.logfile_text = "log.txt";
 	logging.logfile_json = "log.json";
 
+	downloader.cachedir = "dlcache";
+	downloader.max_dlrate_per_thread = "100M";
+	downloader.num_threads = 1;
+
+	downloader.loginCredentials.use_account = false;
+	downloader.loginCredentials.username = "";
+	downloader.loginCredentials.password = "";
+	downloader.loginCredentials.twofactor = "";
+
 	return;
 }
 
@@ -71,6 +80,37 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 		httpServer.rootdir = json.ShorthandGet("httpServer.rootdir").AsString;
 	}
 
+
+
+	if (IsJsonFieldValid(json, "downloader.cachedir", JDType::STRING))
+	{
+		downloader.cachedir = json.ShorthandGet("downloader.cachedir").AsString;
+	}
+	if (IsJsonFieldValid(json, "downloader.num_threads", JDType::INT))
+	{
+		downloader.num_threads = json.ShorthandGet("downloader.num_threads").AsInt;
+	}
+	if (IsJsonFieldValid(json, "downloader.max_dlrate_per_thread", JDType::STRING))
+	{
+		downloader.max_dlrate_per_thread = json.ShorthandGet("downloader.max_dlrate_per_thread").AsString;
+	}
+
+	if (IsJsonFieldValid(json, "downloader.loginCredentials.use_account", JDType::BOOL))
+	{
+		downloader.loginCredentials.use_account = json.ShorthandGet("downloader.loginCredentials.use_account").AsBool;
+	}
+	if (IsJsonFieldValid(json, "downloader.loginCredentials.username", JDType::STRING))
+	{
+		downloader.loginCredentials.username = json.ShorthandGet("downloader.loginCredentials.username").AsString;
+	}
+	if (IsJsonFieldValid(json, "downloader.loginCredentials.password", JDType::STRING))
+	{
+		downloader.loginCredentials.password = json.ShorthandGet("downloader.loginCredentials.password").AsString;
+	}
+	if (IsJsonFieldValid(json, "downloader.loginCredentials.twofactor", JDType::STRING))
+	{
+		downloader.loginCredentials.twofactor = json.ShorthandGet("downloader.loginCredentials.twofactor").AsString;
+	}
 	
 	return;
 }
@@ -86,6 +126,17 @@ JsonBlock XGConfig::CreateJson()
 		Ele("logging", JsonBlock({
 			Ele("logfile_text", logging.logfile_text),
 			Ele("logfile_json", logging.logfile_json)
+		})),
+		Ele("downloader", JsonBlock({
+			Ele("cachedir", downloader.cachedir),
+			Ele("max_dlrate_per_thread", downloader.max_dlrate_per_thread),
+			Ele("num_threads", downloader.num_threads),
+			Ele("login_credentials", JsonBlock({
+				Ele("use_account", downloader.loginCredentials.use_account),
+				Ele("username", downloader.loginCredentials.username),
+				Ele("password", downloader.loginCredentials.password),
+				Ele("twofactor", downloader.loginCredentials.twofactor)
+			}))
 		}))
 	});
 }
@@ -197,4 +248,5 @@ void XGConfig::Load()
 
 XGConfig::HttpServer XGConfig::httpServer;
 XGConfig::Logging XGConfig::logging;
+XGConfig::Downloader XGConfig::downloader;
 ::Logging::Logger* XGConfig::log;

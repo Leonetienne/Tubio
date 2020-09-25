@@ -3,6 +3,7 @@
 int main()
 {
 	Framework framework;
+	framework.Run();
 
 	return 0;
 }

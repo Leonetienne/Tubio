@@ -262,7 +262,7 @@ std::size_t JsonArray::RemoveSimilar(const JsonData reference)
 	return counter;
 }
 
-std::size_t JsonArray::RemoveAllOfType(const JDType type)
+std::size_t JsonArray::RemoveAllOfType(const JSON_DATA_TYPE type)
 {
 	std::size_t counter = 0;
 	for (long long int i = content->size() - 1; i >= 0; i--)
@@ -277,7 +277,7 @@ std::size_t JsonArray::RemoveAllOfType(const JDType type)
 	return counter;
 }
 
-std::size_t JsonArray::RemoveAllExceptType(const JDType type)
+std::size_t JsonArray::RemoveAllExceptType(const JSON_DATA_TYPE type)
 {
 	std::size_t counter = 0;
 	for (long long int i = content->size() - 1; i >= 0; i--)
@@ -524,7 +524,7 @@ void JsonArray::Sort(const std::string shorthandKey, const JSON_ARRAY_SORT_MODE 
 			const JsonData* b = &At(j + 1);
 
 			// Check if they are of type json (this is the json sorter) (deep sort)
-			if ((a->GetDataType() == JDType::JSON) && (b->GetDataType() == JDType::JSON))
+			if ((a->GetDataType() == JSON_DATA_TYPE::JSON) && (b->GetDataType() == JSON_DATA_TYPE::JSON))
 			{
 				// Check if the requested key even exists
 				if ((a->GetJsonData().DoesShorthandExist(shorthandKey, shorthandDelimiter)) &&
@@ -560,8 +560,8 @@ void JsonArray::Sort(const JSON_ARRAY_SORT_MODE mode)
 
 			// Only if neither a or b's are neither of type json or array
 			// This is the "shallow"-sort
-			if (!(((a.GetDataType() == JDType::JSON) || (a.GetDataType() == JDType::ARRAY)) &&
-				((b.GetDataType() == JDType::JSON) || (b.GetDataType() == JDType::ARRAY))))
+			if (!(((a.GetDataType() == JSON_DATA_TYPE::JSON) || (a.GetDataType() == JSON_DATA_TYPE::ARRAY)) &&
+				((b.GetDataType() == JSON_DATA_TYPE::JSON) || (b.GetDataType() == JSON_DATA_TYPE::ARRAY))))
 			{
 				if (Sort__Compare(a, b, mode))
 				{
@@ -590,11 +590,11 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 		// If it's BOOL, INT or FLOAT, just get it's value as string. Eg "53", "53.2" or "false"
 		// This way numerics can still be sorted alphabetically
 		// Also allows for sorting after bools
-		if (a.GetDataType() == JDType::STRING) aStr = a.GetStringData();
-		else if ((a.GetDataType() != JDType::JSON) && (a.GetDataType() != JDType::ARRAY)) aStr = a.Render();
+		if (a.GetDataType() == JSON_DATA_TYPE::STRING) aStr = a.GetStringData();
+		else if ((a.GetDataType() != JSON_DATA_TYPE::JSON) && (a.GetDataType() != JSON_DATA_TYPE::ARRAY)) aStr = a.Render();
 		else return true; // Datatype invalid. Swap, to keep the others in order.
-		if (b.GetDataType() == JDType::STRING) bStr = b.GetStringData();
-		else if ((b.GetDataType() != JDType::JSON) && (b.GetDataType() != JDType::ARRAY)) bStr = b.Render();
+		if (b.GetDataType() == JSON_DATA_TYPE::STRING) bStr = b.GetStringData();
+		else if ((b.GetDataType() != JSON_DATA_TYPE::JSON) && (b.GetDataType() != JSON_DATA_TYPE::ARRAY)) bStr = b.Render();
 		else return true; // Datatype invalid. Swap, to keep the others in order.
 
 		return StringHelpers::SortDescriminator_Alphabetically(aStr, bStr);
@@ -612,11 +612,11 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 		// If it's BOOL, INT or FLOAT, just get it's value as string. Eg "53", "53.2" or "false"
 		// This way numerics can still be sorted alphabetically
 		// Also allows for sorting after bools
-		if (a.GetDataType() == JDType::STRING) aStr = a.GetStringData();
-		else if ((a.GetDataType() != JDType::JSON) && (a.GetDataType() != JDType::ARRAY)) aStr = a.Render();
+		if (a.GetDataType() == JSON_DATA_TYPE::STRING) aStr = a.GetStringData();
+		else if ((a.GetDataType() != JSON_DATA_TYPE::JSON) && (a.GetDataType() != JSON_DATA_TYPE::ARRAY)) aStr = a.Render();
 		else return true; // Datatype invalid. Swap, to keep the others in order.
-		if (b.GetDataType() == JDType::STRING) bStr = b.GetStringData();
-		else if ((b.GetDataType() != JDType::JSON) && (b.GetDataType() != JDType::ARRAY)) bStr = b.Render();
+		if (b.GetDataType() == JSON_DATA_TYPE::STRING) bStr = b.GetStringData();
+		else if ((b.GetDataType() != JSON_DATA_TYPE::JSON) && (b.GetDataType() != JSON_DATA_TYPE::ARRAY)) bStr = b.Render();
 		else return true; // Datatype invalid. Swap, to keep the others in order.
 
 		return StringHelpers::SortDescriminator_Alphabetically(bStr, aStr);
@@ -631,13 +631,13 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 
 		switch (a.GetDataType())
 		{
-		case JDType::INT:
+		case JSON_DATA_TYPE::INT:
 			dataA = (long double)a.GetIntData();
 			break;
-		case JDType::FLOAT:
+		case JSON_DATA_TYPE::FLOAT:
 			dataA = a.GetFloatData();
 			break;
-		case JDType::BOOL:
+		case JSON_DATA_TYPE::BOOL:
 			dataA = a.GetBoolData() ? 1.0 : 0.0;
 			break;
 		default:
@@ -645,13 +645,13 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 		}
 		switch (b.GetDataType())
 		{
-		case JDType::INT:
+		case JSON_DATA_TYPE::INT:
 			dataB = (long double)b.GetIntData();
 			break;
-		case JDType::FLOAT:
+		case JSON_DATA_TYPE::FLOAT:
 			dataB = b.GetFloatData();
 			break;
-		case JDType::BOOL:
+		case JSON_DATA_TYPE::BOOL:
 			dataB = b.GetBoolData() ? 1.0 : 0.0;
 			break;
 		default:
@@ -669,13 +669,13 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 
 		switch (a.GetDataType())
 		{
-		case JDType::INT:
+		case JSON_DATA_TYPE::INT:
 			dataA = (long double)a.GetIntData();
 			break;
-		case JDType::FLOAT:
+		case JSON_DATA_TYPE::FLOAT:
 			dataA = a.GetFloatData();
 			break;
-		case JDType::BOOL:
+		case JSON_DATA_TYPE::BOOL:
 			dataA = a.GetBoolData() ? 1.0 : 0.0;
 			break;
 		default:
@@ -683,13 +683,13 @@ bool JsonArray::Sort__Compare(const JsonData& a, const JsonData& b, const JSON_A
 		}
 		switch (b.GetDataType())
 		{
-		case JDType::INT:
+		case JSON_DATA_TYPE::INT:
 			dataB = (long double)b.GetIntData();
 			break;
-		case JDType::FLOAT:
+		case JSON_DATA_TYPE::FLOAT:
 			dataB = b.GetFloatData();
 			break;
-		case JDType::BOOL:
+		case JSON_DATA_TYPE::BOOL:
 			dataB = b.GetBoolData() ? 1.0 : 0.0;
 			break;
 		default:
@@ -753,7 +753,7 @@ JsonArray& JsonArray::operator-=(const JsonData& data)
 	return *this;
 }
 
-JsonArray& JsonArray::operator-=(const JDType type)
+JsonArray& JsonArray::operator-=(const JSON_DATA_TYPE type)
 {
 	RemoveAllOfType(type);
 	return *this;
@@ -954,7 +954,8 @@ void JsonArray::Parse(const std::string jsonCode)
 		{
 			const char c = minifiedCode[i];
 
-			if ((!areWeInString) && (!areWeInCode) && (arrayBracketLevel == 1) && (curlyBracketLevel == 0))
+			if ((!areWeInString) && (!areWeInCode) && (arrayBracketLevel == 1) &&
+				(curlyBracketLevel == 0) && (i < minifiedCode.length() - 1))
 			{
 				start = i;
 				areWeInCode = true;
@@ -1031,29 +1032,29 @@ bool JasonPP::IsJsonValid(const std::string code)
 	return true;
 }
 
-std::string JasonPP::JsonDataType2String(const JDType type)
+std::string JasonPP::JsonDataType2String(const JSON_DATA_TYPE type)
 {
 	switch (type)
 	{
-	case JDType::__NULL__:
+	case JSON_DATA_TYPE::__NULL__:
 		return std::string("NULL");
 
-	case JDType::BOOL:
+	case JSON_DATA_TYPE::BOOL:
 		return std::string("BOOL");
 
-	case JDType::INT:
+	case JSON_DATA_TYPE::INT:
 		return std::string("INT");
 
-	case JDType::FLOAT:
+	case JSON_DATA_TYPE::FLOAT:
 		return std::string("FLOAT");
 
-	case JDType::STRING:
+	case JSON_DATA_TYPE::STRING:
 		return std::string("STRING");
 
-	case JDType::JSON:
+	case JSON_DATA_TYPE::JSON:
 		return std::string("JSON");
 
-	case JDType::ARRAY:
+	case JSON_DATA_TYPE::ARRAY:
 		return std::string("ARRAY");
 	}
 
@@ -1457,37 +1458,37 @@ JsonData::JsonData()
 }
 
 // Set default data per type
-JsonData::JsonData(const JDType type)
+JsonData::JsonData(const JSON_DATA_TYPE type)
 {
 	Init();
 
 	switch (type)
 	{
-	case JDType::__NULL__:
+	case JSON_DATA_TYPE::__NULL__:
 		// Default value is already NULL
 		break;
 	
-	case JDType::BOOL:
+	case JSON_DATA_TYPE::BOOL:
 		SetBoolData(false);
 		break;
 
-	case JDType::INT:
+	case JSON_DATA_TYPE::INT:
 		SetIntData(0);
 		break;
 
-	case JDType::FLOAT:
+	case JSON_DATA_TYPE::FLOAT:
 		SetFloatData(0);
 		break;
 
-	case JDType::STRING:
+	case JSON_DATA_TYPE::STRING:
 		SetStringData("");
 		break;
 
-	case JDType::JSON:
+	case JSON_DATA_TYPE::JSON:
 		SetJsonDataAsPointer(new JsonBlock());
 		break;
 
-	case JDType::ARRAY:
+	case JSON_DATA_TYPE::ARRAY:
 		SetArrayDataAsPointer(new JsonArray());
 		break;
 	}
@@ -1602,7 +1603,7 @@ void JsonData::SetFloatPrecision(const double precision)
 
 JsonArray& JsonData::SetArrayDataAsPointer(JsonArray* p)
 {
-	dataType = JDType::ARRAY;
+	dataType = JSON_DATA_TYPE::ARRAY;
 
 	if (arrayData != nullptr)
 	{
@@ -1617,7 +1618,7 @@ JsonArray& JsonData::SetArrayDataAsPointer(JsonArray* p)
 
 JsonBlock& JsonData::SetJsonDataAsPointer(JsonBlock* p)
 {
-	dataType = JDType::JSON;
+	dataType = JSON_DATA_TYPE::JSON;
 
 	if (jsonData != nullptr)
 	{
@@ -1631,7 +1632,7 @@ JsonBlock& JsonData::SetJsonDataAsPointer(JsonBlock* p)
 
 void JsonData::Init()
 {
-	dataType = JDType::__NULL__;
+	dataType = JSON_DATA_TYPE::__NULL__;
 	intData = 0l;
 	floatData = 0.0f;
 	stringData = std::string();
@@ -1686,12 +1687,12 @@ double JsonData::GetFloatPrecision() const
 
 bool JsonData::IsOfNumericType() const
 {
-	return (dataType == JDType::INT) || (dataType == JDType::FLOAT);
+	return (dataType == JSON_DATA_TYPE::INT) || (dataType == JSON_DATA_TYPE::FLOAT);
 }
 
 bool JsonData::GetBoolData() const
 {
-	JDType typeToGet = JDType::BOOL;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::BOOL;
 
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 
@@ -1700,11 +1701,11 @@ bool JsonData::GetBoolData() const
 
 long long int JsonData::GetIntData() const
 {
-	JDType typeToGet = JDType::INT;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::INT;
 
 	if (dataType != typeToGet)
 	{
-		if (dataType == JDType::FLOAT)
+		if (dataType == JSON_DATA_TYPE::FLOAT)
 		{
 			return (long long int)floatData;
 		}
@@ -1719,11 +1720,11 @@ long long int JsonData::GetIntData() const
 
 long double JsonData::GetFloatData() const
 {
-	JDType typeToGet = JDType::FLOAT;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::FLOAT;
 
 	if (dataType != typeToGet)
 	{
-		if (dataType == JDType::INT)
+		if (dataType == JSON_DATA_TYPE::INT)
 		{
 			return (float)intData;
 		}
@@ -1738,7 +1739,7 @@ long double JsonData::GetFloatData() const
 
 std::string JsonData::GetStringData() const
 {
-	JDType typeToGet = JDType::STRING;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::STRING;
 
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 
@@ -1747,35 +1748,35 @@ std::string JsonData::GetStringData() const
 
 JsonBlock& JsonData::GetJsonData()
 {
-	JDType typeToGet = JDType::JSON;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::JSON;
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 	return *jsonData;
 }
 
 const JsonBlock& JsonData::GetJsonData() const
 {
-	JDType typeToGet = JDType::JSON;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::JSON;
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 	return *jsonData;
 }
 
 JsonArray& JsonData::GetArrayData()
 {
-	JDType typeToGet = JDType::ARRAY;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::ARRAY;
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 	return *arrayData;
 }
 
 const JsonArray& JsonData::GetArrayData() const
 {
-	JDType typeToGet = JDType::ARRAY;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::ARRAY;
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 	return *arrayData;
 }
 
 short JsonData::GetNullData()
 {
-	JDType typeToGet = JDType::__NULL__;
+	JSON_DATA_TYPE typeToGet = JSON_DATA_TYPE::__NULL__;
 
 	if (dataType != typeToGet) ThrowDataTypeException(typeToGet);
 
@@ -1803,7 +1804,7 @@ bool JsonData::HasParent() const
 
 void JsonData::SetBoolData(const bool data)
 {
-	dataType = JDType::BOOL;
+	dataType = JSON_DATA_TYPE::BOOL;
 	intData = (int)data;
 
 	return;
@@ -1811,7 +1812,7 @@ void JsonData::SetBoolData(const bool data)
 
 void JsonData::SetIntData(const long long int data)
 {
-	dataType = JDType::INT;
+	dataType = JSON_DATA_TYPE::INT;
 	intData = data;
 
 	return;
@@ -1819,7 +1820,7 @@ void JsonData::SetIntData(const long long int data)
 
 void JsonData::SetIntData(const int data)
 {
-	dataType = JDType::INT;
+	dataType = JSON_DATA_TYPE::INT;
 	intData = data;
 
 	return;
@@ -1827,7 +1828,7 @@ void JsonData::SetIntData(const int data)
 
 void JsonData::SetFloatData(const long double data)
 {
-	dataType = JDType::FLOAT;
+	dataType = JSON_DATA_TYPE::FLOAT;
 	floatData = data;
 
 	return;
@@ -1835,7 +1836,7 @@ void JsonData::SetFloatData(const long double data)
 
 void JsonData::SetStringData(const std::string data)
 {
-	dataType = JDType::STRING;
+	dataType = JSON_DATA_TYPE::STRING;
 	stringData = data;
 
 	return;
@@ -1848,7 +1849,7 @@ JsonBlock& JsonData::SetJsonData(const JsonBlock data)
 
 JsonArray& JsonData::SetArrayData(const std::vector<JsonData> data)
 {
-	dataType = JDType::ARRAY;
+	dataType = JSON_DATA_TYPE::ARRAY;
 	JsonArray* newArr = new JsonArray;
 	newArr->CopyJsonDataFromVector_Pointer(&data); // Slightly more performant than constructor
 	return SetArrayDataAsPointer(newArr);
@@ -1861,14 +1862,14 @@ JsonArray& JsonData::SetArrayData(const JsonArray data)
 
 void JsonData::SetNull()
 {
-	dataType = JDType::__NULL__;
+	dataType = JSON_DATA_TYPE::__NULL__;
 
 	return;
 }
 
 /* MISC */
 
-void JsonData::ThrowDataTypeException(const JDType toFetch) const
+void JsonData::ThrowDataTypeException(const JSON_DATA_TYPE toFetch) const
 {
 	throw JsonWrongDataTypeException(
 		JsonDataType2String(toFetch),
@@ -1890,32 +1891,32 @@ std::string JsonData::Render(unsigned int num_tabs, const bool minify) const
 
 	switch (dataType)
 	{
-	case JDType::__NULL__:
+	case JSON_DATA_TYPE::__NULL__:
 		ss << "null";
 		break;
 
-	case JDType::BOOL:
+	case JSON_DATA_TYPE::BOOL:
 		ss << ((intData != 0) ? "true" : "false");
 		break;
 
-	case JDType::INT:
+	case JSON_DATA_TYPE::INT:
 		ss << intData;
 		break;
 
-	case JDType::FLOAT:
+	case JSON_DATA_TYPE::FLOAT:
 		ss.precision((std::streamsize)((-log10(GetFloatPrecision())) + 1));
 		ss << floatData;
 		break;
 
-	case JDType::STRING:
+	case JSON_DATA_TYPE::STRING:
 		ss << "\"" << StringHelpers::Escape(stringData) << "\"";
 		break;
 
-	case JDType::JSON:
+	case JSON_DATA_TYPE::JSON:
 		ss << jsonData->Render(num_tabs, minify);
 		break;
 
-	case JDType::ARRAY:
+	case JSON_DATA_TYPE::ARRAY:
 		ss << arrayData->Render(num_tabs, minify);
 		break;
 	}
@@ -2007,31 +2008,31 @@ void JsonData::CloneFrom(const JsonData& other)
 
 	switch (other.dataType)
 	{
-	case JDType::__NULL__:
+	case JSON_DATA_TYPE::__NULL__:
 		// Default value is already NULL
 		break;
 
-	case JDType::BOOL:
+	case JSON_DATA_TYPE::BOOL:
 		SetBoolData(other.intData != 0);
 		break;
 
-	case JDType::INT:
+	case JSON_DATA_TYPE::INT:
 		SetIntData(other.intData);
 		break;
 
-	case JDType::FLOAT:
+	case JSON_DATA_TYPE::FLOAT:
 		SetFloatData(other.floatData);
 		break;
 
-	case JDType::STRING:
+	case JSON_DATA_TYPE::STRING:
 		SetStringData(other.stringData);
 		break;
 
-	case JDType::ARRAY:
+	case JSON_DATA_TYPE::ARRAY:
 		SetArrayData(*other.arrayData);
 		break;
 
-	case JDType::JSON:
+	case JSON_DATA_TYPE::JSON:
 		SetJsonData(*other.jsonData);
 		break;
 	}
@@ -2042,8 +2043,8 @@ void JsonData::CloneFrom(const JsonData& other)
 bool JsonData::IsIdentical(const JsonData& other) const
 {
 	// Special case for int/float implicit conversion
-	if (((dataType == JDType::INT) && (other.dataType == JDType::FLOAT)) ||
-		((other.dataType == JDType::INT) && (dataType == JDType::FLOAT)))
+	if (((dataType == JSON_DATA_TYPE::INT) && (other.dataType == JSON_DATA_TYPE::FLOAT)) ||
+		((other.dataType == JSON_DATA_TYPE::INT) && (dataType == JSON_DATA_TYPE::FLOAT)))
 	{
 		// Here we have to get the float value via the getter because of implicit conversion
 		// Use the more precise precision of the two...
@@ -2055,32 +2056,32 @@ bool JsonData::IsIdentical(const JsonData& other) const
 
 	switch (dataType)
 	{
-	case JDType::__NULL__:
+	case JSON_DATA_TYPE::__NULL__:
 		return true;
 
-	case JDType::BOOL:
+	case JSON_DATA_TYPE::BOOL:
 		// Values can't be of different type because of the check at the beginning of the function
 		return intData == other.intData;
 		break;
 
-	case JDType::INT:
+	case JSON_DATA_TYPE::INT:
 		return intData == other.intData;
 		break;
 
-	case JDType::FLOAT:
+	case JSON_DATA_TYPE::FLOAT:
 		// Use the more precise precision of the two...
 		return Helpers::AreSame(floatData, other.floatData, Helpers::Min<double>(GetFloatPrecision(), other.GetFloatPrecision()));
 		break;
 
-	case JDType::STRING:
+	case JSON_DATA_TYPE::STRING:
 		return stringData == other.stringData;
 		break;
 
-	case JDType::ARRAY:
+	case JSON_DATA_TYPE::ARRAY:
 		return arrayData->IsIdentical(*other.arrayData);
 		break;
 
-	case JDType::JSON:
+	case JSON_DATA_TYPE::JSON:
 		return jsonData->IsIdentical(*other.jsonData);
 		break;
 	}
@@ -2140,11 +2141,11 @@ bool JsonData::operator!=(const JsonData& other) const
 
 JsonData& JsonData::operator+=(const JsonElement ele)
 {
-	if (dataType == JDType::JSON)
+	if (dataType == JSON_DATA_TYPE::JSON)
 	{
 		return jsonData->Add(ele);
 	}
-	ThrowDataTypeException(JDType::JSON);
+	ThrowDataTypeException(JSON_DATA_TYPE::JSON);
 	std::terminate();
 }
 
@@ -2257,7 +2258,7 @@ JsonData::operator long double() const
 
 JsonData::operator std::string() const
 {
-	if (dataType == JDType::STRING) return GetStringData();
+	if (dataType == JSON_DATA_TYPE::STRING) return GetStringData();
 	else return Render(JASONPP_STRINGCONV_MINIFY);
 }
 
@@ -2266,7 +2267,7 @@ namespace JasonPP
 {
 	std::ostream& operator<<(std::ostream& os, const JsonData& jd)
 	{
-		if (jd.dataType == JDType::STRING) return os << jd.GetStringData();
+		if (jd.dataType == JSON_DATA_TYPE::STRING) return os << jd.GetStringData();
 		else return os << jd.Render(JASONPP_STRINGCONV_MINIFY);
 	}
 }
@@ -2690,10 +2691,10 @@ bool JsonBlock::DoesShorthandExist(const std::string shorthand, const std::strin
 	const JsonBlock* jb = &const_cast<const JsonBlock&>(*this);
 	for (std::size_t i = 0; i < segments.size(); i++)
 	{
-		if ((jb->DoesExist(segments[i])) && ((jb->Get(segments[i]).GetDataType() == JDType::JSON) || (i == segments.size() - 1)))
+		if ((jb->DoesExist(segments[i])) && ((jb->Get(segments[i]).GetDataType() == JSON_DATA_TYPE::JSON) || (i == segments.size() - 1)))
 		{
 			if (i == segments.size() - 1) return true; // We are at the end. Let's just return it
-			if (jb->Get(segments[i]).GetDataType() == JDType::JSON) jb = &jb->Get(segments[i]).GetJsonData();
+			if (jb->Get(segments[i]).GetDataType() == JSON_DATA_TYPE::JSON) jb = &jb->Get(segments[i]).GetJsonData();
 			else return false;
 		}
 		else
@@ -2718,10 +2719,10 @@ const JsonData& JsonBlock::ShorthandGet(const std::string shorthand, const std::
 	const JsonBlock* jb = &const_cast<const JsonBlock&>(*this);
 	for (std::size_t i = 0; i < segments.size(); i++)
 	{
-		if ((jb->DoesExist(segments[i])) && ((jb->Get(segments[i]).GetDataType() == JDType::JSON) || (i == segments.size() - 1)))
+		if ((jb->DoesExist(segments[i])) && ((jb->Get(segments[i]).GetDataType() == JSON_DATA_TYPE::JSON) || (i == segments.size() - 1)))
 		{
 			if (i == segments.size() - 1) return jb->Get(segments[i]); // We are at the end. Let's just return it
-			if (jb->Get(segments[i]).GetDataType() == JDType::JSON) jb = &jb->Get(segments[i]).GetJsonData();
+			if (jb->Get(segments[i]).GetDataType() == JSON_DATA_TYPE::JSON) jb = &jb->Get(segments[i]).GetJsonData();
 			else throw JsonShorthandInvalidException(shorthand);
 		}
 		else
@@ -2757,7 +2758,7 @@ JsonData& JsonBlock::ShorthandAdd(const std::string shorthand, const std::string
 		}
 		else
 		{
-			if (jb->Get(segments[i]).GetDataType() != JDType::JSON) throw JsonShorthandInvalidException(shorthand, "A path segment already exists and is not of type json!");
+			if (jb->Get(segments[i]).GetDataType() != JSON_DATA_TYPE::JSON) throw JsonShorthandInvalidException(shorthand, "A path segment already exists and is not of type json!");
 			jb = &jb->Get(segments[i]).GetJsonData();
 		}
 	}
@@ -2804,7 +2805,7 @@ void JsonBlock::ShorthandRemove(const std::string shorthand, const std::string d
 		JsonData* dt = &ShorthandGet(shorthandParent, delimiter);
 
 		// Is the parent object of the object to be deleted even of type json?
-		if (dt->GetDataType() != JDType::JSON) throw JsonShorthandInvalidException(shorthand, "The parent of the object to be deleted is not of type json!");
+		if (dt->GetDataType() != JSON_DATA_TYPE::JSON) throw JsonShorthandInvalidException(shorthand, "The parent of the object to be deleted is not of type json!");
 		parentJson = &dt->GetJsonData();
 	}
 

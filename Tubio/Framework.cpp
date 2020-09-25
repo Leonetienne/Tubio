@@ -2,6 +2,7 @@
 
 using namespace Logging;
 using namespace Rest;
+using namespace Downloader;
 
 Framework::Framework()
 {
@@ -16,7 +17,6 @@ Framework::Framework()
     PostInit();
 
     XGControl::keepServerRunning = true;
-    Run();
 
     return;
 }
@@ -37,6 +37,7 @@ void Framework::Run()
     while (XGControl::keepServerRunning)
     {
         httpServer->Update();
+        DownloadManager::Update();
     }
 
     OnExit();
@@ -52,6 +53,7 @@ void Framework::PreInit()
     LogHistory::PreInit();
     XGConfig::PreInit();
     RestQueryHandler::PreInit();
+    DownloadManager::PreInit();
 
     return;
 }
@@ -67,6 +69,7 @@ void Framework::PostInit()
 void Framework::OnExit()
 {
     httpServer->OnExit();
+    DownloadManager::OnExit();
 
     return;
 }
@@ -76,6 +79,7 @@ void Framework::PostExit()
     XGConfig::PostExit();
     RestQueryHandler::PostExit();
     LogHistory::PostExit();
+    DownloadManager::PostExit();
 
     return;
 }

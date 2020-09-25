@@ -2,6 +2,7 @@
 #include "Logger.h"
 #include "LogHistory.h"
 #include "HttpServer.h"
+#include "DownloadManager.h"
 #include "XGControl.h"
 #include "XGConfig.h"
 
@@ -10,10 +11,9 @@ class Framework
 public:
     Framework();
     ~Framework();
-
-private:
     void Run();
 
+private:
     void PostInit();
     void OnExit();
     void PreInit();

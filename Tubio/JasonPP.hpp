@@ -2142,7 +2142,7 @@ namespace JasonPP
 	};
 }
 
-#define JASONPP_VERSION (1.021)
+#define JASONPP_VERSION (1.0215)
 
 namespace JasonPP
 {

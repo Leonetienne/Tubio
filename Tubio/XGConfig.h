@@ -20,7 +20,22 @@ public:
 		std::string logfile_text;
 		std::string logfile_json;
 	};
+	struct Downloader
+	{
+		struct LoginCredentials
+		{
+			bool use_account;
+			std::string username;
+			std::string password;
+			std::string twofactor;
+		};
 
+		std::string cachedir;
+		std::string max_dlrate_per_thread;
+		LoginCredentials loginCredentials;
+
+		int num_threads;
+	};
 
 	static void PreInit();
 	static void Save();
@@ -28,6 +43,7 @@ public:
 
 	static HttpServer httpServer;
 	static XGConfig::Logging logging;
+	static XGConfig::Downloader downloader;
 
 	static ::Logging::Logger* log;
 

@@ -37,6 +37,27 @@ bool FileSystem::Exists(std::string filename)
     return true;
 }
 
+bool FileSystem::ExistsDirectory(std::string name)
+{
+    return (!Exists(name) && (std::filesystem::exists(name)));
+}
+
+bool FileSystem::CreateDirectory(std::string name)
+{
+    return std::filesystem::create_directories(name);
+}
+
+bool FileSystem::CreateDirectoryIfNotExists(std::string name)
+{
+    if (!ExistsDirectory(name)) return CreateDirectory(name);
+    return false;
+}
+
+bool FileSystem::DeleteDirectory(std::string name)
+{
+    return std::filesystem::remove_all(name);
+}
+
 bool FileSystem::Copy(std::string from, std::string to)
 {
     std::ifstream ifs;

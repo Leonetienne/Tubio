@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+#include <filesystem>
 
 class FileSystem
 
@@ -13,7 +14,10 @@ public:
 	static bool Exists(std::string filename);
 	static bool Copy(std::string from, std::string to);
 	static bool Delete(std::string filename);
-
+	static bool ExistsDirectory(std::string name);
+	static bool CreateDirectory(std::string name);
+	static bool CreateDirectoryIfNotExists(std::string name);
+	static bool DeleteDirectory(std::string name);
 private:
 
 };

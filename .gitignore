@@ -14,6 +14,12 @@
 config.json
 log.txt
 log.json
+dlcache/
+
+# Rediculously large dependencies
+ffmpeg.exe
+ffplay.exe
+ffprobe.exe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

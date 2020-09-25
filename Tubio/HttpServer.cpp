@@ -82,15 +82,30 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 		http_message* hpm = (http_message*)p;
 		std::string requestedUri = FixUnterminatedString(hpm->uri.p, hpm->uri.len);
 		
-		if ((requestedUri == "/api"))
+		try
 		{
-			ProcessAPIRequest(pNc, ev, p);
+			if (requestedUri == "/api")
+			{
+				ProcessAPIRequest(pNc, ev, p);
+			}
+			else
+			{
+				// Just serve the files requested
+				mg_serve_http(pNc, (struct http_message*)p, frontend_serve_opts);
+			}
 		}
-		else
+		catch (std::exception& e)
 		{
-			mg_serve_http(pNc, (struct http_message*)p, frontend_serve_opts);
+			Json j;
+			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, e.what()));
+			ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
 		}
-
+		catch (...)
+		{
+			Json j;
+			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not gud"));
+			ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+		}
 
 		break;
 	}
@@ -112,19 +127,20 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 		Json requestBody;
 		requestBody.Parse(requestBodyRaw);
 
-		char addr[32];
-		mg_sock_addr_to_str(&pNc->sa, addr, sizeof(addr), MG_SOCK_STRINGIFY_IP);
+		char peer_addr[32];
+		mg_sock_addr_to_str(&pNc->sa, peer_addr, sizeof(peer_addr), MG_SOCK_STRINGIFY_IP);
 
 		JsonBlock responseBody;
 		HTTP_STATUS_CODE returnCode;
-		RestQueryHandler::ProcessQuery(std::string(addr), requestBody, responseBody, returnCode);
+		RestQueryHandler::ProcessQuery(std::string(peer_addr), requestBody, responseBody, returnCode);
 
 		Json response(responseBody);
 		ServeStringToConnection(pNc, response.Render(), returnCode);
 	}
 	else // return error message for invalid json
 	{
-		Json errorJson = RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked up");
+		Json errorJson;
+		errorJson.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked"));
 		ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
 	}
 

@@ -3,6 +3,7 @@
 #include "RestResponseTemplates.h"
 #include "XGControl.h"
 #include "Logger.h"
+#include "DownloadManager.h"
 
 namespace Rest
 {
@@ -17,6 +18,9 @@ namespace Rest
 
 	private:
 		static bool Example_Foo(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
+		static bool FetchQueue(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
+		static bool QueueDownload(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
+		static bool ClearDownloadCache(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		static bool KillYourself(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		
 		static bool ValidateField(const std::string name, const JasonPP::JDType type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere);
