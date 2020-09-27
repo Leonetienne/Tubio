@@ -13,7 +13,11 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.5"
+    "node-sass": "^4.14.1",
+    "nuxt": "^2.14.5",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "tailwind": "^4.0.0"
   },
   "devDependencies": {
     "@nuxtjs/stylelint-module": "^4.0.0",
