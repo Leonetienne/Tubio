@@ -34,6 +34,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
 	else if (requestName == "hide_console") return HideConsole(requestBody, responseBody, responseCode);
 	else if (requestName == "get_os_name") return GetOSName(requestBody, responseBody, responseCode);
+	else if (requestName == "fetch_logs") return FetchLogs(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -208,7 +209,16 @@ bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBo
 	return true;
 }
 
+bool RestQueryHandler::FetchLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Fetching logs...";
+	log->Flush();
 
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("logs") = LogHistory::GetCompleteLogHistoryAsJson();
+	return true;
+}
 
 
 

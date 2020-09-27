@@ -455,6 +455,35 @@ void JsonArray::Add(const std::vector<JsonBlock> data)
 	return;
 }
 
+void JsonArray::Merge(const JsonArray& other)
+{
+	// If merging into itself, we have to cache a copy of itself in the beginning state
+	if (this == &other)
+	{
+		JsonArray clonedOther;
+		clonedOther.CloneFrom(other);
+
+		for (std::size_t i = 0; i < clonedOther.Size(); i++)
+		{
+			JsonData jd;
+			jd.CloneFrom(clonedOther.At(i));
+			Add(jd);
+		}
+	}
+	else
+	{
+		// All ok, merging from a different array
+		for (std::size_t i = 0; i < other.Size(); i++)
+		{
+			JsonData jd;
+			jd.CloneFrom(other.At(i));
+			Add(jd);
+		}
+	}
+
+	return;
+}
+
 void JsonArray::InsertExistingtJsonData(const std::vector<JsonData*> data)
 {
 	for (std::size_t i = 0; i < data.size(); i++)

@@ -46,12 +46,13 @@ std::string Logger::Flush()
     strftime(timeBuf, 100, "%d.%m.%Y - %T", &currTm);
 
     std::stringstream bufOut;
-    bufOut << "<" << timeBuf << "> [" << identifier << "]" << TypeToPrefix(type) << ((additionalInfo.length() > 0) ? " " : "") << additionalInfo << ": " << cout.str();
+    bufOut << "<" << timeBuf << "> [" << identifier << "]" << TypeToPrefix(type) << ((additional_information.length() > 0) ? " " : "") << additional_information << ": " << cout.str();
 
     LogEntry* newEntry = new LogEntry;
     newEntry->message = cout.str();
     newEntry->compiledMessage = bufOut.str();
     newEntry->identifier = identifier;
+    newEntry->additional_information = additional_information;
     newEntry->timestamp = currTime;
     newEntry->type = type;
     LogHistory::AddLogToHistory(newEntry);

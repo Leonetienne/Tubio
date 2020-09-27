@@ -7,6 +7,7 @@
 #include "FileSystem.h"
 #include "XGConfig.h"
 #include "Logger.h"
+#include "LogHistory.h"
 
 namespace Downloader
 {

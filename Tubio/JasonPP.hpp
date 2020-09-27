@@ -630,6 +630,12 @@ namespace JasonPP
 		void Add(const std::vector<JsonBlock> data);
 
 		/// <summary>
+		/// Will merge JsonArray other into this, deep-copying all values.
+		/// </summary>
+		/// <param name="other">Array to merge-copy from</param>
+		void Merge(const JsonArray& other);
+
+		/// <summary>
 		/// Will append the object given
 		/// </summary>
 		/// <param name="">Multiple JsonData to be added at once</param>
@@ -2142,7 +2148,7 @@ namespace JasonPP
 	};
 }
 
-#define JASONPP_VERSION (1.0215)
+#define JASONPP_VERSION (1.0216)
 
 namespace JasonPP
 {
