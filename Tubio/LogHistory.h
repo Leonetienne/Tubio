@@ -29,6 +29,7 @@ namespace Logging
     public:
         static void PreInit();
         static void PostExit();
+        static void Update();
 
         static void Save();
 
@@ -38,6 +39,8 @@ namespace Logging
         static void AddLogToHistory(LogEntry* newEntry);
 
         static std::vector<LogEntry*>* history;
+        static time_t lastSave;
+        static bool didHistoryChangeSinceLastSave;
 
         friend Logger;
     };

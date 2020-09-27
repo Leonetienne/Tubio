@@ -38,6 +38,7 @@ void XGConfig::InitializeDefaultValues()
 
 	logging.logfile_text = "log.txt";
 	logging.logfile_json = "log.json";
+	logging.autosave_interval = 60 * 30; // 30 mins
 
 	downloader.cachedir = "dlcache";
 	downloader.max_dlrate_per_thread = "100M";
@@ -63,6 +64,11 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 	if (IsJsonFieldValid(json, "logging.logfile_text", JDType::STRING))
 	{
 		logging.logfile_text = json.ShorthandGet("logging.logfile_text").AsString;
+	}
+
+	if (IsJsonFieldValid(json, "logging.autosave_interval", JDType::INT))
+	{
+		logging.autosave_interval = json.ShorthandGet("logging.autosave_interval").AsInt;
 	}
 
 
@@ -132,7 +138,8 @@ JsonBlock XGConfig::CreateJson()
 		})),
 		Ele("logging", JsonBlock({
 			Ele("logfile_text", logging.logfile_text),
-			Ele("logfile_json", logging.logfile_json)
+			Ele("logfile_json", logging.logfile_json),
+			Ele("autosave_interval", logging.autosave_interval)
 		})),
 		Ele("downloader", JsonBlock({
 			Ele("cachedir", downloader.cachedir),

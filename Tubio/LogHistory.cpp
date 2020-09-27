@@ -5,6 +5,8 @@ using namespace Logging;
 void LogHistory::PreInit()
 {
     history = new std::vector<LogEntry*>();
+    lastSave = time(0);
+    didHistoryChangeSinceLastSave = false;
 
     return;
 }
@@ -22,6 +24,17 @@ void LogHistory::PostExit()
 
     delete history;
     history = nullptr;
+
+    return;
+}
+
+void LogHistory::Update()
+{
+    if ((time(0) - lastSave > XGConfig::logging.autosave_interval) && (didHistoryChangeSinceLastSave))
+    {
+        // Mutex gets reset in Save();
+        Save();
+    }
 
     return;
 }
@@ -46,17 +59,23 @@ void LogHistory::Save()
     ofs << jsonFile.Render();
     ofs.close();
 
+    lastSave = time(0);
+    didHistoryChangeSinceLastSave = false;
+
     return;
 }
 
 void LogHistory::AddLogToHistory(LogEntry* newEntry)
 {
     history->push_back(newEntry);
+    didHistoryChangeSinceLastSave = true;
 
     return;
 }
 
 std::vector<LogEntry*>* LogHistory::history;
+time_t LogHistory::lastSave;
+bool LogHistory::didHistoryChangeSinceLastSave;
 
 JasonPP::JsonBlock LogEntry::GetAsJson()
 {

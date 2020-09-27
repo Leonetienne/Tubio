@@ -19,6 +19,7 @@ public:
 	{
 		std::string logfile_text;
 		std::string logfile_json;
+		int autosave_interval;
 	};
 	struct Downloader
 	{

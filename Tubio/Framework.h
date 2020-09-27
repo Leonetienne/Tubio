@@ -15,9 +15,10 @@ public:
     void Run();
 
 private:
-    void PostInit();
-    void OnExit();
     void PreInit();
+    void PostInit();
+    void Update();
+    void OnExit();
     void PostExit();
 
     Rest::HttpServer* httpServer;

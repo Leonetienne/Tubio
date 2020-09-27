@@ -42,8 +42,7 @@ void Framework::Run()
 {
     while (XGControl::keepServerRunning)
     {
-        httpServer->Update();
-        DownloadManager::Update();
+        Update();
     }
 
     OnExit();
@@ -74,6 +73,15 @@ void Framework::PostInit()
     return;
 }
 
+void Framework::Update()
+{
+    httpServer->Update();
+    DownloadManager::Update();
+    LogHistory::Update();
+
+    return;
+}
+
 void Framework::OnExit()
 {
     httpServer->OnExit();
@@ -86,9 +94,9 @@ void Framework::PostExit()
 {
     XGConfig::PostExit();
     RestQueryHandler::PostExit();
-    LogHistory::PostExit();
     DownloadManager::PostExit();
     ConsoleManager::PostExit();
+    LogHistory::PostExit();
 
     return;
 }

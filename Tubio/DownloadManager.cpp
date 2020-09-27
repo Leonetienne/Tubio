@@ -105,9 +105,10 @@ void DownloadManager::Update()
 		DownloadNext();
 	}
 
-	// Check every second, non-blocking
+	// Update every 1-2 seconds, non-blocking, the download progresses 
 	if ((time(0) - lastProgressCheck > 2) && (cachedNumActiveDownloads > 0))
 	{
+		// Mutex gets reset in Save();
 		UpdateDownloadProgressPercentages();
 	}
 
