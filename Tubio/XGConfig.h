@@ -1,6 +1,6 @@
 #pragma once
 #include "Filesystem.h"
-#include "JasonPP.hpp"
+#include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp"
 #include "Logger.h"
 
 #define XGCONFIG_FILE "config.json"

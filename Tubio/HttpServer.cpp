@@ -90,7 +90,7 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			}
 			else if (requestedUri.substr(0, 9) == "/download")
 			{
-				ServeDownloadedResource(pNc, ev, p, requestedUri);
+				ServeDownloadeableResource(pNc, ev, p, requestedUri);
 			}
 			else
 			{
@@ -151,7 +151,7 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 	return;
 }
 
-void HttpServer::ServeDownloadedResource(mg_connection* pNc, int ev, void* p, std::string uri)
+void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p, std::string uri)
 {
 	std::string fileId = uri.substr(10, uri.length() - 10);
 
@@ -165,7 +165,6 @@ void HttpServer::ServeDownloadedResource(mg_connection* pNc, int ev, void* p, st
 			std::string downloadedFilename = entry.title + (entry.mode == Downloader::DOWNLOAD_MODE::AUDIO ? ".mp3" : ".mp4");
 
 			ss << "Access-Control-Allow-Origin: *\nContent-Disposition: attachment; filename=\"" << downloadedFilename << "\"\nPragma: public\nCache-Control: must-revalidate, post-check=0, pre-check=0";
-
 			mg_http_serve_file(pNc, (http_message*)p, entry.downloaded_filename.c_str(), mg_mk_str("application/octet-stream"), mg_mk_str(ss.str().c_str()));
 		}
 		else

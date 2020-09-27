@@ -6,7 +6,7 @@
 #include <fstream>
 #include "LogTypes.h"
 #include "XGConfig.h"
-#include "JasonPP.hpp"
+#include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp"
 
 namespace Logging
 {

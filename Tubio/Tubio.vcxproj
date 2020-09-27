@@ -145,13 +145,13 @@
   <ItemGroup>
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="DownloadManager.cpp" />
+    <ClCompile Include="external_dependencies\casenta\mongoose\mongoose.c" />
+    <ClCompile Include="external_dependencies\leonetienne\JasonPP\JasonPP.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="JasonPP.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LogHistory.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mongoose.c" />
     <ClCompile Include="RestQueryHandler.cpp" />
     <ClCompile Include="RestResponseTemplates.cpp" />
     <ClCompile Include="HttpServer.cpp" />
@@ -161,13 +161,13 @@
   <ItemGroup>
     <ClInclude Include="ConsoleManager.h" />
     <ClInclude Include="DownloadManager.h" />
+    <ClInclude Include="external_dependencies\casenta\mongoose\mongoose.h" />
+    <ClInclude Include="external_dependencies\leonetienne\JasonPP\JasonPP.hpp" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="JasonPP.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogHistory.h" />
     <ClInclude Include="LogTypes.h" />
-    <ClInclude Include="mongoose.h" />
     <ClInclude Include="RestQueryHandler.h" />
     <ClInclude Include="RestResponseTemplates.h" />
     <ClInclude Include="HttpServer.h" />

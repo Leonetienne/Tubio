@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
-#include "mongoose.h"
+#include "external_dependencies/casenta/mongoose/mongoose.h"
 #include "Logger.h"
 #include "RestResponseTemplates.h"
 #include "RestQueryHandler.h"
@@ -23,7 +23,7 @@ namespace Rest
 	private:
 		bool InitWebServer();
 		static void ProcessAPIRequest(struct mg_connection* pNc, int ev, void* p);
-		static void ServeDownloadedResource(struct mg_connection* pNc, int ev, void* p, std::string uri);
+		static void ServeDownloadeableResource(struct mg_connection* pNc, int ev, void* p, std::string uri);
 
 		static void EventHandler(struct mg_connection* pNc, int ev, void* p);
 		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);

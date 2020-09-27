@@ -21,12 +21,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="JasonPP.cpp">
-      <Filter>_external_dependencies</Filter>
-    </ClCompile>
-    <ClCompile Include="mongoose.c">
-      <Filter>_external_dependencies</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -60,14 +54,14 @@
     <ClCompile Include="ConsoleManager.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="external_dependencies\casenta\mongoose\mongoose.c">
+      <Filter>_external_dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="external_dependencies\leonetienne\JasonPP\JasonPP.cpp">
+      <Filter>_external_dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="JasonPP.hpp">
-      <Filter>_external_dependencies</Filter>
-    </ClInclude>
-    <ClInclude Include="mongoose.h">
-      <Filter>_external_dependencies</Filter>
-    </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -103,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="ConsoleManager.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="external_dependencies\casenta\mongoose\mongoose.h">
+      <Filter>_external_dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="external_dependencies\leonetienne\JasonPP\JasonPP.hpp">
+      <Filter>_external_dependencies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
