@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Regular.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Italic.ttf") format('truetype');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Bold.ttf") format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-BoldItalic.ttf") format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Light.ttf") format('truetype');
+    font-weight: lighter;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Light.ttf") format('truetype');
+    font-weight: lighter;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Medium.ttf") format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/zilla-slab/ZillaSlab-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}

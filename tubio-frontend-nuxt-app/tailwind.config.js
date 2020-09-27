@@ -14,6 +14,9 @@ module.exports = {
       'purple-1': '#5954a4',
       'purple-2': '#8a54a2',
       'purple-3': '#8ad5eb',
+      'purple-3-1': '#bee7f4',
+
+      'text-gray-1': '#bbb'
     },
 
     screens: {

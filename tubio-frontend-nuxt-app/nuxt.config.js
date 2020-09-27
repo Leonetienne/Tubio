@@ -6,7 +6,9 @@ export default {
     dir: "web"
   },
 
-
+  server: {
+    host: "0.0.0.0"
+  },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -22,8 +24,10 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  scss: [
-    "~/assets/scss/main.scss"
+  css: [
+    "~/assets/css/reset.css",
+    "~/assets/css/main.css",
+    "~/assets/css/fonts/zilla-slab.css"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)

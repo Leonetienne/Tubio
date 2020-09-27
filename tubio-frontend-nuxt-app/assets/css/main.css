@@ -1,0 +1,28 @@
+a,
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+* {
+  font-family: "ZillaSlab", serif;
+}
+
+.button {
+  background-color: #fff;
+  border-radius: 5px;
+  min-width: 80px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+* {
+  -webkit-tap-highlight-color: #0000;
+}

@@ -48,7 +48,7 @@ export default {
   height: 1000000px;
   position: absolute;
   z-index: -9;
-  mask-image: url("/images/tiles/grid.png");
+  mask-image: url("/assets/images/tiles/grid.png");
   background-color: theme("colors.purple-1");
 
   &__wrapper {
