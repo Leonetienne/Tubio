@@ -67,8 +67,10 @@ namespace Downloader
 
 		/// <summary>
 		/// Will delete all cached downloads!
+		/// If downloads are currently active, tubio will wait for them to finish and return false!
+		/// If no downloads are active it will clear immediately and return true
 		/// </summary>
-		static void ClearDownloadCache();
+		static bool ClearDownloadCache();
 
 	private:
 		static void Save();
@@ -89,7 +91,8 @@ namespace Downloader
 		static std::vector<std::thread*> downloadThreads;
 		static Logging::Logger* log;
 		// This gets set by other threads
-		static bool shouldSave;
 		static time_t lastProgressCheck;
+		static bool shouldSave;
+		static bool shouldClearCacheASAP;
 	};
 }

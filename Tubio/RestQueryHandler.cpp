@@ -96,6 +96,9 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 
 bool RestQueryHandler::FetchQueue(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
+	log->cout << "Asking for queue...";
+	log->Flush();
+
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
 	responseBody.Set("queue") = DownloadManager::GetQueueAsJson();
@@ -104,12 +107,23 @@ bool RestQueryHandler::FetchQueue(const JsonBlock& request, JsonBlock& responseB
 
 bool RestQueryHandler::ClearDownloadCache(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
-	DownloadManager::ClearDownloadCache();
-
 	log->cout << "Clearing download cache...";
 	log->Flush();
+
+	bool wait = !DownloadManager::ClearDownloadCache();
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+
+	if (wait)
+	{
+		responseBody.Set("status") = "OK_WAIT";
+		responseBody.Set("message") = "Download cache cannot be cleared right now because there are active downloads, but will be cleared as soon as those have finished!";
+	}
+	else
+	{
+		responseBody.Set("message") = "Download cache has been cleared!";
+	}
 
 	return true;
 }
@@ -131,6 +145,9 @@ bool RestQueryHandler::HideConsole(const JsonBlock& request, JsonBlock& response
 {
 	if (ConsoleManager::IsSupported())
 	{
+		log->cout << "Hiding console...";
+		log->Flush();
+
 		bool didAnythingChange = ConsoleManager::HideConsole();
 		responseCode = OK;
 		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
@@ -150,6 +167,9 @@ bool RestQueryHandler::ShowConsole(const JsonBlock& request, JsonBlock& response
 {
 	if (ConsoleManager::IsSupported())
 	{
+		log->cout << "Showing console...";
+		log->Flush();
+
 		bool didAnythingChange = ConsoleManager::ShowConsole();
 		responseCode = OK;
 		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
@@ -167,6 +187,9 @@ bool RestQueryHandler::ShowConsole(const JsonBlock& request, JsonBlock& response
 
 bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
+	log->cout << "Asking for server OS name...";
+	log->Flush();
+
 	std::string osName = "other";
 #ifdef _WIN
 	osName = "Windows";

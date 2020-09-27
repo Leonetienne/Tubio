@@ -26,56 +26,63 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 
 	DownloadEntry newDownload;
 	newDownload.tubio_id = tubioId;
-	newDownload.status = DOWNLOAD_STATUS::QUEUED;
 	newDownload.mode = mode;
 	newDownload.download_progress = 0;
 
-	Json j;
-	j.Parse(jsString);
-	if (j.GetDataType() != JDType::JSON)
+	if (!IsJsonValid(jsString))
 	{
 		newDownload.status = DOWNLOAD_STATUS::FAILED;
 	}
 	else
 	{
-		if ((j.AsJson.DoesExist("title")) && (j.AsJson["title"].GetDataType() == JDType::STRING))
+		newDownload.status = DOWNLOAD_STATUS::QUEUED;
+		Json j;
+		j.Parse(jsString);
+		if (j.GetDataType() != JDType::JSON)
 		{
-			newDownload.title = j["title"];
+			newDownload.status = DOWNLOAD_STATUS::FAILED;
 		}
-
-		if ((j.AsJson.DoesExist("description")) && (j.AsJson["description"].GetDataType() == JDType::STRING))
+		else
 		{
-			newDownload.description = j["description"];
-		}
-
-		if ((j.AsJson.DoesExist("uploader")) && (j.AsJson["uploader"].GetDataType() == JDType::STRING))
-		{
-			newDownload.uploader = j["uploader"];
-		}
-
-		if ((j.AsJson.DoesExist("duration")) && (j.AsJson["duration"].GetDataType() == JDType::INT))
-		{
-			newDownload.duration = j["duration"];
-		}
-
-		if ((j.AsJson.DoesExist("webpage_url")) && (j.AsJson["webpage_url"].GetDataType() == JDType::STRING))
-		{
-			newDownload.webpage_url = j["webpage_url"];
-		}
-
-		if ((j.AsJson.DoesExist("thumbnails")) && (j.AsJson["thumbnails"].GetDataType() == JDType::ARRAY))
-		{
-			JsonArray& thumbnails = j.AsJson["thumbnails"].AsArray;
-			if (thumbnails.Size() > 0)
+			if ((j.AsJson.DoesExist("title")) && (j.AsJson["title"].GetDataType() == JDType::STRING))
 			{
-				if (thumbnails.Size() > 1)
+				newDownload.title = j["title"];
+			}
+
+			if ((j.AsJson.DoesExist("description")) && (j.AsJson["description"].GetDataType() == JDType::STRING))
+			{
+				newDownload.description = j["description"];
+			}
+
+			if ((j.AsJson.DoesExist("uploader")) && (j.AsJson["uploader"].GetDataType() == JDType::STRING))
+			{
+				newDownload.uploader = j["uploader"];
+			}
+
+			if ((j.AsJson.DoesExist("duration")) && (j.AsJson["duration"].GetDataType() == JDType::INT))
+			{
+				newDownload.duration = j["duration"];
+			}
+
+			if ((j.AsJson.DoesExist("webpage_url")) && (j.AsJson["webpage_url"].GetDataType() == JDType::STRING))
+			{
+				newDownload.webpage_url = j["webpage_url"];
+			}
+
+			if ((j.AsJson.DoesExist("thumbnails")) && (j.AsJson["thumbnails"].GetDataType() == JDType::ARRAY))
+			{
+				JsonArray& thumbnails = j.AsJson["thumbnails"].AsArray;
+				if (thumbnails.Size() > 0)
 				{
-					// If we have more than one thumbnail to choose from, choose the second-highes quality.
-					newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 2]["url"];
-				}
-				else
-				{
-					newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 1]["url"];
+					if (thumbnails.Size() > 1)
+					{
+						// If we have more than one thumbnail to choose from, choose the second-highes quality.
+						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 2]["url"];
+					}
+					else
+					{
+						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 1]["url"];
+					}
 				}
 			}
 		}
@@ -90,17 +97,25 @@ void DownloadManager::Update()
 {
 	if (shouldSave) Save();
 
-	std::size_t numActiveDownloads = GetNumActiveDownloads();
+	std::size_t cachedNumActiveDownloads = GetNumActiveDownloads();
 
-	if (numActiveDownloads < XGConfig::downloader.num_threads)
+	// Queue next download, if available
+	if (cachedNumActiveDownloads < XGConfig::downloader.num_threads)
 	{
 		DownloadNext();
 	}
 
 	// Check every second, non-blocking
-	if ((numActiveDownloads > 0) && (time(0) - lastProgressCheck > 2))
+	if ((time(0) - lastProgressCheck > 2) && (cachedNumActiveDownloads > 0))
 	{
 		UpdateDownloadProgressPercentages();
+	}
+
+	// Clear cache, if requested
+	if ((shouldClearCacheASAP) && (cachedNumActiveDownloads == 0))
+	{
+		shouldClearCacheASAP = false;
+		ClearDownloadCache();
 	}
 
 	return;
@@ -108,6 +123,7 @@ void DownloadManager::Update()
 
 void DownloadManager::DownloadNext()
 {
+	// Abort, if queue is empty
 	if (GetQueueLength() == 0) return;
 
 	DownloadEntry* next = nullptr;
@@ -128,29 +144,52 @@ void DownloadManager::DownloadNext()
 		std::stringstream ss;
 		if (entry->mode == DOWNLOAD_MODE::VIDEO)
 		{
-			ss << "youtube-dl --newline --no-call-home --no-playlist --limit-rate " << XGConfig::downloader.max_dlrate_per_thread
-				<< " --no-mtime --no-cache-dir --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\" --merge-output-format mp4"
-				<< " -o \"" << XGConfig::downloader.cachedir << "/download/" << entry->tubio_id
-				<< ".mp4\" " << entry->webpage_url << " > \"" << XGConfig::downloader.cachedir
-				<< "/dlprogbuf/" << entry->tubio_id << ".buf" << "\"";
+			std::string ytdl_call_video = 
+				"youtube-dl --newline --no-call-home --no-playlist --limit-rate $$DL_RATE"
+				" --no-mtime --no-cache-dir --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
+				" --merge-output-format mp4 -o \"$$DL_FILE\" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
+
+			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
+			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
+			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_URL", entry->webpage_url);
+			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
+
+			ss << ytdl_call_video;
 		}
 		else // DOWNLOAD_MODE::AUDIO
 		{
-			ss << "youtube-dl --newline --no-call-home --no-playlist --limit-rate " << XGConfig::downloader.max_dlrate_per_thread
-				<< " --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \""
-				<< XGConfig::downloader.cachedir << "/download/" << entry->tubio_id << ".%(ext)s\" "
-				<< entry->webpage_url << " > \"" << XGConfig::downloader.cachedir
-				<< "/dlprogbuf/" << entry->tubio_id << ".buf"  << "\"";
+			std::string ytdl_call_audio =
+				"youtube-dl --newline --no-call-home --no-playlist --limit-rate $$DL_RATE"
+				" --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
+				" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
+
+			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
+			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
+			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_URL", entry->webpage_url);
+			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
+		
+			ss << ytdl_call_audio;
 		}
 
 		int returnCode = system(ss.str().c_str());
 		std::cout << returnCode << std::endl;
 
-		entry->status = DOWNLOAD_STATUS::FINISHED;
-		entry->download_progress = 100;
-		shouldSave = true;
+		if (returnCode == 0)
+		{
+			// Download succeeded
+			entry->status = DOWNLOAD_STATUS::FINISHED;
+			entry->download_progress = 100;
+			shouldSave = true;
+		}
+		else
+		{
+			// Download failed
+			entry->status = DOWNLOAD_STATUS::FAILED;
+			entry->download_progress = -1;
+		}
 		return;
 	});
+
 	downloadThreads.push_back(downloadThread);
 
 	return;
@@ -223,18 +262,29 @@ JsonArray DownloadManager::GetQueueAsJson()
 	return arr;
 }
 
-void Downloader::DownloadManager::ClearDownloadCache()
+bool DownloadManager::ClearDownloadCache()
 {
-	if (FileSystem::ExistsDirectory(XGConfig::downloader.cachedir))
+	if (GetNumActiveDownloads() == 0)
 	{
-		FileSystem::DeleteDirectory(XGConfig::downloader.cachedir);
-		FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/metadata");
-		FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/download");
-		FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/dlprogbuf");
-		queue.clear();
+		log->cout << "Clearing download cache...";
+		log->Flush();
+
+		if (FileSystem::ExistsDirectory(XGConfig::downloader.cachedir))
+		{
+			FileSystem::DeleteDirectory(XGConfig::downloader.cachedir);
+			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/metadata");
+			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/download");
+			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/dlprogbuf");
+			queue.clear();
+		}
+
+		return true;
 	}
 
-	return;
+	log->cout << "Download cache will be cleared as soon as possible...";
+	log->Flush();
+	shouldClearCacheASAP = true;
+	return false;
 }
 
 void DownloadManager::Save()
@@ -403,7 +453,7 @@ std::string DownloadManager::CreateNewTubioID()
 	return newId;
 }
 
-std::size_t Downloader::DownloadManager::GetNumActiveDownloads()
+std::size_t DownloadManager::GetNumActiveDownloads()
 {
 	std::size_t counter = 0;
 	for (std::size_t i = 0; i < queue.size(); i++)
@@ -439,8 +489,9 @@ void DownloadManager::PostExit()
 std::vector<DownloadEntry> DownloadManager::queue;
 std::vector<std::thread*> DownloadManager::downloadThreads;
 ::Logging::Logger* DownloadManager::log;
-bool DownloadManager::shouldSave = false;
 time_t DownloadManager::lastProgressCheck = 0;
+bool DownloadManager::shouldSave = false;
+bool DownloadManager::shouldClearCacheASAP = false;
 
 
 
