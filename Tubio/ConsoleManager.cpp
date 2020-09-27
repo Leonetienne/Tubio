@@ -3,12 +3,6 @@
 void ConsoleManager::PrePreInit()
 {
 #ifdef _WIN
-	FreeConsole();
-	AllocConsole();
-	FILE* dummy;
-	freopen_s(&dummy, "CONOUT$", "wt", stdout);
-	freopen_s(&dummy, "CONOUT$", "wt", stderr);
-	freopen_s(&dummy, "CONOUT$", "rt", stdin);
 	consoleHandle = GetConsoleWindow();
 #endif
 	return;

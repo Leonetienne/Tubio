@@ -2,9 +2,6 @@
 #include "XGConfig.h"
 #include "Logger.h"
 
-#undef _WIN
-
-
 #ifdef _WIN
 #include <Windows.h>
 #endif
