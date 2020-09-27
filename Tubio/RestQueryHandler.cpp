@@ -31,6 +31,9 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "fetch_queue") return FetchQueue(requestBody, responseBody, responseCode);
 	else if (requestName == "clear_download_cache") return ClearDownloadCache(requestBody, responseBody, responseCode);
 	else if (requestName == "foo") return Example_Foo(requestBody, responseBody, responseCode);
+	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
+	else if (requestName == "hide_console") return HideConsole(requestBody, responseBody, responseCode);
+	else if (requestName == "get_os_name") return GetOSName(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -104,6 +107,10 @@ bool RestQueryHandler::ClearDownloadCache(const JsonBlock& request, JsonBlock& r
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
 	DownloadManager::ClearDownloadCache();
+
+	log->cout << "Clearing download cache...";
+	log->Flush();
+
 	return true;
 }
 
@@ -111,7 +118,7 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 {
 	XGControl::keepServerRunning = false;
 
-	log->cout << "Shutting down server upon rest request...";
+	log->cout << "Shutting down server upon client request...";
 	log->Flush();
 
 	responseCode = OK;
@@ -120,9 +127,63 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 	return true;
 }
 
+bool RestQueryHandler::HideConsole(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	if (ConsoleManager::IsSupported())
+	{
+		bool didAnythingChange = ConsoleManager::HideConsole();
+		responseCode = OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseBody.Set("message") = (didAnythingChange) ? "Console is now hidden!" : "Console was already hidden!";
+		return true;
+	}
+	else
+	{
+		responseCode = NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseBody.Set("message") = "This feature is currently only supported on Windows! Make sure to compile with preprocessor directive _WIN!";
+		return false;
+	}
+}
 
+bool RestQueryHandler::ShowConsole(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	if (ConsoleManager::IsSupported())
+	{
+		bool didAnythingChange = ConsoleManager::ShowConsole();
+		responseCode = OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseBody.Set("message") = (didAnythingChange) ? "Console is now shown!" : "Console was already shown!";
+		return true;
+	}
+	else
+	{
+		responseCode = NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseBody.Set("message") = "This feature is currently only supported on Windows! Make sure to compile with preprocessor directive _WIN!";
+		return false;
+	}
+}
 
-
+bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	std::string osName = "other";
+#ifdef _WIN
+	osName = "Windows";
+#elif __APPLE__ || __MACH__
+	osName = "Mac OSX";
+#elif __linux__
+	osName = "Linux";
+#elif __FreeBSD__
+	osName = "FreeBSD";
+#elif __unix || __unix__
+	osName = "Unix";
+#endif
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("os_name") = osName;
+	return true;
+}
 
 
 

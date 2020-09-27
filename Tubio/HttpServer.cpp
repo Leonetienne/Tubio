@@ -60,7 +60,7 @@ bool HttpServer::InitWebServer()
 
 void HttpServer::Update()
 {
-	mg_mgr_poll(pMgr, XGConfig::httpServer.pollingRate);
+	mg_mgr_poll(pMgr, XGConfig::httpServer.polling_rate);
 
 	return;
 }

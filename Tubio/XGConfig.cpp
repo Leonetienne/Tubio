@@ -33,7 +33,7 @@ bool XGConfig::IsJsonFieldValid(const JsonBlock& json, const std::string key, co
 void XGConfig::InitializeDefaultValues()
 {
 	httpServer.port = "6969";
-	httpServer.pollingRate = 100;
+	httpServer.polling_rate = 100;
 	httpServer.rootdir = "frontend";
 
 	logging.logfile_text = "log.txt";
@@ -47,6 +47,8 @@ void XGConfig::InitializeDefaultValues()
 	downloader.loginCredentials.username = "";
 	downloader.loginCredentials.password = "";
 	downloader.loginCredentials.twofactor = "";
+
+	general.show_console = true;
 
 	return;
 }
@@ -70,9 +72,9 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 		httpServer.port = json.ShorthandGet("httpServer.port").AsString;
 	}
 
-	if (IsJsonFieldValid(json, "httpServer.pollingRate", JDType::INT))
+	if (IsJsonFieldValid(json, "httpServer.polling_rate", JDType::INT))
 	{
-		httpServer.pollingRate = json.ShorthandGet("httpServer.pollingRate").AsInt;
+		httpServer.polling_rate = json.ShorthandGet("httpServer.polling_rate").AsInt;
 	}
 
 	if (IsJsonFieldValid(json, "httpServer.rootdir", JDType::STRING))
@@ -111,6 +113,11 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 	{
 		downloader.loginCredentials.twofactor = json.ShorthandGet("downloader.loginCredentials.twofactor").AsString;
 	}
+
+	if (IsJsonFieldValid(json, "general.show_console", JDType::BOOL))
+	{
+		general.show_console = json.ShorthandGet("general.show_console").AsBool;
+	}
 	
 	return;
 }
@@ -120,7 +127,7 @@ JsonBlock XGConfig::CreateJson()
 	return JsonBlock({
 		Ele("httpServer", JsonBlock({
 			Ele("port", httpServer.port),
-			Ele("pollingRate", httpServer.pollingRate),
+			Ele("pollingRate", httpServer.polling_rate),
 			Ele("rootdir", httpServer.rootdir)
 		})),
 		Ele("logging", JsonBlock({
@@ -137,6 +144,9 @@ JsonBlock XGConfig::CreateJson()
 				Ele("password", downloader.loginCredentials.password),
 				Ele("twofactor", downloader.loginCredentials.twofactor)
 			}))
+		})),
+		Ele("general", JsonBlock({
+			Ele("show_console", general.show_console)
 		}))
 	});
 }
@@ -249,4 +259,6 @@ void XGConfig::Load()
 XGConfig::HttpServer XGConfig::httpServer;
 XGConfig::Logging XGConfig::logging;
 XGConfig::Downloader XGConfig::downloader;
+XGConfig::General XGConfig::general;
+
 ::Logging::Logger* XGConfig::log;

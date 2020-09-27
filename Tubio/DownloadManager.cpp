@@ -83,14 +83,12 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 
 	queue.push_back(newDownload);
 
-	Save();
-
 	return tubioId;
 }
 
 void DownloadManager::Update()
 {
-	//if (shouldSave) Save();
+	if (shouldSave) Save();
 
 	std::size_t numActiveDownloads = GetNumActiveDownloads();
 
@@ -131,7 +129,7 @@ void DownloadManager::DownloadNext()
 		if (entry->mode == DOWNLOAD_MODE::VIDEO)
 		{
 			ss << "youtube-dl --newline --no-call-home --no-playlist --limit-rate " << XGConfig::downloader.max_dlrate_per_thread
-				<< " --no-mtime --no-cache-dir --format \"bestvideo[ext=mp4]+bestaudio\" --merge-output-format mp4"
+				<< " --no-mtime --no-cache-dir --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\" --merge-output-format mp4"
 				<< " -o \"" << XGConfig::downloader.cachedir << "/download/" << entry->tubio_id
 				<< ".mp4\" " << entry->webpage_url << " > \"" << XGConfig::downloader.cachedir
 				<< "/dlprogbuf/" << entry->tubio_id << ".buf" << "\"";
@@ -145,7 +143,8 @@ void DownloadManager::DownloadNext()
 				<< "/dlprogbuf/" << entry->tubio_id << ".buf"  << "\"";
 		}
 
-		system(ss.str().c_str());
+		int returnCode = system(ss.str().c_str());
+		std::cout << returnCode << std::endl;
 
 		entry->status = DOWNLOAD_STATUS::FINISHED;
 		entry->download_progress = 100;
@@ -153,7 +152,7 @@ void DownloadManager::DownloadNext()
 		return;
 	});
 	downloadThreads.push_back(downloadThread);
-		
+
 	return;
 }
 
@@ -187,6 +186,8 @@ void DownloadManager::UpdateDownloadProgressPercentages()
 								{
 									int newPercentage = std::stoi(ss.str());
 									queue[i].download_progress = newPercentage;
+
+									//if (newPercentage == 100) queue[i].status = DOWNLOAD_STATUS::FINISHED;
 								}
 							}
 						}
@@ -238,6 +239,25 @@ void Downloader::DownloadManager::ClearDownloadCache()
 
 void DownloadManager::Save()
 {
+	log->cout << "Saving...";
+	log->Flush();
+
+	if (downloadThreads.size() > 0)
+	{
+		log->cout << "Waiting for active download threads to finish before saving...";
+		log->Flush();
+
+		for (std::size_t i = 0; i < downloadThreads.size(); i++)
+		{
+			downloadThreads[i]->join();
+			delete downloadThreads[i];
+			downloadThreads[i] = nullptr;
+		}
+		downloadThreads.clear();
+		log->cout << "All threads have finished. Now saving...";
+		log->Flush();
+	}
+
 	JsonArray arr;
 	for (std::size_t i = 0; i < queue.size(); i++)
 	{
@@ -255,6 +275,9 @@ void DownloadManager::Save()
 	}
 
 	shouldSave = false;
+
+	log->cout << "Saved!";
+	log->Flush();
 
 	return;
 }
@@ -285,7 +308,7 @@ void DownloadManager::Load()
 			{
 				JsonBlock iter = cachedArr[i].AsJson;
 				DownloadEntry newEntry;
-				newEntry.download_progress = -1;
+				newEntry.download_progress = 100;
 				newEntry.status = DOWNLOAD_STATUS::FINISHED; // All saved entries are finished...
 
 				if ((iter.DoesExist("title")) && (iter["title"].GetDataType() == JDType::STRING))
@@ -392,27 +415,14 @@ std::size_t Downloader::DownloadManager::GetNumActiveDownloads()
 
 void DownloadManager::OnExit()
 {
-	if (downloadThreads.size() > 0)
-	{
-		log->cout << "Waiting for active download threads to finish...";
-		log->Flush();
-
-		for (std::size_t i = 0; i < downloadThreads.size(); i++)
-		{
-			downloadThreads[i]->join();
-			delete downloadThreads[i];
-			downloadThreads[i] = nullptr;
-		}
-	}
+	Save();
 
 	// Clear dlprogbuf directory.
 	if (FileSystem::ExistsDirectory(XGConfig::downloader.cachedir + "/dlprogbuf"))
 	{
 		FileSystem::DeleteDirectory(XGConfig::downloader.cachedir + "/dlprogbuf");
 	}
-
-
-	Save();
+	
 	return;
 }
 

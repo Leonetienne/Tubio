@@ -13,7 +13,7 @@ public:
 	{
 		std::string port;
 		std::string rootdir;
-		int pollingRate;
+		int polling_rate;
 	};
 	struct Logging
 	{
@@ -36,14 +36,19 @@ public:
 
 		int num_threads;
 	};
+	struct General
+	{
+		bool show_console;
+	};
 
 	static void PreInit();
 	static void Save();
 	static void PostExit();
 
-	static HttpServer httpServer;
+	static XGConfig::HttpServer httpServer;
 	static XGConfig::Logging logging;
 	static XGConfig::Downloader downloader;
+	static XGConfig::General general;
 
 	static ::Logging::Logger* log;
 

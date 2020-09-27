@@ -3,6 +3,7 @@
 #include "LogHistory.h"
 #include "HttpServer.h"
 #include "DownloadManager.h"
+#include "ConsoleManager.h"
 #include "XGControl.h"
 #include "XGConfig.h"
 

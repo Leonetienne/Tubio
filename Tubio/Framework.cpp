@@ -6,6 +6,8 @@ using namespace Downloader;
 
 Framework::Framework()
 {
+    ConsoleManager::PrePreInit();
+
     PreInit();
 
     log = new Logger("Framework");
@@ -17,6 +19,10 @@ Framework::Framework()
     PostInit();
 
     XGControl::keepServerRunning = true;
+
+    log = new Logger("Framework");
+    log->cout << "Started Tubio server successfully!";
+    log->Flush();
 
     return;
 }
@@ -52,6 +58,7 @@ void Framework::PreInit()
 {
     LogHistory::PreInit();
     XGConfig::PreInit();
+    ConsoleManager::PreInit();
     RestQueryHandler::PreInit();
     DownloadManager::PreInit();
 
@@ -61,6 +68,7 @@ void Framework::PreInit()
 
 void Framework::PostInit()
 {
+    ConsoleManager::PostInit();
     httpServer->PostInit();
 
     return;
@@ -80,6 +88,7 @@ void Framework::PostExit()
     RestQueryHandler::PostExit();
     LogHistory::PostExit();
     DownloadManager::PostExit();
+    ConsoleManager::PostExit();
 
     return;
 }
