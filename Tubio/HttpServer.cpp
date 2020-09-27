@@ -88,6 +88,10 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			{
 				ProcessAPIRequest(pNc, ev, p);
 			}
+			else if (requestedUri.substr(0, 9) == "/download")
+			{
+				ServeDownloadedResource(pNc, ev, p, requestedUri);
+			}
 			else
 			{
 				// Just serve the files requested
@@ -103,7 +107,7 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 		catch (...)
 		{
 			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not gud"));
+			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not good"));
 			ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
 		}
 
@@ -142,6 +146,40 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 		Json errorJson;
 		errorJson.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked"));
 		ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
+	}
+
+	return;
+}
+
+void HttpServer::ServeDownloadedResource(mg_connection* pNc, int ev, void* p, std::string uri)
+{
+	std::string fileId = uri.substr(10, uri.length() - 10);
+
+	if (Downloader::DownloadManager::DoesTubioIDExist(fileId))
+	{
+		Downloader::DownloadEntry& entry = Downloader::DownloadManager::GetDownloadEntryByTubioID(fileId);
+		
+		if (entry.status == Downloader::DOWNLOAD_STATUS::FINISHED)
+		{
+			std::stringstream ss;
+			std::string downloadedFilename = entry.title + (entry.mode == Downloader::DOWNLOAD_MODE::AUDIO ? ".mp3" : ".mp4");
+
+			ss << "Access-Control-Allow-Origin: *\nContent-Disposition: attachment; filename=\"" << downloadedFilename << "\"\nPragma: public\nCache-Control: must-revalidate, post-check=0, pre-check=0";
+
+			mg_http_serve_file(pNc, (http_message*)p, entry.downloaded_filename.c_str(), mg_mk_str("application/octet-stream"), mg_mk_str(ss.str().c_str()));
+		}
+		else
+		{
+			Json j;
+			j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "File download not ready!"));
+			ServeStringToConnection(pNc, j.Render(), BAD_REQUEST);
+		}
+	}
+	else
+	{
+		Json j;
+		j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "Invalid file id!"));
+		ServeStringToConnection(pNc, j.Render(), BAD_REQUEST);
 	}
 
 	return;

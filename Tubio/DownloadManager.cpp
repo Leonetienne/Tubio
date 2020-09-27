@@ -28,6 +28,7 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 	newDownload.tubio_id = tubioId;
 	newDownload.mode = mode;
 	newDownload.download_progress = 0;
+	newDownload.download_url = "/download/" + newDownload.tubio_id;
 
 	if (!IsJsonValid(jsString))
 	{
@@ -145,35 +146,36 @@ void DownloadManager::DownloadNext()
 		std::stringstream ss;
 		if (entry->mode == DOWNLOAD_MODE::VIDEO)
 		{
-			std::string ytdl_call_video = 
-				"youtube-dl --newline --no-call-home --no-playlist --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
+			std::string ytdl_call_video_base = 
+				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
+				" --no-mtime --no-cache-dir --recode-video mp4 --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
 				" --merge-output-format mp4 -o \"$$DL_FILE\" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
 
-			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
-			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
-			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_URL", entry->webpage_url);
-			ytdl_call_video = Internal::StringHelpers::Replace(ytdl_call_video, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
+			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
+			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
+			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_URL", entry->webpage_url);
+			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
 
-			ss << ytdl_call_video;
+			entry->downloaded_filename = XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".mp4";
+			ss << ytdl_call_video_base;
 		}
 		else // DOWNLOAD_MODE::AUDIO
 		{
-			std::string ytdl_call_audio =
-				"youtube-dl --newline --no-call-home --no-playlist --limit-rate $$DL_RATE"
+			std::string ytdl_call_audio_base =
+				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
 
-			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
-			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
-			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_URL", entry->webpage_url);
-			ytdl_call_audio = Internal::StringHelpers::Replace(ytdl_call_audio, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
+			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
+			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
+			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_URL", entry->webpage_url);
+			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
 		
-			ss << ytdl_call_audio;
+			entry->downloaded_filename = XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".mp3";
+			ss << ytdl_call_audio_base;
 		}
 
 		int returnCode = system(ss.str().c_str());
-		std::cout << returnCode << std::endl;
 
 		if (returnCode == 0)
 		{
@@ -262,6 +264,26 @@ JsonArray DownloadManager::GetQueueAsJson()
 
 	return arr;
 }
+
+bool DownloadManager::DoesTubioIDExist(std::string tubioId)
+{
+	for (std::size_t i = 0; i < queue.size(); i++)
+	{
+		if (queue[i].tubio_id == tubioId) return true;
+	}
+	return false;
+}
+
+DownloadEntry& DownloadManager::GetDownloadEntryByTubioID(std::string tubioId)
+{
+	for (std::size_t i = 0; i < queue.size(); i++)
+	{
+		if (queue[i].tubio_id == tubioId) return queue[i];
+	}
+	throw std::exception("TubioID not found!");
+	std::terminate();
+}
+
 
 bool DownloadManager::ClearDownloadCache()
 {
@@ -397,6 +419,16 @@ void DownloadManager::Load()
 					newEntry.thumbnail_url = iter["thumbnail_url"];
 				}
 
+				if ((iter.DoesExist("download_url")) && (iter["download_url"].GetDataType() == JDType::STRING))
+				{
+					newEntry.download_url = iter["download_url"];
+				}
+
+				if ((iter.DoesExist("downloaded_filename")) && (iter["downloaded_filename"].GetDataType() == JDType::STRING))
+				{
+					newEntry.downloaded_filename = iter["downloaded_filename"];
+				}
+
 				if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
 				{
 					std::string cachedStrMode = iter["mode"];
@@ -507,6 +539,8 @@ JsonBlock DownloadEntry::GetAsJson()
 	jb.Set(Ele("webpage_url", webpage_url));
 	jb.Set(Ele("thumbnail_url", thumbnail_url));
 	jb.Set(Ele("download_progress", download_progress));
+	jb.Set(Ele("downloaded_filename", downloaded_filename));
+	jb.Set(Ele("download_url", download_url));
 
 	switch (mode)
 	{

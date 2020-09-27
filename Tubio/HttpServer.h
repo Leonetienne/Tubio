@@ -23,6 +23,7 @@ namespace Rest
 	private:
 		bool InitWebServer();
 		static void ProcessAPIRequest(struct mg_connection* pNc, int ev, void* p);
+		static void ServeDownloadedResource(struct mg_connection* pNc, int ev, void* p, std::string uri);
 
 		static void EventHandler(struct mg_connection* pNc, int ev, void* p);
 		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);

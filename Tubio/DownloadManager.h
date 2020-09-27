@@ -34,6 +34,8 @@ namespace Downloader
 		std::string tubio_id;
 		std::string webpage_url;
 		std::string thumbnail_url;
+		std::string downloaded_filename;
+		std::string download_url;
 		DOWNLOAD_STATUS status;
 		DOWNLOAD_MODE mode;
 		int download_progress;
@@ -64,7 +66,23 @@ namespace Downloader
 		/// <returns></returns>
 		static std::size_t GetQueueLength();
 
+		/// <summary>
+		/// Will return the whole queue in json format
+		/// </summary>
+		/// <returns></returns>
 		static JasonPP::JsonArray GetQueueAsJson();
+
+		/// <summary>
+		/// Returns whether or not a tubio id exists
+		/// </summary>
+		/// <param name="tubioId">The id to check</param>
+		static bool DoesTubioIDExist(std::string tubioId);
+
+		/// <summary>
+		/// Returns a reference to a DownloadEntry by its tubio id
+		/// </summary>
+		/// <param name="tubioId">The corresponding tubio id</param>
+		static DownloadEntry& GetDownloadEntryByTubioID(std::string tubioId);
 
 		/// <summary>
 		/// Will delete all cached downloads!

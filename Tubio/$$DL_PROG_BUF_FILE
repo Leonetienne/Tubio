@@ -1,0 +1,21 @@
+[youtube] eJsTaFRsa_k: Downloading webpage
+[youtube] Downloading just video eJsTaFRsa_k because of --no-playlist
+[youtube] eJsTaFRsa_k: Downloading js player 12237e3d
+[youtube] eJsTaFRsa_k: Downloading js player 12237e3d
+[download] Destination: dlcache\download\1KmyoJ.webm
+[download]   0.0% of 6.60MiB at 249.94KiB/s ETA 00:27
+[download]   0.0% of 6.60MiB at 749.83KiB/s ETA 00:09
+[download]   0.1% of 6.60MiB at  1.71MiB/s ETA 00:03
+[download]   0.2% of 6.60MiB at  3.66MiB/s ETA 00:01
+[download]   0.5% of 6.60MiB at  1.59MiB/s ETA 00:04
+[download]   0.9% of 6.60MiB at  1.71MiB/s ETA 00:03
+[download]   1.9% of 6.60MiB at  2.48MiB/s ETA 00:02
+[download]   3.8% of 6.60MiB at  3.61MiB/s ETA 00:01
+[download]   7.6% of 6.60MiB at  5.73MiB/s ETA 00:01
+[download]  15.1% of 6.60MiB at  8.32MiB/s ETA 00:00
+[download]  30.3% of 6.60MiB at 14.17MiB/s ETA 00:00
+[download]  60.6% of 6.60MiB at 17.77MiB/s ETA 00:00
+[download] 100.0% of 6.60MiB at 28.45MiB/s ETA 00:00
+[download] 100% of 6.60MiB in 00:00
+[ffmpeg] Destination: dlcache\download\1KmyoJ.mp3
+Deleting original file dlcache\download\1KmyoJ.webm (pass -k to keep)
