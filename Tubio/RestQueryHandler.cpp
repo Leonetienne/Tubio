@@ -32,6 +32,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "fetch_alltime_cache") return FetchAlltimeCache(requestBody, responseBody, responseCode);
 	else if (requestName == "get_disk_usage") return GetDiskUsage(requestBody, responseBody, responseCode);
 	else if (requestName == "clear_download_cache") return ClearDownloadCache(requestBody, responseBody, responseCode);
+	else if (requestName == "clear_logs") return ClearLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "foo") return Example_Foo(requestBody, responseBody, responseCode);
 	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
 	else if (requestName == "hide_console") return HideConsole(requestBody, responseBody, responseCode);
@@ -343,7 +344,18 @@ bool RestQueryHandler::GetDiskUsage(const JsonBlock& request, JsonBlock& respons
 	return true;
 }
 
+bool RestQueryHandler::ClearLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("message") = "The logs have been cleared.";
 
+	LogHistory::ClearLogHistory();
+	log->cout << "Cleared logs...";
+	log->Flush();
+
+	return true;
+}
 
 
 
