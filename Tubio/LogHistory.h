@@ -29,6 +29,7 @@ namespace Logging
     {
     public:
         static void PreInit();
+        static void Init();
         static void PostExit();
         static void Update();
 

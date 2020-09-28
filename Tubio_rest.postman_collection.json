@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://de.pornhub.com/view_video.php?viewkey=ph5f4e4a744bcc2\",\r\n    \"mode\": \"video\"\r\n}",
+					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/OF-thWTJcu0\",\r\n    \"mode\": \"video\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/eJsTaFRsa_k\",\r\n    \"mode\": \"audio\"\r\n}",
+					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/wgfNsek8xkc\",\r\n    \"mode\": \"audio\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max_age\": -1,\r\n    \"max_num:\": 5\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -114,13 +114,13 @@
 			"response": []
 		},
 		{
-			"name": "FetAlltimeCache",
+			"name": "FetchAlltimeCache",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_session_cache\"\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_alltime_cache\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -174,47 +174,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"free_console\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ShowConsole",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"free_console\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get_server_os_name",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"get_os\"\r\n}",
+					"raw": "{\r\n    \"request\": \"hide_console\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -238,13 +198,70 @@
 			"response": []
 		},
 		{
+			"name": "ShowConsole",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"show_console\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "192.168.1.12:6969/api",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"12"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_server_os_name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"get_os_name\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "FetchSessionLogs",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_logs\"\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_session_logs\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -271,7 +288,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_logs\"\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_alltime_logs\",\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

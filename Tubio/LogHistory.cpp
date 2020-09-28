@@ -7,8 +7,13 @@ void LogHistory::PreInit()
     history = new std::vector<LogEntry*>();
     lastSave = time(0); // now
     didHistoryChangeSinceLastSave = false;
-    LoadSaveFileCache();
 
+    return;
+}
+
+void LogHistory::Init()
+{
+    LoadSaveFileCache();
     return;
 }
 
@@ -31,6 +36,7 @@ void LogHistory::PostExit()
 
 void LogHistory::Update()
 {
+    XGConfig::logging.autosave_interval = 20;
     if ((time(0) - lastSave > XGConfig::logging.autosave_interval) && (didHistoryChangeSinceLastSave))
     {
         // Mutex gets reset in Save();
@@ -61,12 +67,19 @@ void LogHistory::Save()
     {
         LoadSaveFileCache();
         JasonPP::Json savefile;
+        saveFileCache.Merge(newJsonLogs.AsArray);
         savefile.SetArrayData(saveFileCache);
-        savefile.AsArray.Merge(newJsonLogs.AsArray);
         ofs.open(XGConfig::logging.logfile_json);
         ofs << savefile.Render();
         ofs.close();
-
+        
+        // Clear loghistory vector
+        for (std::size_t i = 0; i < history->size(); i++)
+        {
+            delete history->at(i);
+            history->at(i) = nullptr;
+        }
+        history->clear();
     }
 
     lastSave = time(0);
@@ -108,29 +121,33 @@ void LogHistory::LoadSaveFileCache()
 
 JasonPP::JsonArray LogHistory::GetCompleteLogHistoryAsJson(time_t max_age, std::size_t max_num)
 {
-    JasonPP::JsonArray arr
-        ;
+    JasonPP::JsonArray arr;
     
     for (std::size_t i = 0; i < history->size(); i++)
     {
         arr += history->at(i)->GetAsJson();
     }
-    arr.Merge(saveFileCache);
-    arr.Sort("timestamp", JasonPP::JSON_ARRAY_SORT_MODE::NUM_DESC);
 
-    if ((max_age == -1) && (max_num == (std::size_t)-1)) return arr;
+    arr.Merge(saveFileCache);
+
+    if ((max_age == -1) && (max_num == (std::size_t) - 1))
+    {
+        arr.Sort("timestamp", JasonPP::JSON_ARRAY_SORT_MODE::NUM_DESC);
+        return arr;
+    }
 
     JasonPP::JsonArray cutArr;
-    for (std::size_t i = 0; ((i < arr.Size()) && (i < max_num)); i++)
+    // If max_num is -1 (would mean inifnite) it would underflow to size_t::max
+    for (std::size_t i = 0; ((i < arr.Size()) && (cutArr.Size() < max_num)); i++)
     {
-        // If max_age is > 0, we have to check against the max age
-        if (max_age > 0)
+        // If max_age is >= 0, we have to check against the max age
+        if (max_age >= 0)
         {
             if (arr[i].AsJson.DoesExist("timestamp"))
             {
                 if (arr[i]["timestamp"].GetDataType() == JasonPP::JDType::INT)
                 {
-                    if ((time(0) - arr[i]["timestamp"].AsInt) < max_age)
+                    if ((time(0) - arr[i]["timestamp"].AsInt) <= max_age)
                     {
                         cutArr += arr[i];
                     }
@@ -142,6 +159,7 @@ JasonPP::JsonArray LogHistory::GetCompleteLogHistoryAsJson(time_t max_age, std::
             cutArr += arr[i];
         }
     }
+    cutArr.Sort("timestamp", JasonPP::JSON_ARRAY_SORT_MODE::NUM_DESC);
     return cutArr;
 }
 
@@ -149,6 +167,8 @@ bool LogHistory::ClearLogHistory()
 {
     FileSystem::Delete(XGConfig::logging.logfile_json);
     FileSystem::Delete(XGConfig::logging.logfile_text);
+    saveFileCache.Clear();
+    history->clear();
 
     Save();
 

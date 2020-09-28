@@ -271,16 +271,16 @@ JsonArray DownloadManager::GetAlltimeCacheAsJson(time_t max_age, std::size_t max
 
 	JsonArray cutArr;
 	// If max_num is -1 (would mean inifnite) it would underflow to size_t::max
-	for (std::size_t i = 0; ((i < arr.Size()) && (i < max_num)); i++)
+	for (std::size_t i = 0; ((i < arr.Size()) && (cutArr.Size() < max_num)); i++)
 	{
-		// If max_age is > 0, we have to check against the max age
-		if (max_age > 0)
+		// If max_age is >= 0, we have to check against the max age
+		if (max_age >= 0)
 		{
 			if (arr[i].AsJson.DoesExist("queued_timestamp"))
 			{
 				if (arr[i]["queued_timestamp"].GetDataType() == JDType::INT)
 				{
-					if ((time(0) - arr[i]["queued_timestamp"].AsInt) < max_age)
+					if ((time(0) - arr[i]["queued_timestamp"].AsInt) <= max_age)
 					{
 						cutArr += arr[i];
 					}

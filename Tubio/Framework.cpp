@@ -14,6 +14,8 @@ Framework::Framework()
     log->cout << "Starting Tubio server...";
     log->Flush();
 
+    LogHistory::Init();
+
     httpServer = new HttpServer();
 
     PostInit();
