@@ -1,4 +1,7 @@
 #include "Filesystem.h"
+#ifdef _WIN
+#include <Windows.h>
+#endif
 
 std::string FileSystem::ReadFile(std::string filename)
 {
@@ -42,14 +45,14 @@ bool FileSystem::ExistsDirectory(std::string name)
     return (!Exists(name) && (std::filesystem::exists(name)));
 }
 
-bool FileSystem::CreateDirectory(std::string name)
+bool FileSystem::_CreateDirectory(std::string name)
 {
     return std::filesystem::create_directories(name);
 }
 
 bool FileSystem::CreateDirectoryIfNotExists(std::string name)
 {
-    if (!ExistsDirectory(name)) return CreateDirectory(name);
+    if (!ExistsDirectory(name)) return _CreateDirectory(name);
     return false;
 }
 
@@ -80,4 +83,44 @@ bool FileSystem::Delete(std::string filename)
     if (!Exists(filename)) return false;
     remove(filename.c_str());
     return true;
+}
+
+#include <iostream>
+long long int FileSystem::CalculateSize(std::string name)
+{
+#ifdef _WIN
+    WIN32_FIND_DATAA data;
+    HANDLE sh = NULL;
+    long long int byteCount = 0;
+    
+    //std::cout << "Scanning dir " << name << std::endl;
+    sh = FindFirstFileA((name + "\\*").c_str(), &data);
+
+    if (sh == INVALID_HANDLE_VALUE) return -1;
+
+    do
+    {
+        if ((std::string(data.cFileName).compare(".") != 0) && (std::string(data.cFileName).compare("..") != 0))
+        {
+            // If found file-object is...
+            if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY)
+            {
+                // ... a directory, search it recursively
+                byteCount += CalculateSize(name + "\\" + data.cFileName);
+            }
+            else
+            {
+                // ... a file, get its size
+                byteCount += (long long int)((data.nFileSizeHigh * MAXDWORD) + data.nFileSizeLow);
+            }
+        }
+
+    } while (FindNextFileA(sh, &data));
+
+    FindClose(sh);
+    return byteCount;
+
+#else
+    return -1;
+#endif
 }
