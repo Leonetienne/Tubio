@@ -35,7 +35,8 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
 	else if (requestName == "hide_console") return HideConsole(requestBody, responseBody, responseCode);
 	else if (requestName == "get_os_name") return GetOSName(requestBody, responseBody, responseCode);
-	else if (requestName == "fetch_logs") return FetchLogs(requestBody, responseBody, responseCode);
+	else if (requestName == "fetch_session_logs") return FetchSessionLogs(requestBody, responseBody, responseCode);
+	else if (requestName == "fetch_alltime_logs") return FetchAlltimeLogs(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -240,18 +241,44 @@ bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBo
 	return true;
 }
 
-bool RestQueryHandler::FetchLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+bool RestQueryHandler::FetchSessionLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Fetching logs...";
+	log->cout << "Fetching session logs...";
 	log->Flush();
 
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
-	responseBody.Set("logs") = LogHistory::GetCompleteLogHistoryAsJson();
+	JsonArray logs = LogHistory::GetCompleteLogHistoryAsJson(time(0) - XGControl::boot_time + 1, -1);
+	responseBody.Set("logs_size") = (long long int)logs.Size();
+	responseBody.Set("logs") = logs;
 	return true;
 }
 
+bool RestQueryHandler::FetchAlltimeLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Fetching logs...";
+	log->Flush();
 
+	time_t max_age = -1;
+	std::size_t max_num = (std::size_t) - 1;
+
+	JsonBlock dummy;
+	if (ValidateField("max_age", JDType::INT, request, dummy))
+	{
+		max_age = request["max_age"].AsInt;
+	}
+	if (ValidateField("max_num", JDType::INT, request, dummy))
+	{
+		max_num = request["max_num"].AsInt;
+	}
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	JsonArray logs = LogHistory::GetCompleteLogHistoryAsJson(max_age, max_num);
+	responseBody.Set("logs_size") = (long long int)logs.Size();
+	responseBody.Set("logs") = logs;
+	return true;
+}
 
 
 

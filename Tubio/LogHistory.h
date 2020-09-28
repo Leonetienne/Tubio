@@ -32,10 +32,18 @@ namespace Logging
         static void PostExit();
         static void Update();
 
+        static void LoadSaveFileCache();
         static void Save();
 
         static std::vector<LogEntry*>* GetSessionLogHistory() { return history; }
-        static JasonPP::JsonArray GetCompleteLogHistoryAsJson();
+
+        /// <summary>
+        /// Will return all logs ever in json format. You can specify a max_age and a max_num
+        /// </summary>
+        /// <param name="max_age">Max age to return</param>
+        /// <param name="max_num">Maximum amount to return</param>
+        /// <returns></returns>
+        static JasonPP::JsonArray GetCompleteLogHistoryAsJson(time_t max_age, std::size_t max_num);
 
         /// <summary>
         /// Will clear the log history
@@ -46,6 +54,7 @@ namespace Logging
         static void AddLogToHistory(LogEntry* newEntry);
 
         static std::vector<LogEntry*>* history;
+        static JasonPP::JsonArray saveFileCache;
         static time_t lastSave;
         static bool didHistoryChangeSinceLastSave;
 

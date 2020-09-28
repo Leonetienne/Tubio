@@ -5,8 +5,9 @@ using namespace Logging;
 void LogHistory::PreInit()
 {
     history = new std::vector<LogEntry*>();
-    lastSave = time(0);
+    lastSave = time(0); // now
     didHistoryChangeSinceLastSave = false;
+    LoadSaveFileCache();
 
     return;
 }
@@ -58,35 +59,12 @@ void LogHistory::Save()
     // You can't just append to a json array file...
     // You have to first parse it, append to it, and then rewrite the complete file
     {
-        JasonPP::Json allLogs;
-
-        if (FileSystem::Exists(XGConfig::logging.logfile_json))
-        {
-            std::string fileContent = FileSystem::ReadFile(XGConfig::logging.logfile_json);
-            if (JasonPP::IsJsonValid(fileContent))
-            {
-                allLogs.Parse(fileContent);
-                if (allLogs.GetDataType() != JasonPP::JDType::ARRAY)
-                {
-                    // Json file is fucked (wrong format). Reset to empty array
-                    allLogs.SetArrayData(JasonPP::JsonArray());
-                }
-            }
-            else
-            {
-                // Json file is fucked (wrong syntax). Reset to empty array
-                allLogs.SetArrayData(JasonPP::JsonArray());
-            }
-        }
-        else
-        {
-            // Json file is fucked (doesn't exist). Reset to empty array
-            allLogs.SetArrayData(JasonPP::JsonArray());
-        }
-
-        allLogs.AsArray.Merge(newJsonLogs.AsArray);
+        LoadSaveFileCache();
+        JasonPP::Json savefile;
+        savefile.SetArrayData(saveFileCache);
+        savefile.AsArray.Merge(newJsonLogs.AsArray);
         ofs.open(XGConfig::logging.logfile_json);
-        ofs << allLogs.Render();
+        ofs << savefile.Render();
         ofs.close();
 
     }
@@ -97,45 +75,74 @@ void LogHistory::Save()
     return;
 }
 
-JasonPP::JsonArray LogHistory::GetCompleteLogHistoryAsJson()
+void LogHistory::LoadSaveFileCache()
 {
-    Save();
-
-    // Logfile does not exist, just return an empty array
-    if (!FileSystem::Exists(XGConfig::logging.logfile_json))
+    JasonPP::Json allLogs;
+    if (FileSystem::Exists(XGConfig::logging.logfile_json))
     {
-        std::cout << "no log file" << std::endl;
-        return JasonPP::JsonArray();
-    }
-    else
-    {
-        // Logfile exists
-        std::string file_contents = FileSystem::ReadFile(XGConfig::logging.logfile_json);
-        if (JasonPP::IsJsonValid(file_contents))
+        std::string fileContent = FileSystem::ReadFile(XGConfig::logging.logfile_json);
+        if (JasonPP::IsJsonValid(fileContent))
         {
-            JasonPP::Json logs;
-            logs.Parse(file_contents);
-
-            if (logs.GetDataType() == JasonPP::JDType::ARRAY)
+            allLogs.Parse(fileContent);
+            if (allLogs.GetDataType() != JasonPP::JDType::ARRAY)
             {
-                logs.AsArray.Sort("timestamp", JasonPP::JSON_ARRAY_SORT_MODE::NUM_DESC);
-                return logs.AsArray;
-            }
-            else
-            {
-                std::cout << "invalid format log file" << std::endl;
-                ClearLogHistory(); // The json logfile is fucked
-                return JasonPP::JsonArray();
+                // Json file is fucked (wrong format). Reset to empty array
+                allLogs.SetArrayData(JasonPP::JsonArray());
             }
         }
         else
         {
-            std::cout << "invalid syntax log file" << std::endl;
-            std::cout << file_contents << std::endl;
-            ClearLogHistory(); // The json logfile is fucked
-            return JasonPP::JsonArray();
+            // Json file is fucked (wrong syntax). Reset to empty array
+            allLogs.SetArrayData(JasonPP::JsonArray());
         }
     }
+    else
+    {
+        // Json file is fucked (doesn't exist). Reset to empty array
+        allLogs.SetArrayData(JasonPP::JsonArray());
+    }
+    saveFileCache.Clear();
+    saveFileCache.CloneFrom(allLogs.AsArray);
+    return;
+}
+
+JasonPP::JsonArray LogHistory::GetCompleteLogHistoryAsJson(time_t max_age, std::size_t max_num)
+{
+    JasonPP::JsonArray arr
+        ;
+    
+    for (std::size_t i = 0; i < history->size(); i++)
+    {
+        arr += history->at(i)->GetAsJson();
+    }
+    arr.Merge(saveFileCache);
+    arr.Sort("timestamp", JasonPP::JSON_ARRAY_SORT_MODE::NUM_DESC);
+
+    if ((max_age == -1) && (max_num == (std::size_t)-1)) return arr;
+
+    JasonPP::JsonArray cutArr;
+    for (std::size_t i = 0; ((i < arr.Size()) && (i < max_num)); i++)
+    {
+        // If max_age is > 0, we have to check against the max age
+        if (max_age > 0)
+        {
+            if (arr[i].AsJson.DoesExist("timestamp"))
+            {
+                if (arr[i]["timestamp"].GetDataType() == JasonPP::JDType::INT)
+                {
+                    if ((time(0) - arr[i]["timestamp"].AsInt) < max_age)
+                    {
+                        cutArr += arr[i];
+                    }
+                }
+            }
+        }
+        else // If not, just insert it
+        {
+            cutArr += arr[i];
+        }
+    }
+    return cutArr;
 }
 
 bool LogHistory::ClearLogHistory()
@@ -158,6 +165,7 @@ void LogHistory::AddLogToHistory(LogEntry* newEntry)
 
 std::vector<LogEntry*>* LogHistory::history;
 time_t LogHistory::lastSave;
+JasonPP::JsonArray LogHistory::saveFileCache;
 bool LogHistory::didHistoryChangeSinceLastSave;
 
 JasonPP::JsonBlock LogEntry::GetAsJson()
