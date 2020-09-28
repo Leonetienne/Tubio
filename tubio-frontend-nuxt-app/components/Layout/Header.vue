@@ -35,7 +35,6 @@ export default {
   width: 50px;
   stroke: theme("colors.purple-3");
   fill: theme("colors.purple-3");
-  -webkit-tap-highlight-color: #0000;
   transition:
     stroke 0.2s,
     fill 0.2s,
@@ -55,7 +54,6 @@ export default {
   width: 60px;
   fill: theme("colors.purple-3");
   stroke: theme("colors.purple-3");
-  -webkit-tap-highlight-color: #0000;
   transition:
     stroke 0.2s,
     fill 0.2s,

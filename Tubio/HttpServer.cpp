@@ -177,7 +177,7 @@ void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p,
 	else
 	{
 		Json j;
-		j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "Invalid file id!"));
+		j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "Invalid tubio id!"));
 		ServeStringToConnection(pNc, j.Render(), BAD_REQUEST);
 	}
 

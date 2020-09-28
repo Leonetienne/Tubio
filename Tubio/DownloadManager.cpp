@@ -28,6 +28,7 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 	newDownload.tubio_id = tubioId;
 	newDownload.mode = mode;
 	newDownload.download_progress = 0;
+	newDownload.queued_timestamp = time(0);
 	newDownload.download_url = "/download/" + newDownload.tubio_id;
 
 	if (!IsJsonValid(jsString))
@@ -89,7 +90,7 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 		}
 	}
 
-	queue.push_back(newDownload);
+	unfinishedCache.push_back(newDownload);
 
 	return tubioId;
 }
@@ -130,11 +131,11 @@ void DownloadManager::DownloadNext()
 
 	DownloadEntry* next = nullptr;
 
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].status == DOWNLOAD_STATUS::QUEUED)
+		if (unfinishedCache[i].status == DOWNLOAD_STATUS::QUEUED)
 		{
-			next = &queue[i];
+			next = &unfinishedCache[i];
 			break;
 		}
 	}
@@ -200,11 +201,11 @@ void DownloadManager::DownloadNext()
 
 void DownloadManager::UpdateDownloadProgressPercentages()
 {
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].status == DOWNLOAD_STATUS::DOWNLOADING)
+		if (unfinishedCache[i].status == DOWNLOAD_STATUS::DOWNLOADING)
 		{
-			std::string filePath = XGConfig::downloader.cachedir + "/dlprogbuf/" + queue[i].tubio_id + ".buf";
+			std::string filePath = XGConfig::downloader.cachedir + "/dlprogbuf/" + unfinishedCache[i].tubio_id + ".buf";
 			if (FileSystem::Exists(filePath))
 			{
 				std::ifstream ifs;
@@ -227,9 +228,9 @@ void DownloadManager::UpdateDownloadProgressPercentages()
 								if (ss.str().length() > 0)
 								{
 									int newPercentage = std::stoi(ss.str());
-									queue[i].download_progress = newPercentage;
+									unfinishedCache[i].download_progress = newPercentage;
 
-									//if (newPercentage == 100) queue[i].status = DOWNLOAD_STATUS::FINISHED;
+									if (newPercentage == 100) unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
 								}
 							}
 						}
@@ -247,39 +248,79 @@ void DownloadManager::UpdateDownloadProgressPercentages()
 std::size_t DownloadManager::GetQueueLength()
 {
 	std::size_t counter = 0;
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].status == DOWNLOAD_STATUS::QUEUED) counter++;
+		if (unfinishedCache[i].status == DOWNLOAD_STATUS::QUEUED) counter++;
 	}
 	return counter;
 }
 
-JsonArray DownloadManager::GetQueueAsJson()
+JsonArray DownloadManager::GetAlltimeCacheAsJson(time_t max_age, std::size_t max_num)
 {
 	JsonArray arr;
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		arr += queue[i].GetAsJson();
+		arr += unfinishedCache[i].GetAsJson();
 	}
 
-	return arr;
+	arr.Merge(saveFileCache);
+	arr.Sort("queued_timestamp", JSON_ARRAY_SORT_MODE::NUM_DESC);
+
+	// Both limits are inifnite. Just return arr as is
+	if ((max_age == -1) && (max_num == (std::size_t)-1)) return arr;
+
+	JsonArray cutArr;
+	// If max_num is -1 (would mean inifnite) it would underflow to size_t::max
+	for (std::size_t i = 0; ((i < arr.Size()) && (i < max_num)); i++)
+	{
+		// If max_age is > 0, we have to check against the max age
+		if (max_age > 0)
+		{
+			if (arr[i].AsJson.DoesExist("queued_timestamp"))
+			{
+				if (arr[i]["queued_timestamp"].GetDataType() == JDType::INT)
+				{
+					if ((time(0) - arr[i]["queued_timestamp"].AsInt) < max_age)
+					{
+						cutArr += arr[i];
+					}
+				}
+			}
+		}
+		else // If not, just insert it
+		{
+			cutArr += arr[i];
+		}
+	}
+
+	return cutArr;
 }
 
 bool DownloadManager::DoesTubioIDExist(std::string tubioId)
 {
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].tubio_id == tubioId) return true;
+		if (unfinishedCache[i].tubio_id == tubioId) return true;
 	}
+	for (std::size_t i = 0; i < saveFileCache_Atomic.size(); i++)
+	{
+		if (saveFileCache_Atomic[i].tubio_id == tubioId) return true;
+	}
+
 	return false;
 }
 
 DownloadEntry& DownloadManager::GetDownloadEntryByTubioID(std::string tubioId)
 {
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].tubio_id == tubioId) return queue[i];
+		if (unfinishedCache[i].tubio_id == tubioId) return unfinishedCache[i];
 	}
+	for (std::size_t i = 0; i < saveFileCache_Atomic.size(); i++)
+	{
+		if (saveFileCache_Atomic[i].tubio_id == tubioId) return saveFileCache_Atomic[i];
+	}
+
 	throw std::exception("TubioID not found!");
 	std::terminate();
 }
@@ -298,7 +339,9 @@ bool DownloadManager::ClearDownloadCache()
 			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/metadata");
 			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/download");
 			FileSystem::CreateDirectoryIfNotExists(XGConfig::downloader.cachedir + "/dlprogbuf");
-			queue.clear();
+			unfinishedCache.clear();
+			saveFileCache.Clear();
+			saveFileCache_Atomic.clear();
 		}
 
 		return true;
@@ -331,21 +374,23 @@ void DownloadManager::Save()
 		log->Flush();
 	}
 
-	JsonArray arr;
-	for (std::size_t i = 0; i < queue.size(); i++)
+	// Filecache has contain all and only nonsaved entries.
+	for (long long int i = unfinishedCache.size() - 1; i >= 0; i--)
 	{
-		if (queue[i].status == DOWNLOAD_STATUS::FINISHED)
+		if (unfinishedCache[i].status == DOWNLOAD_STATUS::FINISHED)
 		{
-			arr += queue[i].GetAsJson();
+			saveFileCache += unfinishedCache[i].GetAsJson();
+			unfinishedCache.erase(unfinishedCache.begin() + i);
 		}
 	}
 
-	Json j(arr);
+	Json j(saveFileCache);
 	if (!FileSystem::WriteFile(XGConfig::downloader.cachedir + "/index.json", j.Render()))
 	{
 		log->cout << log->Err() << "Unable to save download cache index file!";
 		log->Flush();
 	}
+	saveFileCache_Atomic = ParseJsonArrayToEntries(saveFileCache);
 
 	shouldSave = false;
 
@@ -375,70 +420,8 @@ void DownloadManager::Load()
 		
 		if (j.GetDataType() == JDType::ARRAY)
 		{
-			const JsonArray& cachedArr = j.AsArray;
-
-			for (std::size_t i = 0; i < cachedArr.Size(); i++)
-			{
-				JsonBlock iter = cachedArr[i].AsJson;
-				DownloadEntry newEntry;
-				newEntry.download_progress = 100;
-				newEntry.status = DOWNLOAD_STATUS::FINISHED; // All saved entries are finished...
-
-				if ((iter.DoesExist("title")) && (iter["title"].GetDataType() == JDType::STRING))
-				{
-					newEntry.title = iter["title"];
-				}
-
-				if ((iter.DoesExist("description")) && (iter["description"].GetDataType() == JDType::STRING))
-				{
-					newEntry.description = iter["description"];
-				}
-
-				if ((iter.DoesExist("uploader")) && (iter["uploader"].GetDataType() == JDType::STRING))
-				{
-					newEntry.uploader = iter["uploader"];
-				}
-
-				if ((iter.DoesExist("duration")) && (iter["duration"].GetDataType() == JDType::INT))
-				{
-					newEntry.duration = iter["duration"];
-				}
-
-				if ((iter.DoesExist("tubio_id")) && (iter["tubio_id"].GetDataType() == JDType::STRING))
-				{
-					newEntry.tubio_id = iter["tubio_id"];
-				}
-
-				if ((iter.DoesExist("webpage_url")) && (iter["webpage_url"].GetDataType() == JDType::STRING))
-				{
-					newEntry.webpage_url = iter["webpage_url"];
-				}
-
-				if ((iter.DoesExist("thumbnail_url")) && (iter["thumbnail_url"].GetDataType() == JDType::STRING))
-				{
-					newEntry.thumbnail_url = iter["thumbnail_url"];
-				}
-
-				if ((iter.DoesExist("download_url")) && (iter["download_url"].GetDataType() == JDType::STRING))
-				{
-					newEntry.download_url = iter["download_url"];
-				}
-
-				if ((iter.DoesExist("downloaded_filename")) && (iter["downloaded_filename"].GetDataType() == JDType::STRING))
-				{
-					newEntry.downloaded_filename = iter["downloaded_filename"];
-				}
-
-				if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
-				{
-					std::string cachedStrMode = iter["mode"];
-					if (cachedStrMode == "video") newEntry.mode = DOWNLOAD_MODE::VIDEO;
-					else if (cachedStrMode == "audio") newEntry.mode = DOWNLOAD_MODE::AUDIO;
-					else newEntry.mode = DOWNLOAD_MODE::VIDEO;
-				}
-
-				queue.push_back(newEntry);
-			}
+			saveFileCache.CloneFrom(j.AsArray);
+			saveFileCache_Atomic = ParseJsonArrayToEntries(saveFileCache);
 		}
 		else
 		{
@@ -453,6 +436,81 @@ void DownloadManager::Load()
 	}
 
 	return;
+}
+
+std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonPP::JsonArray& arr)
+{
+	std::vector<DownloadEntry> entries;
+
+	for (std::size_t i = 0; i < arr.Size(); i++)
+	{
+		JsonBlock iter = arr[i].AsJson;
+		DownloadEntry newEntry;
+		newEntry.download_progress = 100;
+		newEntry.status = DOWNLOAD_STATUS::FINISHED; // All saved entries are finished...
+
+		if ((iter.DoesExist("title")) && (iter["title"].GetDataType() == JDType::STRING))
+		{
+			newEntry.title = iter["title"];
+		}
+
+		if ((iter.DoesExist("description")) && (iter["description"].GetDataType() == JDType::STRING))
+		{
+			newEntry.description = iter["description"];
+		}
+
+		if ((iter.DoesExist("uploader")) && (iter["uploader"].GetDataType() == JDType::STRING))
+		{
+			newEntry.uploader = iter["uploader"];
+		}
+
+		if ((iter.DoesExist("duration")) && (iter["duration"].GetDataType() == JDType::INT))
+		{
+			newEntry.duration = iter["duration"];
+		}
+
+		if ((iter.DoesExist("tubio_id")) && (iter["tubio_id"].GetDataType() == JDType::STRING))
+		{
+			newEntry.tubio_id = iter["tubio_id"];
+		}
+
+		if ((iter.DoesExist("webpage_url")) && (iter["webpage_url"].GetDataType() == JDType::STRING))
+		{
+			newEntry.webpage_url = iter["webpage_url"];
+		}
+
+		if ((iter.DoesExist("thumbnail_url")) && (iter["thumbnail_url"].GetDataType() == JDType::STRING))
+		{
+			newEntry.thumbnail_url = iter["thumbnail_url"];
+		}
+
+		if ((iter.DoesExist("download_url")) && (iter["download_url"].GetDataType() == JDType::STRING))
+		{
+			newEntry.download_url = iter["download_url"];
+		}
+
+		if ((iter.DoesExist("downloaded_filename")) && (iter["downloaded_filename"].GetDataType() == JDType::STRING))
+		{
+			newEntry.downloaded_filename = iter["downloaded_filename"];
+		}
+
+		if ((iter.DoesExist("queued_timestamp")) && (iter["queued_timestamp"].GetDataType() == JDType::INT))
+		{
+			newEntry.queued_timestamp = iter["queued_timestamp"];
+		}
+
+		if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
+		{
+			std::string cachedStrMode = iter["mode"];
+			if (cachedStrMode == "video") newEntry.mode = DOWNLOAD_MODE::VIDEO;
+			else if (cachedStrMode == "audio") newEntry.mode = DOWNLOAD_MODE::AUDIO;
+			else newEntry.mode = DOWNLOAD_MODE::VIDEO;
+		}
+
+		entries.push_back(newEntry);
+	}
+
+	return entries;
 }
 
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
@@ -476,10 +534,11 @@ std::string DownloadManager::CreateNewTubioID()
 		newId = Internal::Helpers::Base10_2_X(time(0), "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 		isIdUnique = true;
-		for (std::size_t i = 0; i < queue.size(); i++)
+		if (unfinishedCache.size() > 0)
 		{
-			if (queue[i].tubio_id == newId) isIdUnique = false;
+			isIdUnique = unfinishedCache[unfinishedCache.size() - 1].tubio_id != newId;
 		}
+
 		counter++;
 	}
 
@@ -489,9 +548,9 @@ std::string DownloadManager::CreateNewTubioID()
 std::size_t DownloadManager::GetNumActiveDownloads()
 {
 	std::size_t counter = 0;
-	for (std::size_t i = 0; i < queue.size(); i++)
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
 	{
-		if (queue[i].status == DOWNLOAD_STATUS::DOWNLOADING) counter++;
+		if (unfinishedCache[i].status == DOWNLOAD_STATUS::DOWNLOADING) counter++;
 	}
 	return counter;
 }
@@ -519,8 +578,10 @@ void DownloadManager::PostExit()
 }
 
 
-std::vector<DownloadEntry> DownloadManager::queue;
+std::vector<DownloadEntry> DownloadManager::unfinishedCache;
 std::vector<std::thread*> DownloadManager::downloadThreads;
+JasonPP::JsonArray DownloadManager::saveFileCache;
+std::vector<DownloadEntry> DownloadManager::saveFileCache_Atomic;
 ::Logging::Logger* DownloadManager::log;
 time_t DownloadManager::lastProgressCheck = 0;
 bool DownloadManager::shouldSave = false;
@@ -541,6 +602,7 @@ JsonBlock DownloadEntry::GetAsJson()
 	jb.Set(Ele("download_progress", download_progress));
 	jb.Set(Ele("downloaded_filename", downloaded_filename));
 	jb.Set(Ele("download_url", download_url));
+	jb.Set(Ele("queued_timestamp", (long long int)queued_timestamp));
 
 	switch (mode)
 	{

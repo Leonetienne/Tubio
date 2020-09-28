@@ -28,7 +28,8 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 
 	if (requestName == "kill_yourself") return KillYourself(requestBody, responseBody, responseCode);
 	else if (requestName == "queue_download") return QueueDownload(requestBody, responseBody, responseCode);
-	else if (requestName == "fetch_queue") return FetchQueue(requestBody, responseBody, responseCode);
+	else if (requestName == "fetch_session_cache") return FetchSessionCache(requestBody, responseBody, responseCode);
+	else if (requestName == "fetch_alltime_cache") return FetchAlltimeCache(requestBody, responseBody, responseCode);
 	else if (requestName == "clear_download_cache") return ClearDownloadCache(requestBody, responseBody, responseCode);
 	else if (requestName == "foo") return Example_Foo(requestBody, responseBody, responseCode);
 	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
@@ -91,18 +92,48 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 	responseBody.Set("message") = "Download queued!";
 	responseBody.Set("queue_position") = (long long int)DownloadManager::GetQueueLength();
 	responseBody.Set("tubio_id") = tubId;
-	responseBody.Set("queue") = DownloadManager::GetQueueAsJson();
+	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(time(0) - XGControl::boot_time, -1);
+	responseBody.Set("cache_size") = (long long int)cache.Size();
+	responseBody.Set("cache") = cache;
 	return true;
 }
 
-bool RestQueryHandler::FetchQueue(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Asking for queue...";
+	log->cout << "Asking for session cache...";
+	log->Flush();
+
+	time_t max_age = time(0) - XGControl::boot_time; // Default max_age is session length
+	std::size_t max_num = (std::size_t )-1;			 // Default max_num is infinite
+
+	JsonBlock dummy;
+	if (ValidateField("max_age", JDType::INT, request, dummy))
+	{
+		max_age = request["max_age"].AsInt;
+	}
+	if (ValidateField("max_num", JDType::INT, request, dummy))
+	{
+		max_num = request["max_num"].AsInt;
+	}
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(max_age, max_num);
+	responseBody.Set("cache_size") = (long long int)cache.Size();
+	responseBody.Set("cache") = cache;
+	return true;
+}
+
+bool RestQueryHandler::FetchAlltimeCache(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Asking for whole cache...";
 	log->Flush();
 
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
-	responseBody.Set("queue") = DownloadManager::GetQueueAsJson();
+	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(-1, -1); // Get ALL the data
+	responseBody.Set("cache_size") = (long long int)cache.Size();
+	responseBody.Set("cache") = cache;
 	return true;
 }
 

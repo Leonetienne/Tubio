@@ -39,6 +39,7 @@ namespace Downloader
 		DOWNLOAD_STATUS status;
 		DOWNLOAD_MODE mode;
 		int download_progress;
+		time_t queued_timestamp;
 
 		JasonPP::JsonBlock GetAsJson();
 
@@ -67,10 +68,12 @@ namespace Downloader
 		static std::size_t GetQueueLength();
 
 		/// <summary>
-		/// Will return the whole queue in json format
+		/// Will return the whole cache in json format
 		/// </summary>
+		/// /// <param name="max_age">Maximum age of the entry in seconds. -1 = infinite</param>
+		/// /// <param name="max_num">Maximum of entries to fetch. -1 = infinite</param>
 		/// <returns></returns>
-		static JasonPP::JsonArray GetQueueAsJson();
+		static JasonPP::JsonArray GetAlltimeCacheAsJson(time_t max_age, std::size_t max_num);
 
 		/// <summary>
 		/// Returns whether or not a tubio id exists
@@ -94,6 +97,7 @@ namespace Downloader
 	private:
 		static void Save();
 		static void Load();
+		static std::vector<DownloadEntry> ParseJsonArrayToEntries(const JasonPP::JsonArray& arr);
 
 		static void FetchInformation(std::string url, std::string tubId);
 		static std::string CreateNewTubioID();
@@ -106,8 +110,10 @@ namespace Downloader
 		static void DownloadNext();
 		static void UpdateDownloadProgressPercentages();
 
-		static std::vector<DownloadEntry> queue;
+		static std::vector<DownloadEntry> unfinishedCache;
 		static std::vector<std::thread*> downloadThreads;
+		static JasonPP::JsonArray saveFileCache; // Content of the save-file
+		static std::vector<DownloadEntry> saveFileCache_Atomic; // Content of the save-file
 		static Logging::Logger* log;
 		// This gets set by other threads
 		static time_t lastProgressCheck;
