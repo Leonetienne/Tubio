@@ -87,13 +87,40 @@
 			"response": []
 		},
 		{
-			"name": "FetchQueue",
+			"name": "FetchSessionCache",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_queue\"\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max_age\": -1,\r\n    \"max_num:\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetAlltimeCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"fetch_session_cache\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -211,13 +238,40 @@
 			"response": []
 		},
 		{
-			"name": "FetchLogs",
+			"name": "FetchSessionLogs",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_logs\"\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_logs\"\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetchAlltimeLogs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"fetch_logs\"\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
