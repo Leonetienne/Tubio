@@ -48,27 +48,27 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 		{
 			if ((j.AsJson.DoesExist("title")) && (j.AsJson["title"].GetDataType() == JDType::STRING))
 			{
-				newDownload.title = j["title"];
+				newDownload.title = j["title"].AsString;
 			}
 
 			if ((j.AsJson.DoesExist("description")) && (j.AsJson["description"].GetDataType() == JDType::STRING))
 			{
-				newDownload.description = j["description"];
+				newDownload.description = j["description"].AsString;
 			}
 
 			if ((j.AsJson.DoesExist("uploader")) && (j.AsJson["uploader"].GetDataType() == JDType::STRING))
 			{
-				newDownload.uploader = j["uploader"];
+				newDownload.uploader = j["uploader"].AsString;
 			}
 
 			if ((j.AsJson.DoesExist("duration")) && (j.AsJson["duration"].GetDataType() == JDType::INT))
 			{
-				newDownload.duration = j["duration"];
+				newDownload.duration = j["duration"].AsInt;
 			}
 
 			if ((j.AsJson.DoesExist("webpage_url")) && (j.AsJson["webpage_url"].GetDataType() == JDType::STRING))
 			{
-				newDownload.webpage_url = j["webpage_url"];
+				newDownload.webpage_url = j["webpage_url"].AsString;
 			}
 
 			if ((j.AsJson.DoesExist("thumbnails")) && (j.AsJson["thumbnails"].GetDataType() == JDType::ARRAY))
@@ -79,11 +79,11 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 					if (thumbnails.Size() > 1)
 					{
 						// If we have more than one thumbnail to choose from, choose the second-highes quality.
-						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 2]["url"];
+						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 2]["url"].AsString;
 					}
 					else
 					{
-						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 1]["url"];
+						newDownload.thumbnail_url = thumbnails[thumbnails.Size() - 1]["url"].AsString;
 					}
 				}
 			}
@@ -321,7 +321,7 @@ DownloadEntry& DownloadManager::GetDownloadEntryByTubioID(std::string tubioId)
 		if (saveFileCache_Atomic[i].tubio_id == tubioId) return saveFileCache_Atomic[i];
 	}
 
-	throw std::exception("TubioID not found!");
+	throw std::exception();
 	std::terminate();
 }
 
@@ -451,52 +451,52 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 
 		if ((iter.DoesExist("title")) && (iter["title"].GetDataType() == JDType::STRING))
 		{
-			newEntry.title = iter["title"];
+			newEntry.title = iter["title"].AsString;
 		}
 
 		if ((iter.DoesExist("description")) && (iter["description"].GetDataType() == JDType::STRING))
 		{
-			newEntry.description = iter["description"];
+			newEntry.description = iter["description"].AsString;
 		}
 
 		if ((iter.DoesExist("uploader")) && (iter["uploader"].GetDataType() == JDType::STRING))
 		{
-			newEntry.uploader = iter["uploader"];
+			newEntry.uploader = iter["uploader"].AsString;
 		}
 
 		if ((iter.DoesExist("duration")) && (iter["duration"].GetDataType() == JDType::INT))
 		{
-			newEntry.duration = iter["duration"];
+			newEntry.duration = iter["duration"].AsInt;
 		}
 
 		if ((iter.DoesExist("tubio_id")) && (iter["tubio_id"].GetDataType() == JDType::STRING))
 		{
-			newEntry.tubio_id = iter["tubio_id"];
+			newEntry.tubio_id = iter["tubio_id"].AsString;
 		}
 
 		if ((iter.DoesExist("webpage_url")) && (iter["webpage_url"].GetDataType() == JDType::STRING))
 		{
-			newEntry.webpage_url = iter["webpage_url"];
+			newEntry.webpage_url = iter["webpage_url"].AsString;
 		}
 
 		if ((iter.DoesExist("thumbnail_url")) && (iter["thumbnail_url"].GetDataType() == JDType::STRING))
 		{
-			newEntry.thumbnail_url = iter["thumbnail_url"];
+			newEntry.thumbnail_url = iter["thumbnail_url"].AsString;
 		}
 
 		if ((iter.DoesExist("download_url")) && (iter["download_url"].GetDataType() == JDType::STRING))
 		{
-			newEntry.download_url = iter["download_url"];
+			newEntry.download_url = iter["download_url"].AsString;
 		}
 
 		if ((iter.DoesExist("downloaded_filename")) && (iter["downloaded_filename"].GetDataType() == JDType::STRING))
 		{
-			newEntry.downloaded_filename = iter["downloaded_filename"];
+			newEntry.downloaded_filename = iter["downloaded_filename"].AsString;
 		}
 
 		if ((iter.DoesExist("queued_timestamp")) && (iter["queued_timestamp"].GetDataType() == JDType::INT))
 		{
-			newEntry.queued_timestamp = iter["queued_timestamp"];
+			newEntry.queued_timestamp = iter["queued_timestamp"].AsInt;
 		}
 
 		if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
@@ -529,7 +529,7 @@ std::string DownloadManager::CreateNewTubioID()
 
 	while (!isIdUnique)
 	{
-		if (counter > 100000000) throw std::exception("Tubio download id generator timeout");
+		if (counter > 100000000) throw std::exception();
 
 		newId = Internal::Helpers::Base10_2_X(time(0), "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 

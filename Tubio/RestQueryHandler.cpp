@@ -30,6 +30,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "queue_download") return QueueDownload(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_session_cache") return FetchSessionCache(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_alltime_cache") return FetchAlltimeCache(requestBody, responseBody, responseCode);
+	else if (requestName == "get_disk_usage") return GetDiskUsage(requestBody, responseBody, responseCode);
 	else if (requestName == "clear_download_cache") return ClearDownloadCache(requestBody, responseBody, responseCode);
 	else if (requestName == "foo") return Example_Foo(requestBody, responseBody, responseCode);
 	else if (requestName == "show_console") return ShowConsole(requestBody, responseBody, responseCode);
@@ -280,6 +281,67 @@ bool RestQueryHandler::FetchAlltimeLogs(const JsonBlock& request, JsonBlock& res
 	return true;
 }
 
+bool RestQueryHandler::GetDiskUsage(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Fetching disk usage...";
+	log->Flush();
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+
+	JsonBlock diskUsages;
+
+	long long int dlcache = 0;
+	if (FileSystem::ExistsDirectory(XGConfig::downloader.cachedir))
+	{
+		dlcache = FileSystem::CalculateSize(XGConfig::downloader.cachedir, true);
+	}
+	diskUsages.Set("dlcache") = dlcache;
+
+	long long int logs = 0;
+	if (FileSystem::Exists("log.txt"))
+	{
+		logs += FileSystem::CalculateSize("log.txt");
+	}
+	if (FileSystem::Exists("log.json"))
+	{
+		logs += FileSystem::CalculateSize("log.json");
+	}
+	diskUsages.Set("logs") = logs;
+
+	long long int misc = 0;
+	if (FileSystem::Exists("config.json"))
+	{
+		misc += FileSystem::CalculateSize("config.json");
+	}
+	diskUsages.Set("misc") = misc;
+
+	long long int dependencies = 0;
+	if (FileSystem::Exists("ffmpeg.exe"))
+	{
+		dependencies += FileSystem::CalculateSize("ffmpeg.exe");
+	}
+	if (FileSystem::Exists("ffprobe.exe"))
+	{
+		dependencies += FileSystem::CalculateSize("ffprobe.exe");
+	}
+	if (FileSystem::Exists("ffplay.exe"))
+	{
+		dependencies += FileSystem::CalculateSize("ffplay.exe");
+	}
+	if (FileSystem::Exists("youtube-dl.exe"))
+	{
+		dependencies += FileSystem::CalculateSize("youtube-dl.exe");
+	}
+	diskUsages.Set("dependencies") = dependencies;
+
+	diskUsages.Set("total") = dlcache + logs + misc + dependencies;
+
+	responseBody.Set("disk_usage") = diskUsages;
+	responseBody.Set("message") = "Disk usage in bytes. Dependencies are 0 on linux, because the dependencies should be installed globally.";
+
+	return true;
+}
 
 
 

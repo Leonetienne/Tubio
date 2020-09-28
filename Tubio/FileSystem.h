@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <filesystem>
 
 class FileSystem
@@ -18,7 +19,8 @@ public:
 	static bool _CreateDirectory(std::string name);
 	static bool CreateDirectoryIfNotExists(std::string name);
 	static bool DeleteDirectory(std::string name);
-	static long long int CalculateSize(std::string name);
+	static long long int CalculateSize(std::string name, bool isDirectory = false);
+
 private:
 
 };

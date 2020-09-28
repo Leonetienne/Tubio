@@ -40,10 +40,15 @@ std::string Logger::Flush()
 
 
     time_t currTime = time(0);
+    char timeBuf[256];
+#ifdef _WIN
     tm currTm;
     localtime_s(&currTm, &currTime);
-    char timeBuf[256];
     strftime(timeBuf, 100, "%d.%m.%Y - %T", &currTm);
+#else
+    tm* currTm = localtime(&currTime);
+    strftime(timeBuf, 100, "%d.%m.%Y - %T", currTm);
+#endif
 
     std::stringstream bufOut;
     bufOut << "<" << timeBuf << "> [" << identifier << "]" << TypeToPrefix(type) << ((additional_information.length() > 0) ? " " : "") << additional_information << ": " << cout.str();

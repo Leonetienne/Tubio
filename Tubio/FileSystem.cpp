@@ -9,7 +9,7 @@ std::string FileSystem::ReadFile(std::string filename)
     ifs.open(filename, std::ios::in);
     if (!ifs.good())
     {
-        throw std::exception("no such file");
+        throw std::exception();
         std::terminate();
     }
     std::string buf;
@@ -86,15 +86,17 @@ bool FileSystem::Delete(std::string filename)
 }
 
 #include <iostream>
-long long int FileSystem::CalculateSize(std::string name)
+long long int FileSystem::CalculateSize(std::string name, bool isDirectory)
 {
 #ifdef _WIN
+    // Windows implementation
+
     WIN32_FIND_DATAA data;
     HANDLE sh = NULL;
     long long int byteCount = 0;
     
     //std::cout << "Scanning dir " << name << std::endl;
-    sh = FindFirstFileA((name + "\\*").c_str(), &data);
+    sh = FindFirstFileA((name + ((isDirectory) ? "\\*" : "")).c_str(), &data);
 
     if (sh == INVALID_HANDLE_VALUE) return -1;
 
@@ -106,7 +108,7 @@ long long int FileSystem::CalculateSize(std::string name)
             if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY)
             {
                 // ... a directory, search it recursively
-                byteCount += CalculateSize(name + "\\" + data.cFileName);
+                byteCount += CalculateSize(name + "\\" + data.cFileName, true);
             }
             else
             {
@@ -121,6 +123,23 @@ long long int FileSystem::CalculateSize(std::string name)
     return byteCount;
 
 #else
+    // Linux implementation
+
+    std::string cmd("du -sb '");
+    cmd.append(name);
+    cmd.append("' | cut -f1 2>&1");
+
+    // execute above command and get the output
+    FILE* stream = popen(cmd.c_str(), "r");
+    if (stream) {
+        const int max_size = 256;
+        char readbuf[max_size];
+        if (fgets(readbuf, max_size, stream) != NULL) {
+            return atoll(readbuf);
+        }
+        pclose(stream);
+    }
+    // return error val
     return -1;
 #endif
 }
