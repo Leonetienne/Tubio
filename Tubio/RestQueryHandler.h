@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "DownloadManager.h"
 #include "ConsoleManager.h"
+#include "Updater.h"
 
 namespace Rest
 {
@@ -31,6 +32,7 @@ namespace Rest
 		static bool FetchAlltimeLogs(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		static bool FetchSessionLogs(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		static bool GetDiskUsage(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
+		static bool UpdateYoutubeDL(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode);
 		
 		static bool ValidateField(const std::string name, const JasonPP::JDType type, const JasonPP::Json& checkThat, JasonPP::JsonBlock& putErrorResponseHere);
 	

@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max_age\": -1,\r\n    \"max_num\": -1\r\n}",
+					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max-num\": -1\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -373,6 +373,33 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"request\": \"clear_logs\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateYotubeDL_Dependency",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"update_dep_youtubedl\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -14,6 +14,7 @@ void RestQueryHandler::PreInit()
 
 bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
+	// Print the client ip address alongide every log
 	log->SetAdditionalInformation(std::string("@") + clientAdress);
 
 	if (!ValidateField("request", JDType::STRING, request, responseBody))
@@ -39,6 +40,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "get_os_name") return GetOSName(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_session_logs") return FetchSessionLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_alltime_logs") return FetchAlltimeLogs(requestBody, responseBody, responseCode);
+	else if (requestName == "update_dep_youtubedl") return UpdateYoutubeDL(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -112,7 +114,12 @@ bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& re
 	JsonBlock dummy;
 	if (ValidateField("max_age", JDType::INT, request, dummy))
 	{
-		max_age = request["max_age"].AsInt;
+		// Only respect the given max_age, if the age does not exceed tubio boot-time!
+		// This way we can ensure that only entries of this SESSION will appear!
+		if (request["max_age"].AsInt >= 0)
+		{
+			max_age = min(request["max_age"].AsInt, max_age);
+		}
 	}
 	if (ValidateField("max_num", JDType::INT, request, dummy))
 	{
@@ -357,7 +364,43 @@ bool RestQueryHandler::ClearLogs(const JsonBlock& request, JsonBlock& responseBo
 	return true;
 }
 
+bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Updating youtube-dl...";
+	log->Flush();
 
+	std::string result = Updater::UpdateYoutubeDL();
+	if (result == "OK")
+	{
+		log->cout << "   => OK!";
+		log->Flush();
+
+		responseCode = OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseBody.Set("message") = "Updated youtube-dl.exe successfully!";
+	}
+	else if (result == "not implemented")
+	{
+		log->cout << "   => NOT_IMPLEMENTED!";
+		log->Flush();
+
+		log->Flush();
+		responseCode = NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseBody.Set("message") = "On linux you have to update youtube-dl yourself since it is a system-wide package handled by various package managers!";
+	}
+	else // Some other error
+	{
+		log->cout << "   => urlmon error: " << result;
+		log->Flush();
+
+		responseCode = INTERNAL_SERVER_ERROR;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR));
+		responseBody.Set("message") = "Unable do update youtube-dl.exe! See urlmon " + result;
+	}
+	
+	return true;
+}
 
 
 

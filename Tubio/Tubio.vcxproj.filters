@@ -60,6 +60,9 @@
     <ClCompile Include="external_dependencies\leonetienne\JasonPP\JasonPP.cpp">
       <Filter>_external_dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="Updater.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="external_dependencies\leonetienne\JasonPP\JasonPP.hpp">
       <Filter>_external_dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Updater.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
