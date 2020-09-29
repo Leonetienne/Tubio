@@ -102,6 +102,11 @@ namespace Downloader
 		static void FetchInformation(std::string url, std::string tubId);
 		static std::string CreateNewTubioID();
 
+		/// <summary>
+		/// Will check for missing dependencies (windows only) and warn if missing
+		/// </summary>
+		static void WarnIfMissingDependenciesWIN();
+
 		static std::size_t GetNumActiveDownloads();
 
 		/// <summary>

@@ -31,6 +31,8 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 	newDownload.queued_timestamp = time(0);
 	newDownload.download_url = "/download/" + newDownload.tubio_id;
 
+	WarnIfMissingDependenciesWIN();
+
 	if (!IsJsonValid(jsString))
 	{
 		newDownload.status = DOWNLOAD_STATUS::FAILED;
@@ -543,6 +545,37 @@ std::string DownloadManager::CreateNewTubioID()
 	}
 
 	return newId;
+}
+
+void DownloadManager::WarnIfMissingDependenciesWIN()
+{
+#ifdef _WIN
+	if (!FileSystem::Exists("youtube-dl.exe"))
+	{
+		log->cout << log->Warn() << "Dependency youtube-dl.exe missing! Try updating it! (\"request\": \"update_dep_youtubedl\"). "
+				  << "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
+		log->Flush();
+	}
+	if (!FileSystem::Exists("ffmpeg.exe"))
+	{
+		log->cout << log->Warn() << "Dependency ffmpeg.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). "
+			<< "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
+		log->Flush();
+	}
+	if (!FileSystem::Exists("ffplay.exe"))
+	{
+		log->cout << log->Warn() << "Dependency ffplay.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). "
+			<< "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
+		log->Flush();
+	}
+	if (!FileSystem::Exists("ffprobe.exe"))
+	{
+		log->cout << log->Warn() << "Dependency ffprobe.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). "
+			<< "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
+		log->Flush();
+	}
+#endif
+	return;
 }
 
 std::size_t DownloadManager::GetNumActiveDownloads()
