@@ -160,6 +160,7 @@ void DownloadManager::DownloadNext()
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_URL", entry->webpage_url);
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
 
+
 			entry->downloaded_filename = XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".mp4";
 			ss << ytdl_call_video_base;
 		}
@@ -175,6 +176,7 @@ void DownloadManager::DownloadNext()
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_URL", entry->webpage_url);
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
 		
+
 			entry->downloaded_filename = XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".mp3";
 			ss << ytdl_call_audio_base;
 		}

@@ -16,7 +16,9 @@ JsonBlock Rest::RestResponseTemplates::GetByCode(HTTP_STATUS_CODE code, std::str
 	case HTTP_STATUS_CODE::BAD_REQUEST:
 		return BadRequest(message);
 	case HTTP_STATUS_CODE::FORBIDDEN:
-		return Forbidden((message.length() > 0) ? message : "Could be disabled in the config file!");
+		return Forbidden((message.length() > 0) ? message : "Forbidden!");
+	case HTTP_STATUS_CODE::UNAUTHORIZED:
+		return Unauthorized((message.length() > 0) ? message : "Unauthorized");
 	case HTTP_STATUS_CODE::NOT_FOUND:
 		return NotFound((message.length() > 0) ? message : "not found");
 	case HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR:

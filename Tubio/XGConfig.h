@@ -23,23 +23,14 @@ public:
 	};
 	struct Downloader
 	{
-		struct LoginCredentials
-		{
-			bool use_account;
-			std::string username;
-			std::string password;
-			std::string twofactor;
-		};
-
 		std::string cachedir;
 		std::string max_dlrate_per_thread;
-		LoginCredentials loginCredentials;
-
 		int num_threads;
 	};
 	struct General
 	{
 		bool show_console;
+		bool onlyAllowLocalhost;
 	};
 
 	static void PreInit();

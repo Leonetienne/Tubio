@@ -119,7 +119,11 @@ bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& re
 		// This way we can ensure that only entries of this SESSION will appear!
 		if (request["max_age"].AsInt >= 0)
 		{
+#ifdef _WIN
 			max_age = min(request["max_age"].AsInt, max_age);
+#else
+			max_age = std::min(request["max_age"].AsInt, max_age);
+#endif
 		}
 	}
 	if (ValidateField("max_num", JDType::INT, request, dummy))
@@ -234,7 +238,7 @@ bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBo
 	log->cout << "Asking for server OS name...";
 	log->Flush();
 
-	std::string osName = "other";
+	std::string osName = "Other";
 #ifdef _WIN
 	osName = "Windows";
 #elif __APPLE__ || __MACH__

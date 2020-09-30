@@ -44,12 +44,8 @@ void XGConfig::InitializeDefaultValues()
 	downloader.max_dlrate_per_thread = "100M";
 	downloader.num_threads = 1;
 
-	downloader.loginCredentials.use_account = false;
-	downloader.loginCredentials.username = "";
-	downloader.loginCredentials.password = "";
-	downloader.loginCredentials.twofactor = "";
-
 	general.show_console = true;
+	general.onlyAllowLocalhost = true;
 
 	return;
 }
@@ -103,26 +99,13 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 		downloader.max_dlrate_per_thread = json.ShorthandGet("downloader.max_dlrate_per_thread").AsString;
 	}
 
-	if (IsJsonFieldValid(json, "downloader.loginCredentials.use_account", JDType::BOOL))
-	{
-		downloader.loginCredentials.use_account = json.ShorthandGet("downloader.loginCredentials.use_account").AsBool;
-	}
-	if (IsJsonFieldValid(json, "downloader.loginCredentials.username", JDType::STRING))
-	{
-		downloader.loginCredentials.username = json.ShorthandGet("downloader.loginCredentials.username").AsString;
-	}
-	if (IsJsonFieldValid(json, "downloader.loginCredentials.password", JDType::STRING))
-	{
-		downloader.loginCredentials.password = json.ShorthandGet("downloader.loginCredentials.password").AsString;
-	}
-	if (IsJsonFieldValid(json, "downloader.loginCredentials.twofactor", JDType::STRING))
-	{
-		downloader.loginCredentials.twofactor = json.ShorthandGet("downloader.loginCredentials.twofactor").AsString;
-	}
-
 	if (IsJsonFieldValid(json, "general.show_console", JDType::BOOL))
 	{
 		general.show_console = json.ShorthandGet("general.show_console").AsBool;
+	}
+	if (IsJsonFieldValid(json, "general.onlyAllowLocalhost", JDType::BOOL))
+	{
+		general.onlyAllowLocalhost = json.ShorthandGet("general.onlyAllowLocalhost").AsBool;
 	}
 	
 	return;
@@ -145,15 +128,10 @@ JsonBlock XGConfig::CreateJson()
 			Ele("cachedir", downloader.cachedir),
 			Ele("max_dlrate_per_thread", downloader.max_dlrate_per_thread),
 			Ele("num_threads", downloader.num_threads),
-			Ele("login_credentials", JsonBlock({
-				Ele("use_account", downloader.loginCredentials.use_account),
-				Ele("username", downloader.loginCredentials.username),
-				Ele("password", downloader.loginCredentials.password),
-				Ele("twofactor", downloader.loginCredentials.twofactor)
-			}))
 		})),
 		Ele("general", JsonBlock({
-			Ele("show_console", general.show_console)
+			Ele("show_console", general.show_console),
+			Ele("onlyAllowLocalhost", general.onlyAllowLocalhost)
 		}))
 	});
 }

@@ -81,43 +81,59 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 
 		http_message* hpm = (http_message*)p;
 		std::string requestedUri = FixUnterminatedString(hpm->uri.p, hpm->uri.len);
-		
-		try
+
+		std::string peer_addr;
 		{
-			if (requestedUri == "/api")
-			{
-				ProcessAPIRequest(pNc, ev, p);
-			}
-			else if (requestedUri.substr(0, 9) == "/download")
-			{
-				ServeDownloadeableResource(pNc, ev, p, requestedUri);
-			}
-			else
-			{
-				// Just serve the files requested
-				mg_serve_http(pNc, (struct http_message*)p, frontend_serve_opts);
-			}
-		}
-		catch (std::exception& e)
-		{
-			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, e.what()));
-			ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
-		}
-		catch (...)
-		{
-			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not good"));
-			ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+			char buf[32];
+			mg_sock_addr_to_str(&pNc->sa, buf, sizeof(buf), MG_SOCK_STRINGIFY_IP);
+			peer_addr = buf;
 		}
 
-		break;
+		if ((XGConfig::general.onlyAllowLocalhost) && (peer_addr != "127.0.0.1"))
+		{
+			Json j;
+			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, "Only localhost allowed!"));
+			ServeStringToConnection(pNc, j.Render(), UNAUTHORIZED);
+		}
+		else
+		{
+			try
+			{
+				if (requestedUri == "/api")
+				{
+					ProcessAPIRequest(pNc, ev, p, peer_addr);
+				}
+				else if (requestedUri.substr(0, 9) == "/download")
+				{
+					ServeDownloadeableResource(pNc, ev, p, requestedUri);
+				}
+				else
+				{
+					// Just serve the files requested
+					mg_serve_http(pNc, (struct http_message*)p, frontend_serve_opts);
+				}
+			}
+			catch (std::exception& e)
+			{
+				Json j;
+				j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, e.what()));
+				ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+			}
+			catch (...)
+			{
+				Json j;
+				j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not good"));
+				ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+			}
+
+			break;
+		}
 	}
 
 	return;
 }
 
-void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
+void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p, std::string peerAddress)
 {
 	// Get struct with http message informations
 	http_message* hpm = (http_message*)p;
@@ -131,12 +147,11 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p)
 		Json requestBody;
 		requestBody.Parse(requestBodyRaw);
 
-		char peer_addr[32];
-		mg_sock_addr_to_str(&pNc->sa, peer_addr, sizeof(peer_addr), MG_SOCK_STRINGIFY_IP);
+		
 
 		JsonBlock responseBody;
 		HTTP_STATUS_CODE returnCode;
-		RestQueryHandler::ProcessQuery(std::string(peer_addr), requestBody, responseBody, returnCode);
+		RestQueryHandler::ProcessQuery(peerAddress, requestBody, responseBody, returnCode);
 
 		Json response(responseBody);
 		ServeStringToConnection(pNc, response.Render(), returnCode);

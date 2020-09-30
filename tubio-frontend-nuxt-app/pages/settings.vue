@@ -9,24 +9,9 @@
 
             <div class="w-full lg:w-1/2 border-right lg:pr-3">
                 
-                <div class="option toggle flex justify-between items-center">
+                <div v-if="serverOs === 'Windows'" class="option toggle flex justify-between items-center">
                     <p>Show console</p>
                     <Toggle :isOn="false"/>
-                </div>
-
-                <div class="option toggle flex justify-between items-center">
-                    <p>Use account</p>
-                    <Toggle :isOn="false"/>
-                </div>
-
-                <div class="option text flex justify-between w-full items-center">
-                    <p class="mr-3">Username</p>
-                    <input type="text" id="username" name="username">
-                </div>
-
-                <div class="option text flex justify-between w-full items-center">
-                    <p class="mr-3">Password</p>
-                    <input type="password" id="password" name="password">
                 </div>
 
                 <div class="option toggle flex justify-between items-center">
@@ -75,8 +60,16 @@
 
                 <Spacer height="50px"/>
 
-                <div class="button" v-on:click="clearDLCache">Clear downloads</div>
-                <div class="button mt-2" v-on:click="clearLogs">Clear logs</div>
+                <div class="flex">
+                  <div class="flex flex-col mr-1">
+                    <div class="button" v-on:click="clearDLCache">Clear downloads</div>
+                    <div class="button mt-2" v-on:click="clearLogs">Clear logs</div>
+                    <div class="button mt-2" v-if="serverOs === 'Windows'" v-on:click="updateYtdl">Update ytdl</div>
+                  </div>
+                  <div class="flex flex-col ml-1">
+                    <div class="button" v-on:click="killServer">Kill server</div>
+                  </div>
+                </div>
 
             </div>
 
@@ -89,6 +82,12 @@
             <LogBox />
         </div>
 
+      </div>
+
+      <div class="go-back hidden md:block">
+        <nuxt-link exact to="/">
+          &lt;&lt;&nbsp;Back
+        </nuxt-link>
       </div>
   </div>
 </template>
@@ -110,12 +109,14 @@ export default {
   computed: {
     diskUsage: function() {
       return this.$store.state.diskUsage.usage;
+    },
+    serverOs: function() {
+      return this.$store.state.serverOs.os_name;
     }
   },
 
   methods: {
     clearDLCache: function() {
-
       const that = this;
       axios.post("/api", {
         request: "clear_download_cache",
@@ -128,7 +129,6 @@ export default {
     },
 
     clearLogs: function() {
-
       const that = this;
       axios.post("/api", {
         request: "clear_logs",
@@ -139,10 +139,35 @@ export default {
       });
       return;
     },
+
+    updateYtdl: function() {
+      const that = this;
+      axios.post("/api", {
+        request: "update_dep_youtubedl",
+      }).then(function(response){
+        if (response.data.status === "OK") {
+          that.$store.dispatch("logs/update", that);
+        }
+      });
+      return;
+    },
+
+    killServer: function() {
+      const that = this;
+      axios.post("/api", {
+        request: "kill_yourself",
+      }).then(function(response){
+        if (response.data.status === "OK") {
+          window.close();
+        }
+      });
+      return;
+    },
   },
 
   mounted() {
     this.$store.dispatch("diskUsage/update", this);
+    this.$store.dispatch("serverOs/update", this);
     return;
   }
 };
@@ -215,7 +240,7 @@ h2 {
   font-family: ZillaSlab, serif;
   font-size: 18pt;
   transition: background-color 0.2s;
-  max-width: 200px;
+  width: 200px;
 
   &:hover {
     background-color: theme("colors.text-error-1");
@@ -225,5 +250,23 @@ h2 {
 hr {
   border: none;
   border-bottom: 2px solid theme("colors.gray-1");
+}
+
+@keyframes goback-floating {
+  0% { left: 1em; }
+  50% { left: 1.2em; }
+  0% { left: 1em; }
+}
+
+.go-back {
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  font-size: 34pt;
+  font-family: ZillaSlab, serif;
+  color: theme("colors.purple-3-1");
+  user-select: none;
+  cursor: pointer;
+  animation: goback-floating 1s infinite;
 }
 </style>
