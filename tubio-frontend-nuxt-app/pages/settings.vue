@@ -53,23 +53,23 @@
 
                     <div class="disk-usage__entry flex">
                         <p class="mr-3">Downloads: </p>
-                        <p>759 mb</p>
+                        <p>{{Math.round(diskUsage.dlcache / 1024 / 1024)}} mb</p>
                     </div>
                     <div class="disk-usage__entry flex">
                         <p class="mr-3">Logs: </p>
-                        <p>9 mb</p>
+                        <p>{{Math.round(diskUsage.logs / 1024 / 1024)}} mb</p>
                     </div>
                     <div class="disk-usage__entry flex">
                         <p class="mr-3">Dependencies: </p>
-                        <p>312 mb</p>
+                        <p>{{Math.round(diskUsage.dependencies / 1024 / 1024)}} mb</p>
                     </div>
                     <div class="disk-usage__entry flex">
                         <p class="mr-3">Misc: </p>
-                        <p>3 mb</p>
+                        <p>{{Math.round(diskUsage.misc / 1024 / 1024)}} mb</p>
                     </div>
                     <div class="disk-usage__entry flex">
                         <p class="mr-3">Total: </p>
-                        <p>1567 mb</p>
+                        <p>{{Math.round(diskUsage.total / 1024 / 1024)}} mb</p>
                     </div>
                 </div>
 
@@ -107,6 +107,12 @@ export default {
       Spacer
   },
 
+  computed: {
+    diskUsage: function() {
+      return this.$store.state.diskUsage.usage;
+    }
+  },
+
   methods: {
     clearDLCache: function() {
 
@@ -133,7 +139,11 @@ export default {
       });
       return;
     },
+  },
 
+  mounted() {
+    this.$store.dispatch("diskUsage/update", this);
+    return;
   }
 };
 </script>
