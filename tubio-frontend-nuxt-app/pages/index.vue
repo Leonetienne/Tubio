@@ -2,7 +2,7 @@
   <div>
 
     <div class="hidden md:block">
-      <Spacer height="2em" m_height="1em" />
+      <Spacer height="0.5em" m_height="1em" />
       <Logo class="logo mt-4" />
       <Spacer height="2em" m_height="2em" />
     </div>

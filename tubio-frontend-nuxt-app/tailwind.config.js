@@ -20,6 +20,7 @@ module.exports = {
       'purple-3-1': '#bee7f4',
 
       'text-gray-1': '#bbb',
+      'text-gray-2': '#fff',
       'text-error-1': '#d40'
     },
 
@@ -28,7 +29,7 @@ module.exports = {
       'md': '768px',
       'lg': '1024px',
       'xl': '1280px',
-      'fhd': '1670px',
+      'fhd': '1870px',
       'wqhd': '2480px',
 
       'break-header': '950px',

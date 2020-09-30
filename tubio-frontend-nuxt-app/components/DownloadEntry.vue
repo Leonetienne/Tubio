@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="flex flex-col md:ml-4 overflow-x-hidden">
-                    <h1 class="title pr">Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video)</h1>
+                    <h1 class="title">Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video)</h1>
                     
                     <div class="relative my-4">
                         <p class="description p-2">

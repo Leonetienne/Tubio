@@ -2,15 +2,19 @@
   <div class="header flex flex-row justify-between w-full p-5">
 
     <div class="left-icons flex flex-flex-row justify-start">
+      <nuxt-link exact to="/">
         <div class="headerbutton block md:hidden">
             <Logo class="headerlogo" />
         </div>
+      </nuxt-link>
     </div>
 
     <div class="right-icons flex flex-row justify-end flex-grow">
-        <div class="headerbutton button-settings">
-            <IconGear class="headericon icon-gear" />
-        </div>
+        <nuxt-link exact to="/settings">
+          <div class="headerbutton button-settings">
+              <IconGear class="headericon icon-gear" />
+          </div>
+        </nuxt-link>
     </div>
 
   </div>
