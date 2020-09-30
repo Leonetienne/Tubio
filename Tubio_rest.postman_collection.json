@@ -418,6 +418,33 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "RemoveDownloadEntry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"remove_download_entry\",\r\n    \"id\": \"1KnnPV\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
