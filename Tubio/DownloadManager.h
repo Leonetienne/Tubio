@@ -94,6 +94,12 @@ namespace Downloader
 		/// </summary>
 		static bool ClearDownloadCache();
 
+		/// <summary>
+		/// Will remove an individual download entry by its tubio id
+		/// </summary>
+		/// <returns></returns>
+		static bool RemoveFromCacheByID(std::string id);
+
 	private:
 		static void Save();
 		static void Load();

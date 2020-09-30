@@ -41,6 +41,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "fetch_session_logs") return FetchSessionLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_alltime_logs") return FetchAlltimeLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "update_dep_youtubedl") return UpdateYoutubeDL(requestBody, responseBody, responseCode);
+	else if (requestName == "remove_download_entry") return RemoveDownloadEntry(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -402,7 +403,34 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 	return true;
 }
 
+bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	if (!ValidateField("id", JDType::STRING, request, responseBody))
+	{
+		responseCode = BAD_REQUEST;
+		return false;
+	}
 
+	log->cout << "Removing download id " << request["id"].AsString << "...";
+	log->Flush();
+
+	bool didSucceed = Downloader::DownloadManager::RemoveFromCacheByID(request["id"].AsString);
+
+	if (didSucceed)
+	{
+		responseCode = OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseBody.Set("message") = "Successfully removed.";
+	}
+	else
+	{
+		responseCode = BAD_REQUEST;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST));
+		responseBody.Set("message") = "Failed.";
+	}
+
+	return true;
+}
 
 
 

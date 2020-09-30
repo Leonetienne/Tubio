@@ -355,6 +355,60 @@ bool DownloadManager::ClearDownloadCache()
 	return false;
 }
 
+bool DownloadManager::RemoveFromCacheByID(std::string id)
+{
+	bool removedAny = false;
+	std::string filePath = "";
+	bool wasFinished = false;
+	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
+	{
+		if (unfinishedCache[i].tubio_id == id)
+		{
+			filePath = unfinishedCache[i].downloaded_filename;
+			removedAny = true;
+			// Edgecase
+			wasFinished = unfinishedCache[i].status == DOWNLOAD_STATUS::FINISHED;
+			unfinishedCache.erase(unfinishedCache.begin() + i);
+			break;
+		}
+	}
+	// It finds it either in the lower two for loops, or in the first one.
+	for (std::size_t i = 0; i < saveFileCache.Size(); i++)
+	{
+		if ((saveFileCache[i].GetDataType() == JDType::JSON) &&
+			(saveFileCache[i].AsJson.DoesExist("tubio_id")) &&
+			(saveFileCache[i]["tubio_id"].GetDataType() == JDType::STRING))
+		{
+			if (saveFileCache[i]["tubio_id"].AsString == id)
+			{
+				saveFileCache.RemoveAt(i);
+				removedAny = true;
+				break;
+			}
+		}
+	}
+	for (std::size_t i = 0; i < saveFileCache_Atomic.size(); i++)
+	{
+		if (saveFileCache_Atomic[i].tubio_id == id)
+		{
+			filePath = saveFileCache_Atomic[i].downloaded_filename;
+			removedAny = true;
+			wasFinished = saveFileCache_Atomic[i].status == DOWNLOAD_STATUS::FINISHED;
+			saveFileCache_Atomic.erase(saveFileCache_Atomic.begin() + i);
+			break;
+		}
+	}
+
+	if ((wasFinished) && (FileSystem::Exists(filePath)))
+	{
+		FileSystem::Delete(filePath);
+	}
+
+	Save();
+
+	return false;
+}
+
 void DownloadManager::Save()
 {
 	log->cout << "Saving...";
