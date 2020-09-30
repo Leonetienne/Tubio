@@ -7,11 +7,11 @@
 
               <div class="flex flex-col">
                 <div class="icon--mode">
-                  <IconFilm v-if="false" />
+                  <IconFilm v-if="downloadEntry.mode === 'video'" />
                   <IconMusic v-else />
                 </div>
                 <div class="timestamp">
-                    20.09.2020
+                    {{getQueuedDateString(downloadEntry.queued_timestamp)}}
                 </div>
               </div>
 
@@ -23,25 +23,25 @@
             <div class="flex flex-col-reverse md:flex-row w-full mt-2">
             
                 <div class="flex flex-col">
-                    <a href="www.youtube.de" title="To the original source">
-                        <div class="thumbnail flex-shrink-0">
+                    <a :href="downloadEntry.webpage_url" target="_blank" title="To the original source">
+                        <div class="thumbnail flex-shrink-0" :style="'--thumbnail: url(\'' + downloadEntry.thumbnail_url + '\')'">
                             <div class="thumbnail__vignette" />
-                            <div class="thumbnail__duration">29:30</div>
+                            <div class="thumbnail__duration">{{getDurationString(downloadEntry.duration)}}</div>
                         </div>
                     </a>
 
                     <!-- Progressbar -->
-                    <div v-if="false">
+                    <div v-if="downloadEntry.status === 'downloading'">
                         <div class="status--progressbar flex w-full mt-3">
-                            <div class="status--progressbar__good items-stretch"></div>
+                            <div class="status--progressbar__good items-stretch" :style="'--download-progress: ' + downloadEntry.download_progress + '%;'"></div>
                         </div>
                         <div class="status--progressbar__text">
-                            69%
+                            {{downloadEntry.download_progress}}%
                         </div>
                     </div>
 
                     <!-- Ready -->
-                    <a v-if="true" href="" title="download">
+                    <a v-else-if="downloadEntry.status === 'finished'" :href="downloadEntry.download_url" title="download">
                         <div class="status--ready mt-3 button flex justify-center w-full">
                             <div>
                                 <IconDownload />
@@ -50,14 +50,14 @@
                     </a>
 
                      <!-- Queued -->
-                    <div v-if="false">
+                    <div v-else-if="downloadEntry.status === 'queued'">
                         <div class="status--queued mt-3">
                             Queued
                         </div>
                     </div>
 
                     <!-- Failed -->
-                    <div v-if="false">
+                    <div v-else-if="downloadEntry.status === 'failed'">
                         <div class="status--failed mt-3">
                             Failed!
                         </div>
@@ -65,20 +65,12 @@
 
                 </div>
 
-                <div class="flex flex-col md:ml-4 overflow-x-hidden">
-                    <h1 class="title">Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video) Versengold - Thekenmädchen (Offizielles Video)</h1>
+                <div class="flex flex-col md:ml-4 overflow-x-hidden overflow-y-visible">
+                    <h1 class="title">{{downloadEntry.title}}</h1>
                     
                     <div class="relative my-4">
                         <p class="description p-2">
-                            Thekenmädchen - Die zweite Single aus dem neuen Album "NORDLICHT". Album-Release: 28.06.2019 
-                            Hier das Album vorbestellen: https://Versengold.lnk.to/Nordlicht
-                            Hier gehts zur Fanbox: https://Versengold.lnk.to/Nordlicht_Box
-
-                            Hol dir den Song "Thekenmädchen" jetzt hier: https://Versengold.lnk.to/Thekenmaedchen 
-
-                            Mehr Informationen unter: 
-                            Webseite: http://www.versengold.com/
-                            Facebook: https://www.facebook.com/Versengold
+                            {{downloadEntry.description}}
                         </p>
                         <div class="description__decobox description__decobox--left" />
                         <div class="description__decobox description__decobox--right" />
@@ -103,9 +95,25 @@ export default {
         IconFilm,
         IconMusic
     },
-    
+        
     props: {
         downloadEntry: {type: Object},
+    },
+
+    methods: {
+      getQueuedDateString: function(unixTime) {
+        const date = new Date(unixTime * 1000);
+        const day = ("0" + date.getDay()).slice(-2);
+        const month = ("0" + date.getMonth()).slice(-2);
+        return day + "." + month + "." + date.getFullYear();
+      },
+      getDurationString: function(unixTime) {
+        const time = new Date(unixTime * 1000);
+        const hours = ("0" +   (time.getHours() - 1)).slice(-2);
+        const minutes = ("0" + (time.getMinutes())).slice(-2);
+        const seconds = ("0" + (time.getSeconds())).slice(-2);
+        return ((hours !== "0") ? hours : "") + ":" + minutes + ":" + seconds; 
+      },
     },
 }
 </script>
@@ -122,13 +130,14 @@ export default {
   }
 
   & .thumbnail {
-    background-image: url("https://i.ytimg.com/vi/wgfNsek8xkc/hqdefault.jpg?sqp=-oaymwEZCNACELwBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBrNQptU-Ni4VWrrsCm689gPnm2ww");
+    background-image: var(--thumbnail);
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     width: 150px;
     height: calc(150px * (9 / 16));
     position: relative;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-image 1s ease-in-out;
     cursor: pointer;
     scrollbar-width: none;
 
@@ -138,7 +147,7 @@ export default {
     }
 
     &:hover {
-      transform: scale(1.05);
+      // transform: scale(1.05); /* shit causes flickering */
     }
 
     &__vignette {
@@ -152,27 +161,24 @@ export default {
 
     &__duration {
       position: absolute;
-      bottom: 3px;
-      right: 3px;
+      bottom: 0;
+      right: 0;
+      padding: 0 3px 3px 0;
       text-align: right;
       font-size: 12pt;
       color: theme("colors.text-gray-1");
+      background-color: #000a;
     }
   }
 
   & .title {
     color: theme("colors.text-gray-1");
     font-size: 22pt;
-    max-height: 1.05em;
+    max-height: 1.3em;
+    overflow-y: hidden;
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: transform 20s;
-
-    &:hover {
-      overflow: visible;
-      transform: translateX(-200%);
-    }
   }
 
   & .description {
@@ -198,6 +204,7 @@ export default {
         height: 40px;
         border-top: 2px solid theme("colors.gray-1");
         border-left: 2px solid theme("colors.gray-1");
+        pointer-events: none;
       }
 
       &--right {
@@ -207,6 +214,7 @@ export default {
         height: 40px;
         border-bottom: 2px solid theme("colors.gray-1");
         border-right: 2px solid theme("colors.gray-1");
+        pointer-events: none;
       }
     }
   }
@@ -218,7 +226,8 @@ export default {
 
       &__good {
         background-color: #0b0;
-        width: 50%; // Download progress
+        width: var(--download-progress); // Download progress
+        transition: width 1s;
       }
 
       &__text {

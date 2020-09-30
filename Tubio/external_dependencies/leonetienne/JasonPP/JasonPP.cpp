@@ -1133,7 +1133,6 @@ std::string StringHelpers::Replace(const std::string str, const std::string find
 
     return ss.str();
 }
-
 std::string StringHelpers::Escape(const std::string str)
 {
     std::stringstream ss;
@@ -1161,7 +1160,43 @@ std::string StringHelpers::Escape(const std::string str)
             ss << "\\\"";
             break;
         case '\\':
-            ss << "\\\\";
+            // All of this bullshit basically means:
+            // If we find an escaped utf-16 sequence, it was most likely ignored behind by the utf-8 parser (because it can only escape utf-8, duh), so we will not escape it.
+
+            // If we found a \u and the string is long enought that it could be a utf sequence
+            if ((str.length() > i + 5) && (str[i + 1] == 'u'))
+            {
+                // Check that the found so-called utf sequence is followed by a valid 16-bit hex string
+                std::string wouldbeHex = str.substr(i + 2, 4);
+                bool isValidHex = true;
+                for (std::size_t j = 0; j < wouldbeHex.size(); j++)
+                {
+                    // Make any capitcal hex digit lowercase
+                    if ((wouldbeHex[j] >= 'A') && (wouldbeHex[j] <= 'F')) wouldbeHex[j] += 32;
+
+                    // Check that it is indeed a hex literal
+                    if (!(((wouldbeHex[j] >= '0') && (wouldbeHex[j] <= '9')) ||
+                        ((wouldbeHex[j] >= 'a') && (wouldbeHex[j] <= 'f'))))
+                    {
+                        isValidHex = false;
+                    }
+                }
+                // Check that it is a UTF-16 escape sequence (because these are left unparsed)
+                if ((isValidHex) && (wouldbeHex.substr(0, 2) != "00"))
+                {
+                    ss << str[i];
+                }
+                // If it is not an unescaped utf-16 sequence, just escape it
+                else
+                {
+                    ss << "\\\\";
+                }
+            }
+            // If it is not an unescaped utf-16 sequence, just escape it
+            else
+            {
+                ss << "\\\\";
+            }
             break;
         default:
             if (str[i] < 0) ss << EscapeUTF8(str[i]);

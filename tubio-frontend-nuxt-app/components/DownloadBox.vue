@@ -2,32 +2,44 @@
     <div class="download-box">
         <h2 v-if="false" class="no-dls-yet mt-2">No downloads yet...</h2>
 
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
-        <DownloadEntry />
+        <DownloadEntry v-for="(nObj, nIdx) in downloads_c" :downloadEntry="nObj" :key="nIdx" />
+
     </div>
 </template>
 
 <script>
 import DownloadEntry from "~/components/DownloadEntry";
+import axios from "axios";
 
 export default {
-    components: {
+  components: {
       DownloadEntry,
+  },
+
+  computed: {
+    downloads_c: function() {
+      return this.downloads;
+    }
+  },
+
+  data() {
+    return {
+      downloads: {type: Array}
+    };
+  },
+
+  mounted() {
+    const that = this;
+    axios.get("/rest-dummies/cache.json", {
+      responseType: 'text'
+    }).then(function(response){
+      if (response.data.status === "OK") {
+        console.log(response.data);
+        that.downloads = response.data.cache;
+      }
+    });
+
+    return;
   }
   
 }

@@ -152,7 +152,8 @@ void DownloadManager::DownloadNext()
 			std::string ytdl_call_video_base = 
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir --recode-video mp4 --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
-				" --merge-output-format mp4 -o \"$$DL_FILE\" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
+				" --merge-output-format mp4 -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
+
 
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
@@ -167,7 +168,7 @@ void DownloadManager::DownloadNext()
 			std::string ytdl_call_audio_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
-				" $$DL_URL > \"$$DL_PROG_BUF_FILE\"";
+				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
@@ -572,7 +573,7 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
 {
 	std::stringstream ss;
-	ss << "youtube-dl.exe --skip-download --dump-json " << url << " > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
+	ss << "youtube-dl.exe --skip-download --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
 	system(ss.str().c_str());
 	return;
 }

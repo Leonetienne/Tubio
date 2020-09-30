@@ -145,6 +145,7 @@ bool RestQueryHandler::FetchAlltimeCache(const JsonBlock& request, JsonBlock& re
 	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(-1, -1); // Get ALL the data
 	responseBody.Set("cache_size") = (long long int)cache.Size();
 	responseBody.Set("cache") = cache;
+
 	return true;
 }
 
