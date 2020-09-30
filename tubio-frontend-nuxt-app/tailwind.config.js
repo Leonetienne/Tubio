@@ -10,13 +10,17 @@ module.exports = {
       'black': '#000',
       'white': '#fff',
 
+      'gray-0': '#333',
+      'gray-1': '#888',
+      
       'purple-0': '#04254e',
       'purple-1': '#5954a4',
       'purple-2': '#8a54a2',
       'purple-3': '#8ad5eb',
       'purple-3-1': '#bee7f4',
 
-      'text-gray-1': '#bbb'
+      'text-gray-1': '#bbb',
+      'text-error-1': '#d40'
     },
 
     screens: {
