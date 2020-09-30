@@ -21,6 +21,7 @@ module.exports = {
 
       'text-gray-1': '#bbb',
       'text-gray-2': '#fff',
+      'text-warn-1': '#fc0',
       'text-error-1': '#d40'
     },
 

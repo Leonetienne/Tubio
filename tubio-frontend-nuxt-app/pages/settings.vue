@@ -85,7 +85,8 @@
         <hr class="mt-6 lg:mt-2" />
 
         <div class="pt-6">
-            <h2>Logs</h2>
+            <h2 class="mb-4">Logs</h2>
+            <LogBox />
         </div>
 
       </div>
@@ -94,12 +95,14 @@
 
 <script>
 import Toggle from "~/components/Toggle.vue";
+import LogBox from "~/components/LogBox.vue";
 import Spacer from "~/components/Spacer.vue";
 
 
 export default {
   components: {
       Toggle,
+      LogBox,
       Spacer
   }
 };

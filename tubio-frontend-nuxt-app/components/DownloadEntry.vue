@@ -4,9 +4,16 @@
         <div class="flex flex-col">
 
             <div class="flex items-end justify-between w-full md:w-auto">
+
+              <div class="flex flex-col">
+                <div class="icon--mode">
+                  <IconFilm v-if="false" />
+                  <IconMusic v-else />
+                </div>
                 <div class="timestamp">
                     20.09.2020
                 </div>
+              </div>
 
                 <div class="button-remove">
                     <IconX />
@@ -86,12 +93,20 @@
 <script>
 import IconDownload from "~/components/Icons/download.vue";
 import IconX from "~/components/Icons/x.vue";
+import IconFilm from "~/components/Icons/film.vue";
+import IconMusic from "~/components/Icons/music-note.vue";
 
 export default {
     components: {
         IconDownload,
-        IconX
-    }
+        IconX,
+        IconFilm,
+        IconMusic
+    },
+    
+    props: {
+        downloadEntry: {type: Object},
+    },
 }
 </script>
 
@@ -261,6 +276,10 @@ export default {
   &::-webkit-scrollbar,
   & *::-webkit-scrollbar {
     display: none;
+  }
+
+  & .icon--mode {
+    width: 20px;
   }
 }
 </style>
