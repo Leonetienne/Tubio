@@ -7,12 +7,22 @@
       <Spacer height="2em" m_height="2em" />
     </div>
 
-    <div class="flex flex-row input-flex justify-center">
-      <input class="flex-grow mr-4" type="url" name="" id="" placeholder="video-url">
+    <div class="flex flex-row flex-wrap md:flex-no-wrap  input-flex justify-between md:justify-center">
+      <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full" type="url" name="video_url" id="video_url" ref="video_url" placeholder="video-url">
 
-      <div class="button flex-shrink button-submit flex-grow-0">
+      <div class="w-full md:hidden" />
+
+      <div class="flex-shrink button-submit flex-grow-0">
+        <select name="mode" id="mode" ref="mode" class="dropdown">
+          <option value="video">Video</option>
+          <option value="audio">Audio</option>
+        </select>
+      </div>
+
+      <div class="button flex-shrink button-submit flex-grow-0 ml-3" v-on:click="downloadButtonClicked">
         <IconArrowRightSquare class="icon-button" />
       </div>
+
     </div>
 
     <Spacer height="2em" m_height="2em" />
@@ -26,6 +36,7 @@ import Logo from "~/components/Logo";
 import Spacer from "~/components/Spacer";
 import DownloadBox from "~/components/DownloadBox";
 import IconArrowRightSquare from "~/components/Icons/arrow-right-square";
+import axios from "axios";
 
 export default {
   components: {
@@ -33,6 +44,28 @@ export default {
     Spacer,
     DownloadBox,
     IconArrowRightSquare,
+  },
+
+  methods: {
+    downloadButtonClicked: function(){
+
+      const that = this;
+      if (this.$refs.video_url.value.match(/(https?:\/\/)?[a-zA-Z0-9-_.]+\.[a-zA-Z-_.]+/)) {
+        const url = this.$refs.video_url.value;
+        this.$refs.video_url.value = "";
+        axios.post("/api", {
+          request: "queue_download",
+          video_url: url,
+          mode: this.$refs.mode.options[this.$refs.mode.selectedIndex].value
+        }).then(function(response){
+          if (response.data.status === "OK") {
+            that.$store.dispatch("dlcache/update", that);
+          }
+        });
+      }
+
+      return;
+    }
   }
 };
 </script>
@@ -118,6 +151,15 @@ input {
       stroke: #fff;
     }
   }
+}
+
+.dropdown {
+  min-width: 100px;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: ZillaSlab, serif;
+  font-size: 16pt;
 }
 
 </style>

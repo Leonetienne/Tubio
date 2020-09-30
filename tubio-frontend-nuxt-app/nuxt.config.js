@@ -3,7 +3,7 @@ export default {
   target: 'static',
 
   generate: {
-    dir: "web"
+    dir: "../Tubio/frontend/"
   },
 
   server: {

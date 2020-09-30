@@ -1,13 +1,9 @@
 <template>
     <div class="log-box">
-        <LogEntry mode="normal" message="Hello, lol :3" />
-        <LogEntry mode="normal" message="Hello, lol :3" />
-        <LogEntry mode="warn" message="Hello, lol :3" />
-        <LogEntry mode="normal" message="Hello, lol :3" />
-        <LogEntry mode="error" message="Hello, lol :3" />
-        <LogEntry mode="normal" message="Hello, lol :3" />
-        <LogEntry mode="normal" message="Hello, lol :3" />
-        <LogEntry mode="normal" message="Hello, lol :3" />
+        <LogEntry v-for="(nObj, nKey) in logs" 
+          :mode="(nObj.type === 0) ? 'normal' : ((nObj.type === 1) ? 'warn' : 'error')"
+          :message="nObj.compiledMessage"
+          :key="nKey" />
     </div>
 </template>
 
@@ -17,6 +13,21 @@ import LogEntry from "~/components/LogEntry";
 export default {
     components: {
       LogEntry,
+  },
+
+  computed: {
+    logs: function() {
+      return this.$store.state.logs.logs;
+    }
+  },
+
+  mounted() {
+    const that = this;
+    this.$store.dispatch("logs/update", this);
+    setInterval(function(){
+      that.$store.dispatch("logs/update", that);
+    }, 1000);
+    return;
   }
   
 }

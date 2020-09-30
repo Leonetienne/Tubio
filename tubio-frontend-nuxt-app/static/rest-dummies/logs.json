@@ -1,0 +1,2198 @@
+{
+    "logs": [
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 18:09:23> [RestQueryHandler] @127.0.0.1: Fetching logs...",
+            "identifier": "RestQueryHandler",
+            "message": "Fetching logs...",
+            "timestamp": 1601482163,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:39> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481639,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:39> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481639,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:29> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481629,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:29> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481629,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 18:00:23> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601481623,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:23> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481623,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:23> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481623,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:12> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481612,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 18:00:12> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481612,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:58> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601481598,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:53> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "timestamp": 1601481593,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:47> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=c3wRzxiQ8Zk&ab_channel=KarlSternau\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=c3wRzxiQ8Zk&ab_channel=KarlSternau\"...",
+            "timestamp": 1601481587,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:38> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY&ab_channel=LilDicky\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY&ab_channel=LilDicky\"...",
+            "timestamp": 1601481578,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:31> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "timestamp": 1601481571,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:22> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601481562,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [DownloadManager]: Clearing download cache...",
+            "identifier": "DownloadManager",
+            "message": "Clearing download cache...",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [RestQueryHandler] @127.0.0.1: Clearing download cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Clearing download cache...",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:16> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481556,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:59:03> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "timestamp": 1601481543,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:01> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481541,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:01> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481541,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:01> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481541,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:01> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481541,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:59:01> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481541,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:57:44> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "timestamp": 1601481464,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:57:42> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481462,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:57:42> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481462,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:57:42> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481462,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:57:42> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481462,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:57:42> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481462,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:56:45> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "timestamp": 1601481405,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:56:44> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481404,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:56:44> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481404,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:56:44> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481404,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:56:44> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481404,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:56:44> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481404,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:54:22> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=XbGs_qK2PQA&ab_channel=EminemVEVO\"...",
+            "timestamp": 1601481262,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:16> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481256,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:16> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481256,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:16> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481256,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:16> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481256,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:54:07> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/c3wRzxiQ8Zk\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/c3wRzxiQ8Zk\"...",
+            "timestamp": 1601481247,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:02> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:02> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:02> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:02> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:54:02> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:51> [Config]: Saving config...",
+            "identifier": "Config",
+            "message": "Saving config...",
+            "timestamp": 1601481231,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:51> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481231,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:51> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481231,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:51> [HttpServer]: Shutting down http-server...",
+            "identifier": "HttpServer",
+            "message": "Shutting down http-server...",
+            "timestamp": 1601481231,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:53:51> [RestQueryHandler] @127.0.0.1: Shutting down server upon client request...",
+            "identifier": "RestQueryHandler",
+            "message": "Shutting down server upon client request...",
+            "timestamp": 1601481231,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:23> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481203,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:23> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481203,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:23> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481203,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:23> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481203,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:10> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601481190,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:10> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601481190,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:10> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601481190,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:53:10> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601481190,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:53:01> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/yvHYWD29ZNY\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/yvHYWD29ZNY\"...",
+            "timestamp": 1601481181,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:52:47> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "timestamp": 1601481167,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:42> [DownloadManager]: Clearing download cache...",
+            "identifier": "DownloadManager",
+            "message": "Clearing download cache...",
+            "timestamp": 1601481162,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:52:42> [RestQueryHandler] @127.0.0.1: Clearing download cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Clearing download cache...",
+            "timestamp": 1601481162,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:36> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481156,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:36> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481156,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:36> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481156,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:36> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481156,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:52:36> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481156,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:52:02> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY&ab_channel=LilDicky\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY&ab_channel=LilDicky\"...",
+            "timestamp": 1601481122,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:51:48> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/34CZjsEI1yU\"...",
+            "timestamp": 1601481108,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:51:46> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601481106,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:51:46> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601481106,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:51:46> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601481106,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:51:46> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601481106,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:51:46> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601481106,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:18:44> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601479124,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:42> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601479122,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:42> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601479122,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:42> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601479122,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:42> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601479122,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:42> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601479122,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 17:18:15> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601479095,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:11> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601479091,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:11> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601479091,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:11> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601479091,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:11> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601479091,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 17:18:11> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601479091,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:43:23> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601473403,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:21> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601473401,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:21> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601473401,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:21> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601473401,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:21> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601473401,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:43:12> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601473392,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:10> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601473390,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:10> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601473390,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:10> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601473390,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:43:09> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601473389,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:43:06> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=34CZjsEI1yU\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=34CZjsEI1yU\"...",
+            "timestamp": 1601473386,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:42:52> [RestQueryHandler] @127.0.0.1: Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://www.youtube.com/watch?v=yvHYWD29ZNY\"...",
+            "timestamp": 1601473372,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:42:50> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601473370,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:42:50> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601473370,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:42:50> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601473370,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:42:50> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601473370,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:42:41> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/c3wRzxiQ8Zk\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/c3wRzxiQ8Zk\"...",
+            "timestamp": 1601473361,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:42:01> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601473321,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:41:53> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601473313,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:41:53> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601473313,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:41:53> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601473313,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 15:41:53> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601473313,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:41:38> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/XbGs_qK2PQA\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/XbGs_qK2PQA\"...",
+            "timestamp": 1601473298,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:41:16> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601473276,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 15:25:38> [RestQueryHandler] @127.0.0.1: Fetching logs...",
+            "identifier": "RestQueryHandler",
+            "message": "Fetching logs...",
+            "timestamp": 1601472338,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 14:56:05> [RestQueryHandler] @127.0.0.1: Fetching disk usage...",
+            "identifier": "RestQueryHandler",
+            "message": "Fetching disk usage...",
+            "timestamp": 1601470565,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 14:55:58> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601470558,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 14:55:58> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601470558,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 14:55:58> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601470558,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 14:55:58> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601470558,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 14:55:58> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601470558,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:26:57> [Config]: Saving config...",
+            "identifier": "Config",
+            "message": "Saving config...",
+            "timestamp": 1601465217,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:26:57> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601465217,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:26:57> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601465217,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:26:57> [HttpServer]: Shutting down http-server...",
+            "identifier": "HttpServer",
+            "message": "Shutting down http-server...",
+            "timestamp": 1601465217,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:26:57> [RestQueryHandler] @127.0.0.1: Shutting down server upon client request...",
+            "identifier": "RestQueryHandler",
+            "message": "Shutting down server upon client request...",
+            "timestamp": 1601465217,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:22:09> [DownloadManager]: Clearing download cache...",
+            "identifier": "DownloadManager",
+            "message": "Clearing download cache...",
+            "timestamp": 1601464929,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:22:09> [RestQueryHandler] @127.0.0.1: Clearing download cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Clearing download cache...",
+            "timestamp": 1601464929,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:22:04> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601464924,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:22:04> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601464924,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:22:04> [RestQueryHandler] @127.0.0.1: Removing download id 1KnnMe...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id 1KnnMe...",
+            "timestamp": 1601464924,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:50> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601464910,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:50> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601464910,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:21:50> [RestQueryHandler] @127.0.0.1: Removing download id 1KnnPb...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id 1KnnPb...",
+            "timestamp": 1601464910,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:21:37> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601464897,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:23> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601464883,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:23> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601464883,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:21:23> [RestQueryHandler] @127.0.0.1: Removing download id 1KnnPV...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id 1KnnPV...",
+            "timestamp": 1601464883,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:20> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601464880,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:20> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601464880,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:20> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601464880,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:20> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601464880,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:21:20> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601464880,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:20:00> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601464800,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:19:47> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601464787,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:19:21> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601464761,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:19:21> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601464761,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:19:21> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601464761,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:19:21> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601464761,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:19:21> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601464761,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:15:29> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601464529,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:15:20> [RestQueryHandler] @127.0.0.1: Removing download id 1KnnPV...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id 1KnnPV...",
+            "timestamp": 1601464520,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:14:50> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601464490,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:14:47> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601464487,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:14:34> [RestQueryHandler] @127.0.0.1: Fetching session logs...",
+            "identifier": "RestQueryHandler",
+            "message": "Fetching session logs...",
+            "timestamp": 1601464474,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:14:26> [RestQueryHandler] @127.0.0.1: Removing download id penis...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id penis...",
+            "timestamp": 1601464466,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 13:14:25> [RestQueryHandler] @127.0.0.1: Removing download id penis...",
+            "identifier": "RestQueryHandler",
+            "message": "Removing download id penis...",
+            "timestamp": 1601464465,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:13:52> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601464432,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:13:52> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601464432,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:13:52> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601464432,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:13:52> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601464432,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 13:13:52> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601464432,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:12:55> [Config]: Saving config...",
+            "identifier": "Config",
+            "message": "Saving config...",
+            "timestamp": 1601417575,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:12:55> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601417575,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:12:55> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601417575,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:12:55> [HttpServer]: Shutting down http-server...",
+            "identifier": "HttpServer",
+            "message": "Shutting down http-server...",
+            "timestamp": 1601417575,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:55> [RestQueryHandler] @127.0.0.1: Shutting down server upon client request...",
+            "identifier": "RestQueryHandler",
+            "message": "Shutting down server upon client request...",
+            "timestamp": 1601417575,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:50> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417570,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:46> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417566,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:43> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417563,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:39> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417559,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:32> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417552,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:12:23> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417543,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:11:47> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601417507,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:11:14> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601417474,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:11:14> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601417474,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:11:14> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601417474,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:11:14> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601417474,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:11:03> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/wgfNsek8xkc\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/wgfNsek8xkc\"...",
+            "timestamp": 1601417463,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:24> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601417424,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:24> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601417424,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:24> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601417424,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:24> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601417424,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:20> [DownloadManager] [WARN]: Dependency ffprobe.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "identifier": "DownloadManager",
+            "message": "Dependency ffprobe.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "timestamp": 1601417420,
+            "type": 1
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:20> [DownloadManager] [WARN]: Dependency ffplay.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "identifier": "DownloadManager",
+            "message": "Dependency ffplay.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "timestamp": 1601417420,
+            "type": 1
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:10:20> [DownloadManager] [WARN]: Dependency ffmpeg.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "identifier": "DownloadManager",
+            "message": "Dependency ffmpeg.exe missing! (Get it here: https://www.gyan.dev/ffmpeg/builds/). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "timestamp": 1601417420,
+            "type": 1
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:10:17> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601417417,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:07:22> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601417242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:07:22> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601417242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:07:22> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601417242,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:07:22> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601417242,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:07:14> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601417234,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:07:09> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601417229,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:07:07> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601417227,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:06:31> [DownloadManager] [WARN]: Dependency youtube-dl.exe missing! Try updating it! (\"request\": \"update_dep_youtubedl\"). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "identifier": "DownloadManager",
+            "message": "Dependency youtube-dl.exe missing! Try updating it! (\"request\": \"update_dep_youtubedl\"). Dependencies HAVE to lie in Tubios working directory! (where the config.json is)",
+            "timestamp": 1601417191,
+            "type": 1
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:06:31> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601417191,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:06:01> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601417161,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:06:01> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601417161,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:06:01> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601417161,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:06:01> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601417161,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<30.09.2020 - 00:05:53> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601417153,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:05:46> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601417146,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:05:46> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601417146,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:05:46> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601417146,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:05:46> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601417146,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<30.09.2020 - 00:05:46> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601417146,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:52> [Config]: Saving config...",
+            "identifier": "Config",
+            "message": "Saving config...",
+            "timestamp": 1601416612,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:52> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601416612,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:52> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601416612,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:52> [HttpServer]: Shutting down http-server...",
+            "identifier": "HttpServer",
+            "message": "Shutting down http-server...",
+            "timestamp": 1601416612,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:56:52> [RestQueryHandler] @127.0.0.1: Shutting down server upon client request...",
+            "identifier": "RestQueryHandler",
+            "message": "Shutting down server upon client request...",
+            "timestamp": 1601416612,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:56:08> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416568,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:04> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601416564,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:04> [DownloadManager]: All threads have finished. Now saving...",
+            "identifier": "DownloadManager",
+            "message": "All threads have finished. Now saving...",
+            "timestamp": 1601416564,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:04> [DownloadManager]: Waiting for active download threads to finish before saving...",
+            "identifier": "DownloadManager",
+            "message": "Waiting for active download threads to finish before saving...",
+            "timestamp": 1601416564,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:56:04> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601416564,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:56:03> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416563,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:57> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601416557,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:53> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601416553,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:51> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601416551,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:13> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416513,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:10> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601416510,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:55:04> [RestQueryHandler] @127.0.0.1: Asking for whole cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for whole cache...",
+            "timestamp": 1601416504,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:58> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416498,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:54> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416494,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:50> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416490,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:46> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416486,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:44> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601416484,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:37> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416477,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:54:32> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601416472,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:54:32> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601416472,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:54:32> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601416472,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:54:32> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601416472,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:54:32> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601416472,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:54:11> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416451,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:53:52> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416432,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:53:48> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601416428,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:53:43> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416423,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:53:39> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601416419,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:53:39> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601416419,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:53:39> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601416419,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:53:39> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601416419,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:53:39> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601416419,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:51:24> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416284,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:49:56> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416196,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:49:40> [RestQueryHandler] @127.0.0.1: Asking for session cache...",
+            "identifier": "RestQueryHandler",
+            "message": "Asking for session cache...",
+            "timestamp": 1601416180,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:49:11> [RestQueryHandler] @127.0.0.1: Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "identifier": "RestQueryHandler",
+            "message": "Queued video \"https://youtu.be/OF-thWTJcu0\"...",
+            "timestamp": 1601416151,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:48> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601416128,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:48> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601416128,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:13> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601416093,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:13> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601416093,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:10> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601416090,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:10> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601416090,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:48:02> [RestQueryHandler] @127.0.0.1:    => OK!",
+            "identifier": "RestQueryHandler",
+            "message": "   => OK!",
+            "timestamp": 1601416082,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<29.09.2020 - 23:47:59> [RestQueryHandler] @127.0.0.1: Updating youtube-dl...",
+            "identifier": "RestQueryHandler",
+            "message": "Updating youtube-dl...",
+            "timestamp": 1601416079,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:46:37> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601415997,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:46:37> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601415997,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:46:37> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601415997,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:46:37> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601415997,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:46:37> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601415997,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:45:15> [Framework]: Started Tubio server successfully!",
+            "identifier": "Framework",
+            "message": "Started Tubio server successfully!",
+            "timestamp": 1601415915,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:45:15> [HttpServer]: Started http-server successfully!",
+            "identifier": "HttpServer",
+            "message": "Started http-server successfully!",
+            "timestamp": 1601415915,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:45:15> [HttpServer]: Starting http-server on port 6969...",
+            "identifier": "HttpServer",
+            "message": "Starting http-server on port 6969...",
+            "timestamp": 1601415915,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:45:15> [Framework]: Starting Tubio server...",
+            "identifier": "Framework",
+            "message": "Starting Tubio server...",
+            "timestamp": 1601415915,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<29.09.2020 - 23:45:15> [Config]: Loaded config file",
+            "identifier": "Config",
+            "message": "Loaded config file",
+            "timestamp": 1601415915,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<28.09.2020 - 20:10:40> [Config]: Saving config...",
+            "identifier": "Config",
+            "message": "Saving config...",
+            "timestamp": 1601316640,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<28.09.2020 - 20:10:40> [DownloadManager]: Saved!",
+            "identifier": "DownloadManager",
+            "message": "Saved!",
+            "timestamp": 1601316640,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<28.09.2020 - 20:10:40> [DownloadManager]: Saving...",
+            "identifier": "DownloadManager",
+            "message": "Saving...",
+            "timestamp": 1601316640,
+            "type": 0
+        },
+        {
+            "additional_information": "",
+            "compiledMessage": "<28.09.2020 - 20:10:40> [HttpServer]: Shutting down http-server...",
+            "identifier": "HttpServer",
+            "message": "Shutting down http-server...",
+            "timestamp": 1601316640,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<28.09.2020 - 20:10:40> [RestQueryHandler] @127.0.0.1: Shutting down server upon client request...",
+            "identifier": "RestQueryHandler",
+            "message": "Shutting down server upon client request...",
+            "timestamp": 1601316640,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<28.09.2020 - 20:10:00> [RestQueryHandler] @127.0.0.1: Fetching logs...",
+            "identifier": "RestQueryHandler",
+            "message": "Fetching logs...",
+            "timestamp": 1601316600,
+            "type": 0
+        },
+        {
+            "additional_information": "@127.0.0.1",
+            "compiledMessage": "<28.09.2020 - 20:09:53> [RestQueryHandler] @127.0.0.1: Cleared logs...",
+            "identifier": "RestQueryHandler",
+            "message": "Cleared logs...",
+            "timestamp": 1601316593,
+            "type": 0
+        }
+    ],
+    "logs_size": 274,
+    "status": "OK"
+}

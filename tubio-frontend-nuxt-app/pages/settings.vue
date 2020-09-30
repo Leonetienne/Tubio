@@ -75,8 +75,8 @@
 
                 <Spacer height="50px"/>
 
-                <div class="button">Clear downloads</div>
-                <div class="button mt-2">Clear logs</div>
+                <div class="button" v-on:click="clearDLCache">Clear downloads</div>
+                <div class="button mt-2" v-on:click="clearLogs">Clear logs</div>
 
             </div>
 
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Toggle from "~/components/Toggle.vue";
 import LogBox from "~/components/LogBox.vue";
 import Spacer from "~/components/Spacer.vue";
@@ -104,6 +105,35 @@ export default {
       Toggle,
       LogBox,
       Spacer
+  },
+
+  methods: {
+    clearDLCache: function() {
+
+      const that = this;
+      axios.post("/api", {
+        request: "clear_download_cache",
+      }).then(function(response){
+        if (response.data.status === "OK") {
+          that.$store.dispatch("dlcache/update", that);
+        }
+      });
+     return;
+    },
+
+    clearLogs: function() {
+
+      const that = this;
+      axios.post("/api", {
+        request: "clear_logs",
+      }).then(function(response){
+        if (response.data.status === "OK") {
+          that.$store.dispatch("logs/update", that);
+        }
+      });
+      return;
+    },
+
   }
 };
 </script>

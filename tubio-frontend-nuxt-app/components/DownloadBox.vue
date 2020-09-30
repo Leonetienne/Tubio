@@ -2,7 +2,7 @@
     <div class="download-box">
         <h2 v-if="false" class="no-dls-yet mt-2">No downloads yet...</h2>
 
-        <DownloadEntry v-for="(nObj, nIdx) in downloads_c" :downloadEntry="nObj" :key="nIdx" />
+        <DownloadEntry v-for="(nObj, nIdx) in dlcache" :downloadEntry="nObj" :key="nIdx" />
 
     </div>
 </template>
@@ -17,8 +17,8 @@ export default {
   },
 
   computed: {
-    downloads_c: function() {
-      return this.downloads;
+    dlcache: function() {
+      return this.$store.state.dlcache.cache;
     }
   },
 
@@ -30,15 +30,10 @@ export default {
 
   mounted() {
     const that = this;
-    axios.get("/rest-dummies/cache.json", {
-      responseType: 'text'
-    }).then(function(response){
-      if (response.data.status === "OK") {
-        console.log(response.data);
-        that.downloads = response.data.cache;
-      }
-    });
-
+    this.$store.dispatch("dlcache/update", this);
+    setInterval(function(){
+      that.$store.dispatch("dlcache/update", that);
+    }, 1000);
     return;
   }
   

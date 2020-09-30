@@ -106,8 +106,8 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 
 bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Asking for session cache...";
-	log->Flush();
+	//log->cout << "Asking for session cache...";
+	//log->Flush();
 
 	time_t max_age = time(0) - XGControl::boot_time; // Default max_age is session length
 	std::size_t max_num = (std::size_t )-1;			 // Default max_num is infinite
@@ -137,8 +137,8 @@ bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& re
 
 bool RestQueryHandler::FetchAlltimeCache(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Asking for whole cache...";
-	log->Flush();
+	//log->cout << "Asking for whole cache...";
+	//log->Flush();
 
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
@@ -254,8 +254,8 @@ bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBo
 
 bool RestQueryHandler::FetchSessionLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Fetching session logs...";
-	log->Flush();
+	//log->cout << "Fetching session logs...";
+	//log->Flush();
 
 	responseCode = OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
@@ -267,8 +267,8 @@ bool RestQueryHandler::FetchSessionLogs(const JsonBlock& request, JsonBlock& res
 
 bool RestQueryHandler::FetchAlltimeLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Fetching logs...";
-	log->Flush();
+	//log->cout << "Fetching alltime logs...";
+	//log->Flush();
 
 	time_t max_age = -1;
 	std::size_t max_num = (std::size_t) - 1;

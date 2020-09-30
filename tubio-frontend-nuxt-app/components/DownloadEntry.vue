@@ -15,7 +15,7 @@
                 </div>
               </div>
 
-                <div class="button-remove">
+                <div class="button-remove" v-on:click="removeDownload">
                     <IconX />
                 </div>
             </div>
@@ -65,15 +65,17 @@
 
                 </div>
 
-                <div class="flex flex-col md:ml-4 overflow-x-hidden overflow-y-visible">
+                <div class="flex flex-col md:ml-4 w-full overflow-x-hidden overflow-y-visible">
                     <h1 class="title">{{downloadEntry.title}}</h1>
                     
                     <div class="relative my-4">
+                      <div v-if="downloadEntry.description != ''">
                         <p class="description p-2">
-                            {{downloadEntry.description}}
+                            <span v-html="linebreaksToBrTags(downloadEntry.description)" />
                         </p>
                         <div class="description__decobox description__decobox--left" />
                         <div class="description__decobox description__decobox--right" />
+                      </div>
                     </div>
                 </div>
 
@@ -87,6 +89,7 @@ import IconDownload from "~/components/Icons/download.vue";
 import IconX from "~/components/Icons/x.vue";
 import IconFilm from "~/components/Icons/film.vue";
 import IconMusic from "~/components/Icons/music-note.vue";
+import axios from "axios";
 
 export default {
     components: {
@@ -109,10 +112,24 @@ export default {
       },
       getDurationString: function(unixTime) {
         const time = new Date(unixTime * 1000);
-        const hours = ("0" +   (time.getHours() - 1)).slice(-2);
+        const hours = String((time.getHours() - 1));
         const minutes = ("0" + (time.getMinutes())).slice(-2);
         const seconds = ("0" + (time.getSeconds())).slice(-2);
-        return ((hours !== "0") ? hours : "") + ":" + minutes + ":" + seconds; 
+        return ((hours !== "0") ? (hours + ":") : "") + minutes + ":" + seconds; 
+      },
+      linebreaksToBrTags: function(str) {
+        return str.replace("\n", '<br />');
+      },
+      removeDownload: function() {
+        const that = this;
+        axios.post("/api", {
+          request: "remove_download_entry",
+          id: this.downloadEntry.tubio_id
+        }).then(function(response) {
+          if (response.data.status === "OK") {
+            that.$store.dispatch("dlcache/update", that);
+          }
+        });
       },
     },
 }
@@ -137,7 +154,6 @@ export default {
     width: 150px;
     height: calc(150px * (9 / 16));
     position: relative;
-    transition: transform 0.2s, background-image 1s ease-in-out;
     cursor: pointer;
     scrollbar-width: none;
 

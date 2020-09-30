@@ -150,7 +150,7 @@ void DownloadManager::DownloadNext()
 		if (entry->mode == DOWNLOAD_MODE::VIDEO)
 		{
 			std::string ytdl_call_video_base = 
-				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
+				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir --recode-video mp4 --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
 				" --merge-output-format mp4 -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
@@ -166,7 +166,7 @@ void DownloadManager::DownloadNext()
 		else // DOWNLOAD_MODE::AUDIO
 		{
 			std::string ytdl_call_audio_base =
-				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --limit-rate $$DL_RATE"
+				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
@@ -405,7 +405,8 @@ bool DownloadManager::RemoveFromCacheByID(std::string id)
 		FileSystem::Delete(filePath);
 	}
 
-	Save();
+	// Only save, if we can save immediately
+	if (downloadThreads.size() == 0) Save();
 
 	return false;
 }
@@ -573,7 +574,7 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
 {
 	std::stringstream ss;
-	ss << "youtube-dl.exe --skip-download --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
+	ss << "youtube-dl.exe --skip-download  --no-warnings --socket-timeout 5 --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
 	system(ss.str().c_str());
 	return;
 }
