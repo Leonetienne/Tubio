@@ -35,6 +35,8 @@
     <Spacer height="2em" m_height="2em" />
     <DownloadBox />
 
+    <PleaseWaitBlocker v-if="isWaitingForResponse" />
+
   </div>
 </template>
 
@@ -42,6 +44,7 @@
 import Logo from "~/components/Logo";
 import Spacer from "~/components/Spacer";
 import DownloadBox from "~/components/DownloadBox";
+import PleaseWaitBlocker from "~/components/PleaseWaitBlocker";
 import IconArrowRightSquare from "~/components/Icons/arrow-right-square";
 import axios from "axios";
 
@@ -50,7 +53,14 @@ export default {
     Logo,
     Spacer,
     DownloadBox,
+    PleaseWaitBlocker,
     IconArrowRightSquare,
+  },
+
+  data: function() {
+    return {
+      isWaitingForResponse: {type: Boolean, default: false}
+    };
   },
 
   methods: {
@@ -60,12 +70,14 @@ export default {
       if (this.$refs.video_url.value.match(/(https?:\/\/)?[a-zA-Z0-9-_.]+\.[a-zA-Z-_.]+/)) {
         const url = this.$refs.video_url.value;
         this.$refs.video_url.value = "";
+        this.isWaitingForResponse = true;
         axios.post("/api", {
           request: "queue_download",
           video_url: url,
           mode: this.$refs.mode.options[this.$refs.mode.selectedIndex].value
         }).then(function(response){
           if (response.data.status === "OK") {
+            that.isWaitingForResponse = false;
             that.$store.dispatch("dlcache/update", that);
           }
         });
@@ -79,6 +91,10 @@ export default {
       }
       return;
     }
+  },
+
+  mounted() {
+    this.isWaitingForResponse = false;
   }
 };
 </script>
