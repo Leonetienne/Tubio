@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/OF-thWTJcu0\",\r\n    \"mode\": \"video\"\r\n}",
+					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://www.youtube.com/watch?v=BHiWygziyso\",\r\n    \"mode\": \"video\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/wgfNsek8xkc\",\r\n    \"mode\": \"audio\"\r\n}",
+					"raw": "{\r\n    \"request\": \"queue_download\",\r\n    \"video_url\": \"https://youtu.be/m9HT74QccbQ\",\r\n    \"mode\": \"audio\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max-num\": -1\r\n}\r\n",
+					"raw": "{\r\n    \"request\": \"fetch_session_cache\",\r\n    \"max_age\": -1\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -426,7 +426,61 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"remove_download_entry\",\r\n    \"id\": \"1KnnPV\"\r\n}",
+					"raw": "{\r\n    \"request\": \"remove_download_entry\",\r\n    \"id\": \"1KnnMe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateConfig",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"update_config\",\r\n    \"config\": {\r\n        \"access\": {\r\n            \"enable_whitelist\": false,\r\n            \"only_allow_localhost\": false,\r\n            \"whitelist\": [\r\n                \"127.0.0.1\"\r\n            ]\r\n        },\r\n        \"general\": {\r\n            \"show_console\": true\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetConfig",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"update_config\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

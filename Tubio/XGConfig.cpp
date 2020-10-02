@@ -45,13 +45,20 @@ void XGConfig::InitializeDefaultValues()
 	downloader.num_threads = 1;
 
 	general.show_console = true;
-	general.onlyAllowLocalhost = true;
+
+	access.only_allow_localhost = true;
+	access.enable_whitelist = true;
+	access.whitelist = std::vector<std::string>();
+	access.whitelist.push_back("127.0.0.1"); // Add localhost to whitelist
 
 	return;
 }
 
 void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 {
+	savefileBuffer.Clear();
+	savefileBuffer.CloneFrom(json);
+
 	if (IsJsonFieldValid(json, "logging.logfile_json", JDType::STRING))
 	{
 		logging.logfile_json = json.ShorthandGet("logging.logfile_json").AsString;
@@ -103,9 +110,28 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 	{
 		general.show_console = json.ShorthandGet("general.show_console").AsBool;
 	}
-	if (IsJsonFieldValid(json, "general.onlyAllowLocalhost", JDType::BOOL))
+
+
+
+	if (IsJsonFieldValid(json, "access.only_allow_localhost", JDType::BOOL))
 	{
-		general.onlyAllowLocalhost = json.ShorthandGet("general.onlyAllowLocalhost").AsBool;
+		access.only_allow_localhost = json.ShorthandGet("access.only_allow_localhost").AsBool;
+	}
+	if (IsJsonFieldValid(json, "access.enable_whitelist", JDType::BOOL))
+	{
+		access.enable_whitelist = json.ShorthandGet("access.enable_whitelist").AsBool;
+	}
+	if (IsJsonFieldValid(json, "access.whitelist", JDType::ARRAY))
+	{
+		const JsonArray& cachedArr = json.ShorthandGet("access.whitelist").AsArray;
+		access.whitelist.clear();
+		for (std::size_t i = 0; i < cachedArr.Size(); i++)
+		{
+			if (cachedArr[i].GetDataType() == JDType::STRING)
+			{
+				access.whitelist.push_back(cachedArr[i].AsString);
+			}
+		}
 	}
 	
 	return;
@@ -113,10 +139,13 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 
 JsonBlock XGConfig::CreateJson()
 {
+	JsonArray jsnArrWhitelist;
+	jsnArrWhitelist.Add(access.whitelist);
+
 	return JsonBlock({
 		Ele("httpServer", JsonBlock({
 			Ele("port", httpServer.port),
-			Ele("pollingRate", httpServer.polling_rate),
+			Ele("polling_rate", httpServer.polling_rate),
 			Ele("rootdir", httpServer.rootdir)
 		})),
 		Ele("logging", JsonBlock({
@@ -131,7 +160,11 @@ JsonBlock XGConfig::CreateJson()
 		})),
 		Ele("general", JsonBlock({
 			Ele("show_console", general.show_console),
-			Ele("onlyAllowLocalhost", general.onlyAllowLocalhost)
+		})),
+		Ele("access", JsonBlock({
+			Ele("only_allow_localhost", access.only_allow_localhost),
+			Ele("enable_whitelist", access.enable_whitelist),
+			Ele("whitelist", jsnArrWhitelist),
 		}))
 	});
 }
@@ -210,6 +243,8 @@ void XGConfig::Save()
 bool XGConfig::SaveToFile(std::string filename)
 {
 	Json cfgStruct(CreateJson());
+	savefileBuffer.Clear();
+	savefileBuffer.CloneFrom(cfgStruct.AsJson);
 	return FileSystem::WriteFile(filename, cfgStruct.Render());
 }
 
@@ -245,5 +280,7 @@ XGConfig::HttpServer XGConfig::httpServer;
 XGConfig::Logging XGConfig::logging;
 XGConfig::Downloader XGConfig::downloader;
 XGConfig::General XGConfig::general;
+XGConfig::Access XGConfig::access;
 
+JasonPP::JsonBlock XGConfig::savefileBuffer;
 ::Logging::Logger* XGConfig::log;

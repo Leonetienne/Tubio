@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Filesystem.h"
 #include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp"
 #include "Logger.h"
@@ -30,27 +31,37 @@ public:
 	struct General
 	{
 		bool show_console;
-		bool onlyAllowLocalhost;
+	};
+	struct Access
+	{
+		bool only_allow_localhost;
+		bool enable_whitelist;
+		std::vector<std::string> whitelist;
 	};
 
 	static void PreInit();
 	static void Save();
 	static void PostExit();
 
+	static void LoadFromJson(const JasonPP::JsonBlock& json);
+
 	static XGConfig::HttpServer httpServer;
 	static XGConfig::Logging logging;
 	static XGConfig::Downloader downloader;
 	static XGConfig::General general;
+	static XGConfig::Access access;
+
+	static const JasonPP::JsonBlock& GetSavefileBuffer() { return savefileBuffer; }
 
 	static ::Logging::Logger* log;
 
 private:
 	static bool SaveToFile(std::string filename);
+	static JasonPP::JsonBlock savefileBuffer;
 
 	static bool IsJsonFieldValid(const JasonPP::JsonBlock& json, const std::string key, const JasonPP::JDType type);
 	static void InitializeDefaultValues();
 	static JasonPP::JsonBlock CreateJson();
-	static void LoadFromJson(const JasonPP::JsonBlock& json);
 	static void Load();
 };
 

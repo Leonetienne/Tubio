@@ -14,11 +14,6 @@
                     <Toggle :isOn="false"/>
                 </div>
 
-                <div class="option toggle flex justify-between items-center">
-                    <p>Limit speed</p>
-                    <Toggle :isOn="false"/>
-                </div>
-
                 <div class="option text narrow flex justify-between w-full items-center">
                     <p class="mr-3">Max speed</p>
                     <input type="text" id="max_speed" name="max_speed" placeholder="100M">
@@ -27,6 +22,11 @@
                 <div class="option text narrow flex justify-between w-full items-center">
                     <p class="mr-3">Download threads</p>
                     <input type="text" id="max_threads" name="max_threads" placeholder="10">
+                </div>
+
+                  <div class="option toggle flex justify-between items-center">
+                    <p>Enable whitelist</p>
+                    <Toggle :isOn="false"/>
                 </div>
 
             </div>

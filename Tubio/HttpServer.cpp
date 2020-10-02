@@ -82,6 +82,7 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 		http_message* hpm = (http_message*)p;
 		std::string requestedUri = FixUnterminatedString(hpm->uri.p, hpm->uri.len);
 
+		// Get clients ip address
 		std::string peer_addr;
 		{
 			char buf[32];
@@ -89,13 +90,7 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			peer_addr = buf;
 		}
 
-		if ((XGConfig::general.onlyAllowLocalhost) && (peer_addr != "127.0.0.1"))
-		{
-			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, "Only localhost allowed!"));
-			ServeStringToConnection(pNc, j.Render(), UNAUTHORIZED);
-		}
-		else
+		if (IsConnectionAllowed(peer_addr))
 		{
 			try
 			{
@@ -127,6 +122,12 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			}
 
 			break;
+		}
+		else // Client is not allowed, serve error json
+		{
+			Json j;
+			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, "Only localhost allowed!"));
+			ServeStringToConnection(pNc, j.Render(), UNAUTHORIZED);
 		}
 	}
 
@@ -197,6 +198,36 @@ void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p,
 	}
 
 	return;
+}
+
+bool HttpServer::IsConnectionAllowed(std::string peer_address)
+{
+	// Localhost is always allowed!
+	if (peer_address == "127.0.0.1") return true;
+
+	// Peer is not localhost, but only localhost is allowed!
+	else if (XGConfig::access.only_allow_localhost) return false;
+
+	// Let's check if the whitelist is active
+	else if (XGConfig::access.enable_whitelist)
+	{
+		// It is. Let's check if our peer is whitelisted
+		for (std::size_t i = 0; i < XGConfig::access.whitelist.size(); i++)
+		{
+			// Whitelist is enabled, and peer is whitelisted
+			if (XGConfig::access.whitelist[i] == peer_address) return true;
+		}
+
+		// Whitelist is enabled, but peer is NOT whitelisted
+		return false;
+	}
+	else // Whitelist is NOT enabled and only_allow_localhost is FALSE!
+	{
+		return true;
+	}
+
+	// Should never come to this point
+	return false;
 }
 
 void HttpServer::OnExit()

@@ -29,6 +29,8 @@ namespace Rest
 		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);
 		static std::string FixUnterminatedString(const char* cstr, const std::size_t len);
 
+		static bool IsConnectionAllowed(std::string peer_address);
+
 
 		struct mg_mgr* pMgr;
 		struct mg_connection* pNc;

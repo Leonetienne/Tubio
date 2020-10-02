@@ -42,6 +42,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "fetch_alltime_logs") return FetchAlltimeLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "update_dep_youtubedl") return UpdateYoutubeDL(requestBody, responseBody, responseCode);
 	else if (requestName == "remove_download_entry") return RemoveDownloadEntry(requestBody, responseBody, responseCode);
+	else if (requestName == "update_config") return UpdateConfig(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -436,6 +437,44 @@ bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& 
 
 	return true;
 }
+
+bool RestQueryHandler::UpdateConfig(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	if (ValidateField("config", JDType::JSON, request, responseBody))
+	{
+		bool prevStateConsole = XGConfig::general.show_console;
+		XGConfig::LoadFromJson(request.Get("config").AsJson);
+
+		// Update console, if necessary
+		if (XGConfig::general.show_console != prevStateConsole)
+		{
+			if (XGConfig::general.show_console) ConsoleManager::ShowConsole();
+			else ConsoleManager::HideConsole();
+		}
+
+		log->cout << "Updated config values...";
+		log->Flush();
+		XGConfig::Save();
+
+		responseBody.Set("message") = "Updated no settings";
+	}
+	else
+	{
+		responseBody.Set("message") = "Updated no settings";
+	}
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("settings") = XGConfig::GetSavefileBuffer();
+	return true;
+}
+
+
+
+
+
+
+
 
 
 
