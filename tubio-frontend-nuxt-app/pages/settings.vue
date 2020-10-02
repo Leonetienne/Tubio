@@ -28,6 +28,7 @@
                         placeholder="100M"
                         v-model="getSettings().downloader.max_dlrate_per_thread"
                         v-on:focusout="setSettings_pushCurrentStore"
+                        v-on:focus="canUpdate = false;"
                         />
                   </div>
 
@@ -40,6 +41,7 @@
                         placeholder="10"
                         v-model.number="getSettings().downloader.num_threads"
                         v-on:focusout="setSettings_pushCurrentStore"
+                        v-on:focus="canUpdate = false;"
                         />
                   </div>
 
@@ -151,6 +153,12 @@ export default {
       Spacer
   },
 
+  data: function() {
+    return {
+      canUpdate: {type: Boolean, default: true}
+    };
+  },
+
   computed: {
     diskUsage: function() {
       return this.$store.state.diskUsage.usage;
@@ -244,6 +252,7 @@ export default {
     },
     setSettings_pushCurrentStore: function() {
        this.$store.dispatch("settings/updateSet", this.getSettings());
+       this.canUpdate = true;
        return;
     },
     
@@ -312,7 +321,9 @@ export default {
     });
 
     setInterval(function(){
-      that.$store.dispatch("settings/updateGet");
+      if (that.canUpdate) {
+        that.$store.dispatch("settings/updateGet");
+      }
     }, 1000);
     return;
   }
@@ -402,6 +413,11 @@ textarea {
   transition:
     background-color 0.2s,
     opacity 0.2s;
+
+  @media (max-width: theme('screens.md')) {
+    width: 150px;
+    font-size: 12pt;
+  }
 
   &:hover {
     background-color: theme("colors.text-error-1");
