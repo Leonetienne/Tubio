@@ -11,13 +11,13 @@ export const mutations = {
 };
 
 export const actions = {
-    update(context, instance) {
+    update(context) {
         axios.post("/api", {
             request: "get_disk_usage"
         })
         .then(function(response) {
             if (response.data.status === "OK") {
-                instance.$store.commit("diskUsage/update", response.data.disk_usage);
+                context.commit("update", response.data.disk_usage);
             }
         });
     },

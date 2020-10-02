@@ -90,7 +90,8 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			peer_addr = buf;
 		}
 
-		if (IsConnectionAllowed(peer_addr))
+		std::string denialReason;
+		if (IsConnectionAllowed(peer_addr, denialReason))
 		{
 			try
 			{
@@ -126,7 +127,7 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 		else // Client is not allowed, serve error json
 		{
 			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, "Only localhost allowed!"));
+			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, denialReason));
 			ServeStringToConnection(pNc, j.Render(), UNAUTHORIZED);
 		}
 	}
@@ -200,13 +201,17 @@ void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p,
 	return;
 }
 
-bool HttpServer::IsConnectionAllowed(std::string peer_address)
+bool HttpServer::IsConnectionAllowed(std::string peer_address, std::string& denialReason)
 {
 	// Localhost is always allowed!
 	if (peer_address == "127.0.0.1") return true;
 
 	// Peer is not localhost, but only localhost is allowed!
-	else if (XGConfig::access.only_allow_localhost) return false;
+	else if (XGConfig::access.only_allow_localhost)
+	{
+		denialReason = "Only localhost allowed!";
+		return false;
+	}
 
 	// Let's check if the whitelist is active
 	else if (XGConfig::access.enable_whitelist)
@@ -219,6 +224,7 @@ bool HttpServer::IsConnectionAllowed(std::string peer_address)
 		}
 
 		// Whitelist is enabled, but peer is NOT whitelisted
+		denialReason = "Not whitelisted!";
 		return false;
 	}
 	else // Whitelist is NOT enabled and only_allow_localhost is FALSE!
@@ -227,6 +233,7 @@ bool HttpServer::IsConnectionAllowed(std::string peer_address)
 	}
 
 	// Should never come to this point
+	denialReason = "Access denied";
 	return false;
 }
 

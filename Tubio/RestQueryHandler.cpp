@@ -43,6 +43,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "update_dep_youtubedl") return UpdateYoutubeDL(requestBody, responseBody, responseCode);
 	else if (requestName == "remove_download_entry") return RemoveDownloadEntry(requestBody, responseBody, responseCode);
 	else if (requestName == "update_config") return UpdateConfig(requestBody, responseBody, responseCode);
+	else if (requestName == "reset_config_to_default_values") return ResetConfigDefaults(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -440,7 +441,11 @@ bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& 
 
 bool RestQueryHandler::UpdateConfig(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	if (ValidateField("config", JDType::JSON, request, responseBody))
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+
+	JsonBlock dummy;
+	if (ValidateField("config", JDType::JSON, request, dummy))
 	{
 		bool prevStateConsole = XGConfig::general.show_console;
 		XGConfig::LoadFromJson(request.Get("config").AsJson);
@@ -456,19 +461,38 @@ bool RestQueryHandler::UpdateConfig(const JsonBlock& request, JsonBlock& respons
 		log->Flush();
 		XGConfig::Save();
 
-		responseBody.Set("message") = "Updated no settings";
+		responseBody.Set("message") = "Updated settings";
 	}
 	else
 	{
 		responseBody.Set("message") = "Updated no settings";
 	}
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
-	responseBody.Set("settings") = XGConfig::GetSavefileBuffer();
+	responseBody.Set("config") = XGConfig::GetSavefileBuffer();
 	return true;
 }
 
+bool RestQueryHandler::ResetConfigDefaults(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	log->cout << "Reset config values to default...";
+	log->Flush();
+
+	bool prevStateConsole = XGConfig::general.show_console;
+	XGConfig::LoadDefaultValues();
+	XGConfig::Save();
+	// Update console, if necessary
+	if (XGConfig::general.show_console != prevStateConsole)
+	{
+		if (XGConfig::general.show_console) ConsoleManager::ShowConsole();
+		else ConsoleManager::HideConsole();
+	}
+
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("message") = "Reset config to default...";
+	responseBody.Set("config") = XGConfig::GetSavefileBuffer();
+	return true;
+}
 
 
 

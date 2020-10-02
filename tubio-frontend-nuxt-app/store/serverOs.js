@@ -11,13 +11,13 @@ export const mutations = {
 };
 
 export const actions = {
-    update(context, instance) {
+    update(context) {
         axios.post("/api", {
             request: "get_os_name"
         })
         .then(function(response) {
             if (response.data.status === "OK") {
-                instance.$store.commit("serverOs/update", response.data.os_name);
+                context.commit("update", response.data.os_name);
             }
         });
     },

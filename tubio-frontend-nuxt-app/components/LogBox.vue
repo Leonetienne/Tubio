@@ -23,9 +23,9 @@ export default {
 
   mounted() {
     const that = this;
-    this.$store.dispatch("logs/update", this);
+    this.$store.dispatch("logs/update");
     setInterval(function(){
-      that.$store.dispatch("logs/update", that);
+      that.$store.dispatch("logs/update");
     }, 1000);
     return;
   }

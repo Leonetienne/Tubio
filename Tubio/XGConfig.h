@@ -44,6 +44,7 @@ public:
 	static void PostExit();
 
 	static void LoadFromJson(const JasonPP::JsonBlock& json);
+	static void LoadDefaultValues();
 
 	static XGConfig::HttpServer httpServer;
 	static XGConfig::Logging logging;
@@ -60,7 +61,6 @@ private:
 	static JasonPP::JsonBlock savefileBuffer;
 
 	static bool IsJsonFieldValid(const JasonPP::JsonBlock& json, const std::string key, const JasonPP::JDType type);
-	static void InitializeDefaultValues();
 	static JasonPP::JsonBlock CreateJson();
 	static void Load();
 };

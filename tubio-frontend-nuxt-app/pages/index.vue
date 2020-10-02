@@ -2,13 +2,20 @@
   <div>
 
     <div class="hidden md:block">
-      <Spacer height="0.5em" m_height="1em" />
+      <Spacer height="0" m_height="1em" />
       <Logo class="logo mt-4" />
       <Spacer height="2em" m_height="2em" />
     </div>
 
     <div class="flex flex-row flex-wrap md:flex-no-wrap  input-flex justify-between md:justify-center">
-      <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full" type="url" name="video_url" id="video_url" ref="video_url" placeholder="video-url">
+      <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full"
+        type="url"
+        name="video_url"
+        id="video_url"
+        ref="video_url"
+        placeholder="video-url"
+        v-on:keydown="keyMonitor"
+      />
 
       <div class="w-full md:hidden" />
 
@@ -47,7 +54,7 @@ export default {
   },
 
   methods: {
-    downloadButtonClicked: function(){
+    downloadButtonClicked: function() {
 
       const that = this;
       if (this.$refs.video_url.value.match(/(https?:\/\/)?[a-zA-Z0-9-_.]+\.[a-zA-Z-_.]+/)) {
@@ -63,7 +70,13 @@ export default {
           }
         });
       }
+      return;
+    },
 
+    keyMonitor: function(event) {
+      if (event.key == "Enter") {
+        this.downloadButtonClicked();
+      }
       return;
     }
   }

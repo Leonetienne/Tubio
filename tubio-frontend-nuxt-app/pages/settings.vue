@@ -9,25 +9,69 @@
 
             <div class="w-full lg:w-1/2 border-right lg:pr-3">
                 
-                <div v-if="serverOs === 'Windows'" class="option toggle flex justify-between items-center">
-                    <p>Show console</p>
-                    <Toggle :isOn="false"/>
-                </div>
+                <div v-if="typeof(getSettings().general) != 'undefined'">
+                  <div v-if="serverOs === 'Windows'" class="option toggle flex justify-between items-center">
+                      <p>Show console</p>
+                      <div v-on:click="setSettings_toggle_showConsole">
+                        <Toggle
+                          :isOn="getSettings().general.show_console"
+                        />
+                      </div>
+                  </div>
 
-                <div class="option text narrow flex justify-between w-full items-center">
-                    <p class="mr-3">Max speed</p>
-                    <input type="text" id="max_speed" name="max_speed" placeholder="100M">
-                </div>
+                  <div class="option text narrow flex justify-between w-full items-center">
+                      <p class="mr-3">Max speed</p>
+                      <input
+                        type="text"
+                        id="max_speed"
+                        name="max_speed"
+                        placeholder="100M"
+                        v-model="getSettings().downloader.max_dlrate_per_thread"
+                        v-on:focusout="setSettings_pushCurrentStore"
+                        />
+                  </div>
 
-                <div class="option text narrow flex justify-between w-full items-center">
-                    <p class="mr-3">Download threads</p>
-                    <input type="text" id="max_threads" name="max_threads" placeholder="10">
-                </div>
+                  <div class="option text narrow flex justify-between w-full items-center">
+                      <p class="mr-3">Download threads</p>
+                      <input
+                        type="number"
+                        id="max_threads"
+                        name="max_threads"
+                        placeholder="10"
+                        v-model.number="getSettings().downloader.num_threads"
+                        v-on:focusout="setSettings_pushCurrentStore"
+                        />
+                  </div>
+
+                  <div class="option toggle flex justify-between items-center">
+                    <p>Only allow localhost</p>
+                    <div v-on:click="setSettings_toggle_onlyAllowLocalhost">
+                      <Toggle
+                        :isOn="getSettings().access.only_allow_localhost"
+                      />
+                    </div>
+                  </div>
 
                   <div class="option toggle flex justify-between items-center">
                     <p>Enable whitelist</p>
-                    <Toggle :isOn="false"/>
+                    <div v-on:click="setSettings_toggle_enableWhitelist">
+                      <Toggle
+                        :isOn="getSettings().access.enable_whitelist"
+                      />
+                    </div>
+                  </div>
+
+                <Spacer height="2em" />
+                <div v-if="getSettings().access.enable_whitelist">
+                  <h2>Whitelist</h2>
+                  <textarea class="mt-2 w-full" ref="whitelist_input" v-on:input="whitelistInputJsonSyntaxCheck" />
+                  <div class="flex w-full">
+                    <div class="button button--small button--nowarn mt-2 mr-2" v-on:click="saveWhitelist" ref="button_saveWhitelist">Save whitelist</div>
+                    <div class="button button--small button--nowarn mt-2" v-on:click="updateWhitelist">Update whitelist</div>
+                  </div>
                 </div>
+
+              </div>
 
             </div>
             
@@ -68,6 +112,7 @@
                   </div>
                   <div class="flex flex-col ml-1">
                     <div class="button" v-on:click="killServer">Kill server</div>
+                    <div class="button mt-2" v-on:click="resetToDefaults">Reset to defaults</div>
                   </div>
                 </div>
 
@@ -112,7 +157,7 @@ export default {
     },
     serverOs: function() {
       return this.$store.state.serverOs.os_name;
-    }
+    },
   },
 
   methods: {
@@ -163,11 +208,112 @@ export default {
       });
       return;
     },
+
+    resetToDefaults: function() {
+      this.$store.dispatch("settings/resetToDefaults");
+    },
+
+    getSettings: function() {
+      return this.$store.state.settings.config;
+    },
+
+    setSettings_toggle_showConsole: function() {
+      var curConf = this.getSettings();
+      curConf.general.show_console = !curConf.general.show_console;
+      this.$store.commit("settings/updateGet", curConf);         // Apply changes to frontend immediately
+      this.$store.dispatch("settings/updateSet", curConf); // Push to server, and update frontend again after response
+      return;
+    },
+    setSettings_toggle_onlyAllowLocalhost: function() {
+      var curConf = this.getSettings();
+      curConf.access.only_allow_localhost = !curConf.access.only_allow_localhost;
+      this.$store.commit("settings/updateGet", curConf);         // Apply changes to frontend immediately
+      this.$store.dispatch("settings/updateSet", curConf); // Push to server, and update frontend again after response
+      return;
+    },
+    setSettings_toggle_enableWhitelist: function() {
+      var curConf = this.getSettings();
+      curConf.access.enable_whitelist = !curConf.access.enable_whitelist;
+      this.$store.commit("settings/updateGet", curConf);         // Apply changes to frontend immediately
+      this.$store.dispatch("settings/updateSet", curConf); // Push to server, and update frontend again after response
+      
+      if (curConf.access.enable_whitelist) {
+        this.whitelistToInputfield();
+      }
+      return;
+    },
+    setSettings_pushCurrentStore: function() {
+       this.$store.dispatch("settings/updateSet", this.getSettings());
+       return;
+    },
+    
+    whitelistToInputfield: function() {
+      // If this.$refs.whitelist_input is still undefined, just try again later, lmao
+      if (typeof(this.$refs.whitelist_input) === "undefined") {
+        setTimeout(this.whitelistToInputfield, 200);
+      }
+      else {
+        var whitelistString = JSON.stringify(this.getSettings().access.whitelist, undefined, 2);
+        this.$refs.whitelist_input.value = whitelistString;
+        return whitelistString;
+      }
+    },
+
+    saveWhitelist: function() {
+      const prevContent = this.$refs.whitelist_input.value;
+      const element = this.$refs.whitelist_input;
+      try {
+        const arrayWhitelist = JSON.parse(prevContent);
+        var curConf = this.getSettings();
+        curConf.access.whitelist = arrayWhitelist;
+        this.$store.commit("settings/updateGet", curConf);         // Apply changes to frontend immediately
+        this.whitelistToInputfield();
+        this.$store.dispatch("settings/updateSet", curConf); // Push to server, and update frontend again after response
+        element.classList.remove("inputfield--error");
+      } catch (e) {
+        this.$refs.whitelist_input.value = prevContent;
+        element.classList.add("inputfield--error");
+        this.$refs.button_saveWhitelist.classList.add("button--disabled");
+      }
+      return;
+    },
+
+    updateWhitelist: function() {
+      const that = this;
+      this.$store.dispatch("settings/updateGet", function() {
+        that.whitelistToInputfield();
+        that.whitelistInputJsonSyntaxCheck();
+        return;
+      });
+      return;
+    },
+
+    whitelistInputJsonSyntaxCheck: function() {
+      const element = this.$refs.whitelist_input;
+      try {
+        JSON.parse(element.value);
+        element.classList.remove("inputfield--error");
+        this.$refs.button_saveWhitelist.classList.remove("button--disabled");
+      } catch (e) {
+        element.classList.add("inputfield--error");
+        this.$refs.button_saveWhitelist.classList.add("button--disabled");
+      }
+      return;
+    }
   },
 
   mounted() {
-    this.$store.dispatch("diskUsage/update", this);
-    this.$store.dispatch("serverOs/update", this);
+    const that = this;
+
+    this.$store.dispatch("diskUsage/update");
+    this.$store.dispatch("serverOs/update");
+    this.$store.dispatch("settings/updateGet", function() {
+      that.whitelistToInputfield();
+    });
+
+    setInterval(function(){
+      that.$store.dispatch("settings/updateGet");
+    }, 1000);
     return;
   }
 };
@@ -194,6 +340,19 @@ h2 {
         width: 150px;
       }
     }
+  }
+}
+
+textarea {
+  color: theme("colors.purple-0");
+  border-radius: 5px;
+  font-size: 16pt;
+  padding: 0.7em;
+  min-height: 200px;
+  transition: background-color 0.2s;
+
+  &.inputfield--error {
+    background-color: #f77;
   }
 }
 
@@ -239,11 +398,29 @@ h2 {
   color: #000;
   font-family: ZillaSlab, serif;
   font-size: 18pt;
-  transition: background-color 0.2s;
   width: 200px;
+  transition:
+    background-color 0.2s,
+    opacity 0.2s;
 
   &:hover {
     background-color: theme("colors.text-error-1");
+  }
+
+  &--small {
+    font-size: 14pt;
+    width: 150px;
+    height: 30px;
+  }
+
+  &--nowarn:hover {
+    background-color: theme("colors.purple-1");
+  }
+
+  &--disabled {
+    cursor: pointer;
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 

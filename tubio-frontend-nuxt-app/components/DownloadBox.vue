@@ -30,9 +30,9 @@ export default {
 
   mounted() {
     const that = this;
-    this.$store.dispatch("dlcache/update", this);
+    this.$store.dispatch("dlcache/update");
     setInterval(function(){
-      that.$store.dispatch("dlcache/update", that);
+      that.$store.dispatch("dlcache/update");
     }, 1000);
     return;
   }

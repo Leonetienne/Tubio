@@ -11,13 +11,13 @@ export const mutations = {
 };
 
 export const actions = {
-    update(context, instance) {
+    update(context) {
         axios.post("/api", {
             request: "fetch_session_logs"
         })
         .then(function(response) {
             if (response.data.status === "OK") {
-                instance.$store.commit("logs/update", response.data.logs);
+                context.commit("update", response.data.logs);
             }
         });
     },

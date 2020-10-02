@@ -11,13 +11,13 @@ export const mutations = {
 };
 
 export const actions = {
-    update(context, instance) {
+    update(context) {
         axios.post("/api", {
             request: "fetch_alltime_cache"
         })
         .then(function(response) {
             if (response.data.status === "OK") {
-                instance.$store.commit("dlcache/update", response.data.cache);
+                context.commit("update", response.data.cache);
             }
         });
     },

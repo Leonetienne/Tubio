@@ -6,7 +6,7 @@ void XGConfig::PreInit()
 {
 	log = new ::Logging::Logger("Config");
 
-	InitializeDefaultValues();
+	LoadDefaultValues();
 
 	if (FileSystem::Exists(XGCONFIG_FILE))
 	{
@@ -30,7 +30,7 @@ bool XGConfig::IsJsonFieldValid(const JsonBlock& json, const std::string key, co
 	return ((json.DoesShorthandExist(key)) && (json.ShorthandGet(key).GetDataType() == type));
 }
 
-void XGConfig::InitializeDefaultValues()
+void XGConfig::LoadDefaultValues()
 {
 	httpServer.port = "6969";
 	httpServer.polling_rate = 100;
@@ -46,10 +46,13 @@ void XGConfig::InitializeDefaultValues()
 
 	general.show_console = true;
 
-	access.only_allow_localhost = true;
-	access.enable_whitelist = true;
+	access.only_allow_localhost = false;
+	access.enable_whitelist = false;
 	access.whitelist = std::vector<std::string>();
 	access.whitelist.push_back("127.0.0.1"); // Add localhost to whitelist
+
+	savefileBuffer.Clear();
+	savefileBuffer.CloneFrom(CreateJson());
 
 	return;
 }
