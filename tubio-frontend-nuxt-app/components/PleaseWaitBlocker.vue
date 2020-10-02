@@ -29,9 +29,11 @@ export default {
 }
 
 .box {
-  margin-top: 160px;
-  width: 1200px;
-  height: 800px;
+  position: absolute;
+  top: 200px;
+  bottom: 200px;
+  left: 200px;
+  right: 200px;
   max-height: 70vh;
   background-color: #586679;
   opacity: 0.95;
@@ -39,11 +41,20 @@ export default {
   border: 2px solid theme("colors.gray-1");
   overflow: hidden;
 
+  @media (max-width: theme('screens.xl')) {
+    position: absolute;
+    top: 100px;
+    bottom: 100px;
+    left: 100px;
+    right: 100px;
+  }
+
   @media (max-width: theme('screens.md')) {
-    margin-left: 15px;
-    margin-right: 15px;
-    height: 300px;
-    margin-top: 80px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   & h2 {
