@@ -1,9 +1,10 @@
 #pragma once
-#ifdef _WIN
 #include <string>
+#include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp" // We need Internal::Helpers
+
+#ifdef _WIN
 #include <urlmon.h>
 #include <Windows.h>
-#include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp" // We need Internal::Helpers
 #endif
 
 class Updater

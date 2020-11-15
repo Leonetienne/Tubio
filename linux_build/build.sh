@@ -18,6 +18,8 @@ g++ \
 ../Tubio/RestResponseTemplates.cpp \
 ../Tubio/XGConfig.cpp \
 ../Tubio/XGControl.cpp \
+../Tubio/Updater.cpp \
+../Tubio/Idler.cpp \
 \
 \
 ../Tubio/external_dependencies/casenta/mongoose/mongoose.c \

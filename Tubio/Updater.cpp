@@ -14,6 +14,6 @@ std::string Updater::UpdateYoutubeDL()
         return "error code: 0x" + (JasonPP::Internal::Helpers::Base10_2_X(res, "0123456789abcdef"));
     }
 #else
-#endif
     return "not implemented";
+#endif
 }

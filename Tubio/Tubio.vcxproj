@@ -153,6 +153,7 @@
     <ClCompile Include="external_dependencies\leonetienne\JasonPP\JasonPP.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Idler.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LogHistory.cpp" />
     <ClCompile Include="main.cpp" />
@@ -170,12 +171,14 @@
     <ClInclude Include="external_dependencies\leonetienne\JasonPP\JasonPP.hpp" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Idler.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogHistory.h" />
     <ClInclude Include="LogTypes.h" />
     <ClInclude Include="RestQueryHandler.h" />
     <ClInclude Include="RestResponseTemplates.h" />
     <ClInclude Include="HttpServer.h" />
+    <ClInclude Include="TimeUnits.h" />
     <ClInclude Include="Updater.h" />
     <ClInclude Include="XGConfig.h" />
     <ClInclude Include="XGControl.h" />

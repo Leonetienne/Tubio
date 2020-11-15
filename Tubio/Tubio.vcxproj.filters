@@ -63,6 +63,9 @@
     <ClCompile Include="Updater.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Idler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -108,6 +111,12 @@
       <Filter>_external_dependencies</Filter>
     </ClInclude>
     <ClInclude Include="Updater.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Idler.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUnits.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

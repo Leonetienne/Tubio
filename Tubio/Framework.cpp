@@ -80,6 +80,7 @@ void Framework::Update()
     httpServer->Update();
     DownloadManager::Update();
     LogHistory::Update();
+    Idler::Update();
 
     return;
 }

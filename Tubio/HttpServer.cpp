@@ -78,6 +78,8 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 	switch (ev)
 	{
 	case MG_EV_HTTP_REQUEST:
+		// Reset standby timer
+		XGControl::last_query_time = time(0);
 
 		http_message* hpm = (http_message*)p;
 		std::string requestedUri = FixUnterminatedString(hpm->uri.p, hpm->uri.len);
@@ -224,7 +226,7 @@ bool HttpServer::IsConnectionAllowed(std::string peer_address, std::string& deni
 		}
 
 		// Whitelist is enabled, but peer is NOT whitelisted
-		denialReason = "Not whitelisted!";
+		denialReason = std::string("Not whitelisted! Ask your tubio administrator to whitelist '") + peer_address + "' in order to gain access.";
 		return false;
 	}
 	else // Whitelist is NOT enabled and only_allow_localhost is FALSE!

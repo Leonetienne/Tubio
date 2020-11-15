@@ -124,7 +124,7 @@ bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& re
 #ifdef _WIN
 			max_age = min(request["max_age"].AsInt, max_age);
 #else
-			max_age = std::min(request["max_age"].AsInt, max_age);
+			max_age = std::min<long int>(request["max_age"].AsInt, max_age);
 #endif
 		}
 	}

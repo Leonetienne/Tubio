@@ -4,6 +4,7 @@
 #include "HttpServer.h"
 #include "DownloadManager.h"
 #include "ConsoleManager.h"
+#include "Idler.h"
 #include "XGControl.h"
 #include "XGConfig.h"
 
