@@ -4,7 +4,7 @@
     <span class="inherit-all" v-if="!isWaitingForResponse">
       <div class="hidden md:block">
         <Spacer height="0" m_height="1em" />
-        <Logo class="logo mt-4" />
+        <Logo class="logo" />
         <Spacer height="2em" m_height="2em" />
       </div>
 
