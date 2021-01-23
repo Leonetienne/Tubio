@@ -1,6 +1,6 @@
 {
-    "name": "Tubio - Video Downloader",
-    "short_name": "Tubio",
+    "name": "",
+    "short_name": "",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#87D1E6",
-    "background_color": "#04254e",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone"
 }
