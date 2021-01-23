@@ -1,41 +1,42 @@
 <template>
   <div>
+    
+    <span class="inherit-all" v-if="!isWaitingForResponse">
+      <div class="hidden md:block">
+        <Spacer height="0" m_height="1em" />
+        <Logo class="logo mt-4" />
+        <Spacer height="2em" m_height="2em" />
+      </div>
 
-    <div class="hidden md:block">
-      <Spacer height="0" m_height="1em" />
-      <Logo class="logo mt-4" />
+      <div class="flex flex-row flex-wrap md:flex-no-wrap  input-flex justify-between md:justify-center">
+        <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full"
+          type="url"
+          name="video_url"
+          id="video_url"
+          ref="video_url"
+          placeholder="video-url"
+          v-on:keydown="keyMonitor"
+        />
+
+        <div class="w-full md:hidden" />
+
+        <div class="flex-shrink button-submit flex-grow-0">
+          <select name="mode" id="mode" ref="mode" class="dropdown">
+            <option value="video">Video</option>
+            <option value="audio">Audio</option>
+          </select>
+        </div>
+
+        <div class="button flex-shrink button-submit flex-grow-0 ml-3" v-on:click="downloadButtonClicked">
+          <IconArrowRightSquare class="icon-button" />
+        </div>
+
+      </div>
+
       <Spacer height="2em" m_height="2em" />
-    </div>
-
-    <div class="flex flex-row flex-wrap md:flex-no-wrap  input-flex justify-between md:justify-center">
-      <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full"
-        type="url"
-        name="video_url"
-        id="video_url"
-        ref="video_url"
-        placeholder="video-url"
-        v-on:keydown="keyMonitor"
-      />
-
-      <div class="w-full md:hidden" />
-
-      <div class="flex-shrink button-submit flex-grow-0">
-        <select name="mode" id="mode" ref="mode" class="dropdown">
-          <option value="video">Video</option>
-          <option value="audio">Audio</option>
-        </select>
-      </div>
-
-      <div class="button flex-shrink button-submit flex-grow-0 ml-3" v-on:click="downloadButtonClicked">
-        <IconArrowRightSquare class="icon-button" />
-      </div>
-
-    </div>
-
-    <Spacer height="2em" m_height="2em" />
-    <DownloadBox />
-
-    <PleaseWaitBlocker v-if="isWaitingForResponse" />
+      <DownloadBox />
+    </span>
+    <PleaseWaitBlocker v-else />
 
   </div>
 </template>

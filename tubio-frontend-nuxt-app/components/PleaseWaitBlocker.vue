@@ -1,12 +1,14 @@
 <template>
     <div class="click-blocker flex justify-center md:items-center">
         <div class="box">
-            <h2 class="mt-2">Please wait...</h2>
-        
-            <div class="dots flex w-full justify-center items-center">
-                <div class="dot" />
-                <div class="dot" />
-                <div class="dot" />
+
+            <div class="w-full h-full flex flex-col justify-center items-center">
+              <h2 class="loading-text">Just a second...</h2>
+              <div class="dots flex w-full justify-center items-center mt-24">
+                  <div class="dot" />
+                  <div class="dot" />
+                  <div class="dot" />
+              </div>
             </div>
 
         </div>        
@@ -30,15 +32,10 @@ export default {
 
 .box {
   position: absolute;
-  top: 200px;
-  bottom: 200px;
-  left: 200px;
-  right: 200px;
-  max-height: 70vh;
-  background-color: #586679;
-  opacity: 0.95;
-  border-radius: 5px;
-  border: 2px solid theme("colors.gray-1");
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
   overflow: hidden;
 
   @media (max-width: theme('screens.xl')) {
@@ -69,8 +66,6 @@ export default {
   }
 
   & .dots {
-    margin-top: 250px;
-
     @media (max-width: theme('screens.md')) {
       margin-top: 50px;
     }
@@ -99,15 +94,15 @@ export default {
       }
 
       @media (max-width: theme('screens.md')) {
-        width: 10px;
-        height: 10px;
+        width: 30px;
+        height: 30px;
 
         &:not(:first-child) {
-          margin-left: 5px;
+          margin-left: 15px;
         }
 
         &:not(:last-child) {
-          margin-right: 5px;
+          margin-right: 15px;
         }
       }
 
@@ -122,6 +117,14 @@ export default {
           margin-right: 25px;
         }
       }
+    }
+  }
+
+  & .loading-text {
+    font-size: 36pt;
+
+    @media (max-width: theme('screens.md')) {
+      font-size: 24pt;
     }
   }
 }
