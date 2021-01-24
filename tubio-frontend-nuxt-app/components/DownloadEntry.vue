@@ -105,9 +105,14 @@ export default {
 
     methods: {
       getQueuedDateString: function(unixTime) {
-        return new Date(unixTime*1000).toLocaleDateString("de-DE");
+        var queuedDate = new Date(unixTime * 1000);
+        var ret = ('0' + queuedDate.getDate()).slice(-2) + '.' + ('0' + (queuedDate.getMonth()+1)).slice(-2) + '.' + queuedDate.getFullYear();
+        return ret;
       },
       getDurationString: function(unixTime) {
+        if (unixTime < 0) return "";
+        else if (unixTime > 360000) return ""; // Something is not right if the video is over 100 hours long
+
         const h = Math.floor(unixTime / 3600);
         const m = Math.floor((unixTime % 3600) / 60);
         const s = Math.floor((unixTime % 3600) % 60);
