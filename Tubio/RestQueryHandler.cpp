@@ -1,4 +1,5 @@
 #include "RestQueryHandler.h"
+#include "Version.h"
 
 using namespace Rest;
 using namespace Logging;
@@ -44,6 +45,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "remove_download_entry") return RemoveDownloadEntry(requestBody, responseBody, responseCode);
 	else if (requestName == "update_config") return UpdateConfig(requestBody, responseBody, responseCode);
 	else if (requestName == "reset_config_to_default_values") return ResetConfigDefaults(requestBody, responseBody, responseCode);
+	else if (requestName == "get_server_version") return GetServerVersion(requestBody, responseBody, responseCode);
 	
 	
 	
@@ -491,6 +493,14 @@ bool RestQueryHandler::ResetConfigDefaults(const JsonBlock& request, JsonBlock& 
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
 	responseBody.Set("message") = "Reset config to default...";
 	responseBody.Set("config") = XGConfig::GetSavefileBuffer();
+	return true;
+}
+
+bool Rest::RestQueryHandler::GetServerVersion(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+{
+	responseCode = OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseBody.Set("server_version").SetFloatData(TUBIO_SERVER_VERSION);
 	return true;
 }
 

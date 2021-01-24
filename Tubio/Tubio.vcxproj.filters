@@ -119,5 +119,8 @@
     <ClInclude Include="TimeUnits.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

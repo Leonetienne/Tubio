@@ -79,7 +79,16 @@
             
             <div class="w-full lg:w-1/2 border-left lg:pl-3 mt-6 lg:mt-0">
 
-                <div class="disk-usage">
+                <div class="versions">
+                  <div class="versions__entry">
+                    <p>Web-UI version: {{version__webUI}}</p>
+                  </div>
+                  <div class="versions__entry">
+                    <p>Server version: {{serverVersion}}</p>
+                  </div>
+                </div>
+
+                <div class="disk-usage mt-3">
                     <h2>Disk usage</h2>
 
                     <div class="disk-usage__entry flex">
@@ -155,7 +164,8 @@ export default {
 
   data: function() {
     return {
-      canUpdate: {type: Boolean, default: true}
+      canUpdate: {type: Boolean, default: true},
+      version__webUI: 0.75
     };
   },
 
@@ -165,6 +175,9 @@ export default {
     },
     serverOs: function() {
       return this.$store.state.serverOs.os_name;
+    },
+    serverVersion: function() {
+     return this.$store.state.serverVersion.serverVersion;
     },
   },
 
@@ -316,6 +329,7 @@ export default {
 
     this.$store.dispatch("diskUsage/update");
     this.$store.dispatch("serverOs/update");
+    this.$store.dispatch("serverVersion/update");
     this.$store.dispatch("settings/updateGet", function() {
       that.whitelistToInputfield();
     });
@@ -341,17 +355,18 @@ h2 {
   font-size: 24pt;
 }
 
-.disk-usage {
+.disk-usage,
+.versions {
   &__entry {
     & p {
       color: theme("colors.text-gray-1");
       font-size: 16pt;
-
-      &:first-child {
-        width: 150px;
-      }
     }
   }
+}
+
+.disk-usage__entry p {
+  width: 150px;
 }
 
 textarea {

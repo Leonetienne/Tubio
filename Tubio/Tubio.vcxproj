@@ -180,6 +180,7 @@
     <ClInclude Include="HttpServer.h" />
     <ClInclude Include="TimeUnits.h" />
     <ClInclude Include="Updater.h" />
+    <ClInclude Include="Version.h" />
     <ClInclude Include="XGConfig.h" />
     <ClInclude Include="XGControl.h" />
   </ItemGroup>

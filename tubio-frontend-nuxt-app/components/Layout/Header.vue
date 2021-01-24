@@ -10,11 +10,19 @@
     </div>
 
     <div class="right-icons flex flex-row justify-end flex-grow">
-        <nuxt-link exact to="/settings">
+
+        <a href="https://github.com/Leonetienne/Tubio" target="_blank" title="GitHub repository" class="mr-4">
+          <div class="headerbutton flex justify-center items-center">
+            <IconGithub class="headericon icon-github" />
+          </div>
+        </a>
+
+        <nuxt-link exact to="/settings" title="Settings">
           <div class="headerbutton button-settings">
-              <IconGear class="headericon icon-gear" />
+            <IconGear class="headericon icon-gear" />
           </div>
         </nuxt-link>
+
     </div>
 
   </div>
@@ -22,21 +30,26 @@
 
 <script>
 import IconGear from "~/components/Icons/gear";
+import IconGithub from "~/components/Icons/github";
 import Logo from "~/components/Logo";
 
 export default {
   components: {
     IconGear,
+    IconGithub,
     Logo,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.headericon {
+.headerbutton {
   cursor: pointer;
   height: 50px;
   width: 50px;
+}
+
+.headericon {
   stroke: theme("colors.purple-3");
   fill: theme("colors.purple-3");
   transition:
@@ -44,12 +57,6 @@ export default {
     fill 0.2s,
     color 0.2s,
     transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: rotate(90deg);
-    stroke: theme("colors.purple-3-1");
-    fill: theme("colors.purple-3-1");
-  }
 }
 
 .headerlogo {
@@ -78,6 +85,21 @@ export default {
   &-gear {
     & svg {
       height: 100%;
+    }
+
+    &:hover {
+      transform: rotate(90deg);
+      stroke: theme("colors.purple-3-1");
+      fill: theme("colors.purple-3-1");
+    }
+  }
+
+  &-github {
+    height: 40px;
+    width: 40px;
+
+    &:hover {
+      transform: scale(1.075);
     }
   }
 }
