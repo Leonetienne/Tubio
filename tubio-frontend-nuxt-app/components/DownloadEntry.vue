@@ -30,7 +30,7 @@
                         </div>
                     </a>
 
-                    <!-- Progressbar -->
+                    <!-- Progress bar -->
                     <div v-if="downloadEntry.status === 'downloading'">
                         <div class="status--progressbar flex w-full mt-3">
                             <div class="status--progressbar__good items-stretch" :style="'--download-progress: ' + downloadEntry.download_progress + '%;'"></div>
@@ -105,17 +105,18 @@ export default {
 
     methods: {
       getQueuedDateString: function(unixTime) {
-        const date = new Date(unixTime * 1000);
-        const day = ("0" + date.getDay()).slice(-2);
-        const month = ("0" + date.getMonth()).slice(-2);
-        return day + "." + month + "." + date.getFullYear();
+        return new Date(unixTime*1000).toLocaleDateString("de-DE");
       },
       getDurationString: function(unixTime) {
-        const time = new Date(unixTime * 1000);
-        const hours = String((time.getHours() - 1));
-        const minutes = ("0" + (time.getMinutes())).slice(-2);
-        const seconds = ("0" + (time.getSeconds())).slice(-2);
-        return ((hours !== "0") ? (hours + ":") : "") + minutes + ":" + seconds; 
+        const h = Math.floor(unixTime / 3600);
+        const m = Math.floor((unixTime % 3600) / 60);
+        const s = Math.floor((unixTime % 3600) % 60);
+
+        var ret = "";
+        if (h > 0) ret = String(h).padStart(2, '0') + ":";
+
+        ret += String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+        return ret;
       },
       linebreaksToBrTags: function(str) {
         return str.replace("\n", '<br />');
