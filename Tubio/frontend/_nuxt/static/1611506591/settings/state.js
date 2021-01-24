@@ -1,0 +1,1 @@
+window.__NUXT__={staticAssetsBase:"\u002F_nuxt\u002Fstatic\u002F1611506591",layout:"default",error:null,state:{diskUsage:{usage:{}},dlcache:{cache:[]},logs:{logs:[]},serverOs:{os_name:""},serverVersion:{serverVersion:-1},settings:{config:{}}},serverRendered:true,routePath:"\u002Fsettings",config:{}};
