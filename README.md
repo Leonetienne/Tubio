@@ -15,7 +15,7 @@ This is because the set of supported websites is **extremely** large! See here: 
 When your download finished, just click "download" and have fun!
 
 ## No, i mean on a more technical level
-The backend is a C++ webserver, powered by [casenta/mongoose](https://github.com/cesanta/mongoose).<sup></supThanks,>Thanks, you guys are awesome!</sup>
+The backend is a C++ webserver, powered by [casenta/mongoose](https://github.com/cesanta/mongoose).<sup>Thanks, you guys are awesome!</sup>
 The connection is **not** encrypted, but that\`s okay because it is intended for localhost only. Mongoose does support ssl, so you can always add it, if you fancy it.
 
 The frontend is a nuxt.js web application.
@@ -23,15 +23,15 @@ The frontend is a nuxt.js web application.
 ## But how does it look?
 Have a sneak peak!
 
-![soundcloud](https://github.com/Leonetienne/Tubio/tree/master/github-media/soundcloud.png)
+![soundcloud](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/soundcloud.png)
 
-![reddit](https://github.com/Leonetienne/Tubio/tree/master/github-media/reddit.png)
+![reddit](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/reddit.png)
 
-![youtube](https://github.com/Leonetienne/Tubio/tree/master/github-media/youtube.png)
+![youtube](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/youtube.png)
 
-![settings](https://github.com/Leonetienne/Tubio/tree/master/github-media/settings.png)
+![settings](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/settings.png)
 
-![mobile](https://github.com/Leonetienne/Tubio/tree/master/github-media/mobile.png)
+![mobile](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/mobile.png)
 
 ## How can i configure it?
 See this json file (config.json).
