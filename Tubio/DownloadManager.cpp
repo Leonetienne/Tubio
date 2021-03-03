@@ -235,14 +235,7 @@ void DownloadManager::UpdateDownloadProgressPercentages()
 								{
 									int newPercentage = std::stoi(ss.str());
 									unfinishedCache[i].download_progress = newPercentage;
-
-									//if (newPercentage == 100) unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
 								}
-							}
-							else if ((lbuf.substr(0, 21) == "Deleting original file") ||
-									 (lbuf.substr(0, 24) == "[ffmpeg] Not converting"))
-							{
-								unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
 							}
 						}
 					}
@@ -578,7 +571,7 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
 {
 	std::stringstream ss;
-	ss << "youtube-dl.exe --skip-download  --no-warnings --socket-timeout 5 --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
+	ss << "youtube-dl.exe --skip-download --no-warnings --no-call-home --no-playlist --socket-timeout 5 --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"" << std::endl;
 	system(ss.str().c_str());
 	return;
 }

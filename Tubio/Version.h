@@ -1,2 +1,2 @@
 #pragma once
-#define TUBIO_SERVER_VERSION (0.53)
+#define TUBIO_SERVER_VERSION (0.535)
