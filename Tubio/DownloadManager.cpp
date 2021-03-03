@@ -152,8 +152,8 @@ void DownloadManager::DownloadNext()
 		{
 			std::string ytdl_call_video_base = 
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir --recode-video mp4 --format \"bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best\""
-				" --merge-output-format mp4 -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
+				" --no-mtime --no-cache-dir --recode-video mp4 --prefer-ffmpeg"
+				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
 
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
