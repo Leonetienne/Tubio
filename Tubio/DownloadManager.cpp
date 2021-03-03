@@ -236,8 +236,13 @@ void DownloadManager::UpdateDownloadProgressPercentages()
 									int newPercentage = std::stoi(ss.str());
 									unfinishedCache[i].download_progress = newPercentage;
 
-									if (newPercentage == 100) unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
+									//if (newPercentage == 100) unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
 								}
+							}
+							else if ((lbuf.substr(0, 21) == "Deleting original file") ||
+									 (lbuf.substr(0, 24) == "[ffmpeg] Not converting"))
+							{
+								unfinishedCache[i].status = DOWNLOAD_STATUS::FINISHED;
 							}
 						}
 					}
