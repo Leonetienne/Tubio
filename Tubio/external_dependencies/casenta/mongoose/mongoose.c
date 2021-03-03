@@ -17,6 +17,13 @@
  * license, as set out in <https://www.cesanta.com/license>.
  */
 
+#ifdef _WIN
+#pragma warning disable warning-list // Not my (leonetienne) code, not my warnings
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#endif
+
 #include "mongoose.h"
 #ifdef MG_MODULE_LINES
 #line 1 "src/mg_internal.h"
@@ -16131,3 +16138,7 @@ unsigned int sleep(unsigned int seconds) {
 }
 
 #endif /* _WIN32 */
+
+#ifndef _WIN
+#pragma GCC diagnostic pop
+#endif

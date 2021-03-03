@@ -20,7 +20,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 
 	if (!ValidateField("request", JDType::STRING, request, responseBody))
 	{
-		responseCode = BAD_REQUEST;
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
 		return false;
 	}
 	JsonBlock requestBody = request.AsJson;
@@ -49,8 +49,8 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	
 	
 	
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_FOUND, "The requested request was not found."));
-	responseCode = NOT_FOUND;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::NOT_FOUND, "The requested request was not found."));
+	responseCode = HTTP_STATUS_CODE::NOT_FOUND;
 	return false;
 }
 
@@ -64,8 +64,8 @@ void RestQueryHandler::PostExit()
 
 bool RestQueryHandler::Example_Foo(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("message") = "Bar!";
 	std::cout << "Bar!" << std::endl;
 	return true;
@@ -76,7 +76,7 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 	if ((!ValidateField("video_url", JDType::STRING, request, responseBody)) ||
 		(!ValidateField("mode", JDType::STRING, request, responseBody)))
 	{
-		responseCode = BAD_REQUEST;
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
 		return false;
 	}
 
@@ -87,8 +87,8 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 	else if (modeParam == "audio") mode = DOWNLOAD_MODE::AUDIO;
 	else
 	{
-		responseCode = BAD_REQUEST;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "Parameter 'mode' is of wrong value. Should be either 'video' or 'audio'."));
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Parameter 'mode' is of wrong value. Should be either 'video' or 'audio'."));
 		return false;
 	}
 
@@ -97,8 +97,8 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 
 	std::string tubId = DownloadManager::QueueDownload(videoUrl, mode);
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("message") = "Download queued!";
 	responseBody.Set("queue_position") = (long long int)DownloadManager::GetQueueLength();
 	responseBody.Set("tubio_id") = tubId;
@@ -135,8 +135,8 @@ bool RestQueryHandler::FetchSessionCache(const JsonBlock& request, JsonBlock& re
 		max_num = request["max_num"].AsInt;
 	}
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(max_age, max_num);
 	responseBody.Set("cache_size") = (long long int)cache.Size();
 	responseBody.Set("cache") = cache;
@@ -148,8 +148,8 @@ bool RestQueryHandler::FetchAlltimeCache(const JsonBlock& request, JsonBlock& re
 	//log->cout << "Asking for whole cache...";
 	//log->Flush();
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	JsonArray cache = DownloadManager::GetAlltimeCacheAsJson(-1, -1); // Get ALL the data
 	responseBody.Set("cache_size") = (long long int)cache.Size();
 	responseBody.Set("cache") = cache;
@@ -164,8 +164,8 @@ bool RestQueryHandler::ClearDownloadCache(const JsonBlock& request, JsonBlock& r
 
 	bool wait = !DownloadManager::ClearDownloadCache();
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 
 	if (wait)
 	{
@@ -187,8 +187,8 @@ bool RestQueryHandler::KillYourself(const JsonBlock& request, JsonBlock& respons
 	log->cout << "Shutting down server upon client request...";
 	log->Flush();
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("message") = "Goodbye! :3";
 	return true;
 }
@@ -201,15 +201,15 @@ bool RestQueryHandler::HideConsole(const JsonBlock& request, JsonBlock& response
 		log->Flush();
 
 		bool didAnythingChange = ConsoleManager::HideConsole();
-		responseCode = OK;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseCode = HTTP_STATUS_CODE::OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 		responseBody.Set("message") = (didAnythingChange) ? "Console is now hidden!" : "Console was already hidden!";
 		return true;
 	}
 	else
 	{
-		responseCode = NOT_IMPLEMENTED;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseCode = HTTP_STATUS_CODE::NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::NOT_IMPLEMENTED));
 		responseBody.Set("message") = "This feature is currently only supported on Windows! Make sure to compile with preprocessor directive _WIN!";
 		return false;
 	}
@@ -223,15 +223,15 @@ bool RestQueryHandler::ShowConsole(const JsonBlock& request, JsonBlock& response
 		log->Flush();
 
 		bool didAnythingChange = ConsoleManager::ShowConsole();
-		responseCode = OK;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseCode = HTTP_STATUS_CODE::OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 		responseBody.Set("message") = (didAnythingChange) ? "Console is now shown!" : "Console was already shown!";
 		return true;
 	}
 	else
 	{
-		responseCode = NOT_IMPLEMENTED;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseCode = HTTP_STATUS_CODE::NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::NOT_IMPLEMENTED));
 		responseBody.Set("message") = "This feature is currently only supported on Windows! Make sure to compile with preprocessor directive _WIN!";
 		return false;
 	}
@@ -254,8 +254,8 @@ bool RestQueryHandler::GetOSName(const JsonBlock& request, JsonBlock& responseBo
 #elif __unix || __unix__
 	osName = "Unix";
 #endif
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("os_name") = osName;
 	return true;
 }
@@ -265,8 +265,8 @@ bool RestQueryHandler::FetchSessionLogs(const JsonBlock& request, JsonBlock& res
 	//log->cout << "Fetching session logs...";
 	//log->Flush();
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	JsonArray logs = LogHistory::GetCompleteLogHistoryAsJson(time(0) - XGControl::boot_time + 1, -1);
 	responseBody.Set("logs_size") = (long long int)logs.Size();
 	responseBody.Set("logs") = logs;
@@ -291,8 +291,8 @@ bool RestQueryHandler::FetchAlltimeLogs(const JsonBlock& request, JsonBlock& res
 		max_num = request["max_num"].AsInt;
 	}
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	JsonArray logs = LogHistory::GetCompleteLogHistoryAsJson(max_age, max_num);
 	responseBody.Set("logs_size") = (long long int)logs.Size();
 	responseBody.Set("logs") = logs;
@@ -304,8 +304,8 @@ bool RestQueryHandler::GetDiskUsage(const JsonBlock& request, JsonBlock& respons
 	log->cout << "Fetching disk usage...";
 	log->Flush();
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 
 	JsonBlock diskUsages;
 
@@ -363,8 +363,8 @@ bool RestQueryHandler::GetDiskUsage(const JsonBlock& request, JsonBlock& respons
 
 bool RestQueryHandler::ClearLogs(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("message") = "The logs have been cleared.";
 
 	LogHistory::ClearLogHistory();
@@ -385,8 +385,8 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 		log->cout << "   => OK!";
 		log->Flush();
 
-		responseCode = OK;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseCode = HTTP_STATUS_CODE::OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 		responseBody.Set("message") = "Updated youtube-dl.exe successfully!";
 	}
 	else if (result == "not implemented")
@@ -395,8 +395,8 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 		log->Flush();
 
 		log->Flush();
-		responseCode = NOT_IMPLEMENTED;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(NOT_IMPLEMENTED));
+		responseCode = HTTP_STATUS_CODE::NOT_IMPLEMENTED;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::NOT_IMPLEMENTED));
 		responseBody.Set("message") = "On linux you have to update youtube-dl yourself since it is a system-wide package handled by various package managers!";
 	}
 	else // Some other error
@@ -404,8 +404,8 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 		log->cout << "   => urlmon error: " << result;
 		log->Flush();
 
-		responseCode = INTERNAL_SERVER_ERROR;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR));
+		responseCode = HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR));
 		responseBody.Set("message") = "Unable do update youtube-dl.exe! See urlmon " + result;
 	}
 	
@@ -416,7 +416,7 @@ bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& 
 {
 	if (!ValidateField("id", JDType::STRING, request, responseBody))
 	{
-		responseCode = BAD_REQUEST;
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
 		return false;
 	}
 
@@ -427,14 +427,14 @@ bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& 
 
 	if (didSucceed)
 	{
-		responseCode = OK;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+		responseCode = HTTP_STATUS_CODE::OK;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 		responseBody.Set("message") = "Successfully removed.";
 	}
 	else
 	{
-		responseCode = BAD_REQUEST;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST));
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST));
 		responseBody.Set("message") = "Failed.";
 	}
 
@@ -443,8 +443,8 @@ bool RestQueryHandler::RemoveDownloadEntry(const JsonBlock& request, JsonBlock& 
 
 bool RestQueryHandler::UpdateConfig(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 
 	JsonBlock dummy;
 	if (ValidateField("config", JDType::JSON, request, dummy))
@@ -489,8 +489,8 @@ bool RestQueryHandler::ResetConfigDefaults(const JsonBlock& request, JsonBlock& 
 		else ConsoleManager::HideConsole();
 	}
 
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("message") = "Reset config to default...";
 	responseBody.Set("config") = XGConfig::GetSavefileBuffer();
 	return true;
@@ -498,8 +498,8 @@ bool RestQueryHandler::ResetConfigDefaults(const JsonBlock& request, JsonBlock& 
 
 bool Rest::RestQueryHandler::GetServerVersion(const JasonPP::JsonBlock& request, JasonPP::JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	responseCode = OK;
-	responseBody.CloneFrom(RestResponseTemplates::GetByCode(OK));
+	responseCode = HTTP_STATUS_CODE::OK;
+	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
 	responseBody.Set("server_version").SetFloatData(TUBIO_SERVER_VERSION);
 	return true;
 }
@@ -516,7 +516,7 @@ bool RestQueryHandler::ValidateField(const std::string name, const JasonPP::JDTy
 {
 	if (checkThat.GetDataType() != JDType::JSON)
 	{
-		putErrorResponseHere = RestResponseTemplates::GetByCode(BAD_REQUEST, "The request body must be a json struct! No json array or similar...");
+		putErrorResponseHere = RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "The request body must be a json struct! No json array or similar...");
 		return false;
 	}
 
@@ -538,12 +538,12 @@ bool RestQueryHandler::ValidateField(const std::string name, const JasonPP::JDTy
 			ss << "Mandatory value \"" << name << "\" is of wrong type (" << JsonDataType2String(cached.GetDataType()) << ")" << std::endl;
 			ss << "Should be of type " << JsonDataType2String(type) << "! (Integers can be casted to floats)";
 
-			putErrorResponseHere.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, ss.str()));
+			putErrorResponseHere.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, ss.str()));
 		}
 	}
 	else
 	{
-		putErrorResponseHere.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, std::string("Missing mandatory value '" + name + "'")));
+		putErrorResponseHere.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, std::string("Missing mandatory value '" + name + "'")));
 		return false;
 	}
 

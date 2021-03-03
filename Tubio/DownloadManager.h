@@ -27,6 +27,9 @@ namespace Downloader
 	class DownloadEntry
 	{
 	public:
+		DownloadEntry();
+		JasonPP::JsonBlock GetAsJson();
+
 		std::string title;
 		std::string description;
 		std::string uploader;
@@ -41,7 +44,6 @@ namespace Downloader
 		int download_progress;
 		time_t queued_timestamp;
 
-		JasonPP::JsonBlock GetAsJson();
 
 	};
 

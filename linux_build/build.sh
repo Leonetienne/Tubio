@@ -27,5 +27,5 @@ g++ \
 \
 -lpthread \
 \
--w \
+-Wall \
 -o ./tubio.out

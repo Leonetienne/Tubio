@@ -68,7 +68,7 @@ void HttpServer::Update()
 void HttpServer::ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode)
 {
 	mg_send_head(c, httpStatusCode, str.length(), "content-type: application/json\nAccess-Control-Allow-Origin: *");
-	mg_printf(c, str.c_str());
+	mg_printf(c, "%s", str.c_str());
 
 	return;
 }
@@ -114,14 +114,14 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 			catch (std::exception& e)
 			{
 				Json j;
-				j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, e.what()));
-				ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+				j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR, e.what()));
+				ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR);
 			}
 			catch (...)
 			{
 				Json j;
-				j.CloneFrom(RestResponseTemplates::GetByCode(INTERNAL_SERVER_ERROR, "Das not good"));
-				ServeStringToConnection(pNc, j.Render(), INTERNAL_SERVER_ERROR);
+				j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR, "Das not good"));
+				ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR);
 			}
 
 			break;
@@ -129,8 +129,8 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 		else // Client is not allowed, serve error json
 		{
 			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(UNAUTHORIZED, denialReason));
-			ServeStringToConnection(pNc, j.Render(), UNAUTHORIZED);
+			j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::UNAUTHORIZED, denialReason));
+			ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::UNAUTHORIZED);
 		}
 	}
 
@@ -158,13 +158,13 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p, std::str
 		RestQueryHandler::ProcessQuery(peerAddress, requestBody, responseBody, returnCode);
 
 		Json response(responseBody);
-		ServeStringToConnection(pNc, response.Render(), returnCode);
+		ServeStringToConnection(pNc, response.Render(), (int)returnCode);
 	}
 	else // return error message for invalid json
 	{
 		Json errorJson;
 		errorJson.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Received json is fucked"));
-		ServeStringToConnection(pNc, errorJson.Render(), HTTP_STATUS_CODE::BAD_REQUEST);
+		ServeStringToConnection(pNc, errorJson.Render(), (int)HTTP_STATUS_CODE::BAD_REQUEST);
 	}
 
 	return;
@@ -189,15 +189,15 @@ void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p,
 		else
 		{
 			Json j;
-			j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "File download not ready!"));
-			ServeStringToConnection(pNc, j.Render(), BAD_REQUEST);
+			j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "File download not ready!"));
+			ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::BAD_REQUEST);
 		}
 	}
 	else
 	{
 		Json j;
-		j.CloneFrom(RestResponseTemplates::GetByCode(BAD_REQUEST, "Invalid tubio id!"));
-		ServeStringToConnection(pNc, j.Render(), BAD_REQUEST);
+		j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Invalid tubio id!"));
+		ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::BAD_REQUEST);
 	}
 
 	return;

@@ -11,7 +11,7 @@ void Idler::Update()
 		// Let the processor chill for a second.
 		// This should reduce the idling-cpu load to near 0%
 #ifdef _WIN
-		Sleep(SLEEP_TIME * 1e3); // Uses milliseconds
+		Sleep((DWORD)(SLEEP_TIME * 1e3)); // Uses milliseconds
 #else
 		usleep(SLEEP_TIME * 1e6); // Uses microseconds
 #endif

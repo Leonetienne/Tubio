@@ -74,7 +74,7 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 
 	if (IsJsonFieldValid(json, "logging.autosave_interval", JDType::INT))
 	{
-		logging.autosave_interval = json.ShorthandGet("logging.autosave_interval").AsInt;
+		logging.autosave_interval = (uint32_t)json.ShorthandGet("logging.autosave_interval").AsInt;
 	}
 
 
@@ -86,7 +86,7 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 
 	if (IsJsonFieldValid(json, "httpServer.polling_rate", JDType::INT))
 	{
-		httpServer.polling_rate = json.ShorthandGet("httpServer.polling_rate").AsInt;
+		httpServer.polling_rate = (uint32_t)json.ShorthandGet("httpServer.polling_rate").AsInt;
 	}
 
 	if (IsJsonFieldValid(json, "httpServer.rootdir", JDType::STRING))
@@ -102,7 +102,7 @@ void XGConfig::LoadFromJson(const JasonPP::JsonBlock& json)
 	}
 	if (IsJsonFieldValid(json, "downloader.num_threads", JDType::INT))
 	{
-		downloader.num_threads = json.ShorthandGet("downloader.num_threads").AsInt;
+		downloader.num_threads = (uint32_t)json.ShorthandGet("downloader.num_threads").AsInt;
 	}
 	if (IsJsonFieldValid(json, "downloader.max_dlrate_per_thread", JDType::STRING))
 	{

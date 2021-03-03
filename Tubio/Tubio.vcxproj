@@ -149,7 +149,12 @@
   <ItemGroup>
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="DownloadManager.cpp" />
-    <ClCompile Include="external_dependencies\casenta\mongoose\mongoose.c" />
+    <ClCompile Include="external_dependencies\casenta\mongoose\mongoose.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="external_dependencies\leonetienne\JasonPP\JasonPP.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Framework.cpp" />

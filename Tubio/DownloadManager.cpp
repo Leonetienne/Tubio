@@ -65,7 +65,7 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 
 			if ((j.AsJson.DoesExist("duration")) && (j.AsJson["duration"].GetDataType() == JDType::INT))
 			{
-				newDownload.duration = j["duration"].AsInt;
+				newDownload.duration = (uint32_t)j["duration"].AsInt;
 			}
 
 			if ((j.AsJson.DoesExist("webpage_url")) && (j.AsJson["webpage_url"].GetDataType() == JDType::STRING))
@@ -104,7 +104,7 @@ void DownloadManager::Update()
 	std::size_t cachedNumActiveDownloads = GetNumActiveDownloads();
 
 	// Queue next download, if available
-	if (cachedNumActiveDownloads < XGConfig::downloader.num_threads)
+	if ((long long)cachedNumActiveDownloads < (long long)XGConfig::downloader.num_threads)
 	{
 		DownloadNext();
 	}
@@ -141,7 +141,8 @@ void DownloadManager::DownloadNext()
 			break;
 		}
 	}
-	next->status = DOWNLOAD_STATUS::DOWNLOADING;
+	if (next)
+		next->status = DOWNLOAD_STATUS::DOWNLOADING;
 
 	std::thread* downloadThread = new std::thread([=]() {
 		DownloadEntry* entry = next;
@@ -360,7 +361,6 @@ bool DownloadManager::ClearDownloadCache()
 
 bool DownloadManager::RemoveFromCacheByID(std::string id)
 {
-	bool removedAny = false;
 	std::string filePath = "";
 	bool wasFinished = false;
 	for (std::size_t i = 0; i < unfinishedCache.size(); i++)
@@ -368,7 +368,6 @@ bool DownloadManager::RemoveFromCacheByID(std::string id)
 		if (unfinishedCache[i].tubio_id == id)
 		{
 			filePath = unfinishedCache[i].downloaded_filename;
-			removedAny = true;
 			// Edgecase
 			wasFinished = unfinishedCache[i].status == DOWNLOAD_STATUS::FINISHED;
 			unfinishedCache.erase(unfinishedCache.begin() + i);
@@ -385,7 +384,6 @@ bool DownloadManager::RemoveFromCacheByID(std::string id)
 			if (saveFileCache[i]["tubio_id"].AsString == id)
 			{
 				saveFileCache.RemoveAt(i);
-				removedAny = true;
 				break;
 			}
 		}
@@ -395,7 +393,6 @@ bool DownloadManager::RemoveFromCacheByID(std::string id)
 		if (saveFileCache_Atomic[i].tubio_id == id)
 		{
 			filePath = saveFileCache_Atomic[i].downloaded_filename;
-			removedAny = true;
 			wasFinished = saveFileCache_Atomic[i].status == DOWNLOAD_STATUS::FINISHED;
 			saveFileCache_Atomic.erase(saveFileCache_Atomic.begin() + i);
 			break;
@@ -526,7 +523,7 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 
 		if ((iter.DoesExist("duration")) && (iter["duration"].GetDataType() == JDType::INT))
 		{
-			newEntry.duration = iter["duration"].AsInt;
+			newEntry.duration = (uint32_t)iter["duration"].AsInt;
 		}
 
 		if ((iter.DoesExist("tubio_id")) && (iter["tubio_id"].GetDataType() == JDType::STRING))
@@ -679,6 +676,26 @@ bool DownloadManager::shouldSave = false;
 bool DownloadManager::shouldClearCacheASAP = false;
 
 
+
+Downloader::DownloadEntry::DownloadEntry()
+{
+	// Some initial values
+	title = "";
+	description = "";
+	uploader = "";
+	duration = -1;
+	tubio_id = "";
+	webpage_url = "";
+	thumbnail_url = "";
+	downloaded_filename = "";
+	download_url = "";
+	status = DOWNLOAD_STATUS::QUEUED;
+	mode = DOWNLOAD_MODE::AUDIO;
+	download_progress = 0;
+	queued_timestamp = 0;
+
+	return;
+}
 
 JsonBlock DownloadEntry::GetAsJson()
 {
