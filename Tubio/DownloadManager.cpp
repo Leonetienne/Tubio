@@ -400,6 +400,7 @@ bool DownloadManager::RemoveFromCacheByID(std::string id)
 	if ((wasFinished) && (FileSystem::Exists(filePath)))
 	{
 		FileSystem::Delete(filePath);
+		return true;
 	}
 
 	// Only save, if we can save immediately
