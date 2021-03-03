@@ -32,7 +32,7 @@ bool XGConfig::IsJsonFieldValid(const JsonBlock& json, const std::string key, co
 
 void XGConfig::LoadDefaultValues()
 {
-	httpServer.port = "6969";
+	httpServer.port = "80";
 	httpServer.polling_rate = 100;
 	httpServer.rootdir = "frontend";
 
