@@ -109,7 +109,7 @@ This can only be undone from the host. Open Tubio via, and this is important, ei
 Well, technically, yes.  You would have to install youtube-dl and the ffmpeg suite yourself, and compile Tubio yourself though. I have not tried it yet, but it should work.
 
 #### Can i use it on my phone?
-Sure. Read [this](/#user-content-can-i-use-tubio-on-multiple-devices?).
+Sure. Read [this](#user-content-can-i-use-tubio-on-multiple-devices).
 
 #### Can i use this to host my own downloader website?
 On your own risk! Tubio is NOT designed for this! Also do note that tubio does NOT manage sessions or accounts! Everyone accessing this instance can see everyones downloads and access the admin panel! Tubio is really designed for one user!
