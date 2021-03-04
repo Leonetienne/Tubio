@@ -1,12 +1,12 @@
 #include "Idler.h"
 #include <iostream>
-#define TIME_TO_FALL_ASLEEP MINUTES(5)
+#define TIME_TO_FALL_ASLEEP MINUTES(3)
 #define SLEEP_TIME SECONDS(3)
 
 void Idler::Update()
 {
-	// Has no request been made within 3 minutes?
-	if (time(0) - XGControl::last_query_time > 10)
+	// Has no request been made within x minutes?
+	if (time(0) - XGControl::last_query_time > TIME_TO_FALL_ASLEEP)
 	{
 		// Let the processor chill for a second.
 		// This should reduce the idling-cpu load to near 0%
