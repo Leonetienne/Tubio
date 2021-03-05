@@ -1,3 +1,5 @@
+![Tubio](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/teaser.png)
+
 # Tubio
 The free, open source video downloader!
 
