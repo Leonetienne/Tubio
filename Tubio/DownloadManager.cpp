@@ -161,7 +161,7 @@ void DownloadManager::DownloadNext()
 			// Call template
 			std::string ytdl_call_video_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir -f $$QUALITY --recode-video mp4 --prefer-ffmpeg"
+				" --no-mtime --no-cache-dir -f \"$$QUALITY\" --recode-video mp4 --prefer-ffmpeg"
 				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
 			// Fill template
@@ -180,7 +180,7 @@ void DownloadManager::DownloadNext()
 			// Call template
 			std::string ytdl_call_audio_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir -f $$QUALITY --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
+				" --no-mtime --no-cache-dir -f \"$$QUALITY\" --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
 			
@@ -598,13 +598,13 @@ std::string DownloadManager::DownloadQualityToStringParams(DOWNLOAD_QUALITY qual
 	case DOWNLOAD_QUALITY::_BEST:
 		return "bestvideo[ext=mp4]+bestaudio";
 	case DOWNLOAD_QUALITY::_1080p:
-		return "bestvideo[ext=mp4][height^<=1080]+bestaudio";
+		return "bestvideo[ext=mp4][height<=1080]+bestaudio";
 	case DOWNLOAD_QUALITY::_720p:
-		return "bestvideo[ext=mp4][height^<=720]+bestaudio";
+		return "bestvideo[ext=mp4][height<=720]+bestaudio";
 	case DOWNLOAD_QUALITY::_360p:
-		return "bestvideo[ext=mp4][height^<=360]+bestaudio";
+		return "bestvideo[ext=mp4][height<=360]+bestaudio";
 	case DOWNLOAD_QUALITY::_144p:
-		return "bestvideo[ext=mp4][height^<=144]+bestaudio";
+		return "bestvideo[ext=mp4][height<=144]+bestaudio";
 	}
 
 	return std::string();
