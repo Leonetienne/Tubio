@@ -17,22 +17,28 @@ void DownloadManager::PreInit()
 	return;
 }
 
-std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
+std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode, DOWNLOAD_QUALITY quality)
 {	
+	// Create uniquie tubio id
 	std::string tubioId = CreateNewTubioID();
-	FetchInformation(url, tubioId);
 
+	// Fetch metadata
+	FetchInformation(url, tubioId);
 	std::string jsString = FileSystem::ReadFile(XGConfig::downloader.cachedir + "/metadata/" + tubioId + ".json");
 
+	// Create download entry structure
 	DownloadEntry newDownload;
 	newDownload.tubio_id = tubioId;
 	newDownload.mode = mode;
+	newDownload.quality = quality;
 	newDownload.download_progress = 0;
 	newDownload.queued_timestamp = time(0);
-	newDownload.download_url = "/download/" + newDownload.tubio_id;
+	newDownload.download_url = "download/" + newDownload.tubio_id;
 
+	// Check for missing dependencies
 	WarnIfMissingDependenciesWIN();
 
+	// Interpret metadata
 	if (!IsJsonValid(jsString))
 	{
 		newDownload.status = DOWNLOAD_STATUS::FAILED;
@@ -92,6 +98,7 @@ std::string DownloadManager::QueueDownload(std::string url, DOWNLOAD_MODE mode)
 		}
 	}
 
+	// Add to list of unfinished downloads
 	unfinishedCache.push_back(newDownload);
 
 	return tubioId;
@@ -146,16 +153,19 @@ void DownloadManager::DownloadNext()
 
 	std::thread* downloadThread = new std::thread([=]() {
 		DownloadEntry* entry = next;
+		std::string tubioId = entry->tubio_id;
 
 		std::stringstream ss;
 		if (entry->mode == DOWNLOAD_MODE::VIDEO)
 		{
-			std::string ytdl_call_video_base = 
+			// Call template
+			std::string ytdl_call_video_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir --recode-video mp4 --prefer-ffmpeg"
+				" --no-mtime --no-cache-dir -f $$QUALITY --recode-video mp4 --prefer-ffmpeg"
 				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
-
+			// Fill template
+			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$QUALITY", DownloadQualityToStringParams(entry->quality));
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_URL", entry->webpage_url);
@@ -167,11 +177,15 @@ void DownloadManager::DownloadNext()
 		}
 		else // DOWNLOAD_MODE::AUDIO
 		{
+			// Call template
 			std::string ytdl_call_audio_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
+				" --no-mtime --no-cache-dir -f $$QUALITY --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
+			
+			// Fill template
+			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$QUALITY", DownloadQualityToStringParams(entry->quality));
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_URL", entry->webpage_url);
@@ -182,13 +196,21 @@ void DownloadManager::DownloadNext()
 			ss << ytdl_call_audio_base;
 		}
 
+		// This call takes a good while and is run in a seperate thread (look a few lines above. The lambda function)
 		int returnCode = system(ss.str().c_str());
+
+		// Fetch new instance
+		// Don't ask me why the old one isn't valid anymore -.-
+		for (std::size_t i = 0; i < unfinishedCache.size(); i++)
+			if (unfinishedCache[i].tubio_id == tubioId)
+				entry = &unfinishedCache[i];
 
 		if (returnCode == 0)
 		{
 			// Download succeeded
 			entry->status = DOWNLOAD_STATUS::FINISHED;
 			entry->download_progress = 100;
+
 			shouldSave = true;
 		}
 		else
@@ -567,6 +589,25 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 	}
 
 	return entries;
+}
+
+std::string DownloadManager::DownloadQualityToStringParams(DOWNLOAD_QUALITY quality)
+{
+	switch (quality)
+	{
+	case DOWNLOAD_QUALITY::_BEST:
+		return "bestvideo[ext=mp4]+bestaudio";
+	case DOWNLOAD_QUALITY::_1080p:
+		return "bestvideo[ext=mp4][height^<=1080]+bestaudio";
+	case DOWNLOAD_QUALITY::_720p:
+		return "bestvideo[ext=mp4][height^<=720]+bestaudio";
+	case DOWNLOAD_QUALITY::_360p:
+		return "bestvideo[ext=mp4][height^<=360]+bestaudio";
+	case DOWNLOAD_QUALITY::_144p:
+		return "bestvideo[ext=mp4][height^<=144]+bestaudio";
+	}
+
+	return std::string();
 }
 
 void DownloadManager::FetchInformation(std::string url, std::string tubId)

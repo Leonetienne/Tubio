@@ -23,6 +23,14 @@ namespace Downloader
 		FINISHED,
 		FAILED
 	};
+	enum class DOWNLOAD_QUALITY
+	{
+		_BEST,   // best quality
+		_1080p,  // 1080p
+		_720p,   // 720p
+		_360p,   // 360p
+		_144p    // 144p
+	};
 
 	class DownloadEntry
 	{
@@ -41,6 +49,7 @@ namespace Downloader
 		std::string download_url;
 		DOWNLOAD_STATUS status;
 		DOWNLOAD_MODE mode;
+		DOWNLOAD_QUALITY quality;
 		int download_progress;
 		time_t queued_timestamp;
 
@@ -61,7 +70,7 @@ namespace Downloader
 		/// <param name="url"></param>
 		/// <param name="mode">If video or audio</param>
 		/// <returns>Tubio download id</returns>
-		static std::string QueueDownload(std::string url, DOWNLOAD_MODE mode);
+		static std::string QueueDownload(std::string url, DOWNLOAD_MODE mode, DOWNLOAD_QUALITY quality = DOWNLOAD_QUALITY::_BEST);
 
 		/// <summary>
 		/// Returns the number of videos queued
@@ -107,7 +116,24 @@ namespace Downloader
 		static void Load();
 		static std::vector<DownloadEntry> ParseJsonArrayToEntries(const JasonPP::JsonArray& arr);
 
+		/// <summary>
+		/// Will return a youtube-dl quality string based on 'quality'
+		/// </summary>
+		/// <param name="quality"></param>
+		/// <returns></returns>
+		static std::string DownloadQualityToStringParams(DOWNLOAD_QUALITY quality);
+
+		/// <summary>
+		/// Will fetch metadata of an url
+		/// </summary>
+		/// <param name="url">Url to fetch from</param>
+		/// <param name="tubId">Tubio id to save data to</param>
 		static void FetchInformation(std::string url, std::string tubId);
+
+		/// <summary>
+		/// Will create an unique tubio id (based on time())
+		/// </summary>
+		/// <returns>Unique tubio id</returns>
 		static std::string CreateNewTubioID();
 
 		/// <summary>

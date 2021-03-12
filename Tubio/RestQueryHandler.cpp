@@ -73,6 +73,7 @@ bool RestQueryHandler::Example_Foo(const JsonBlock& request, JsonBlock& response
 
 bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
+	// Fetch parameters
 	if ((!ValidateField("video_url", JDType::STRING, request, responseBody)) ||
 		(!ValidateField("mode", JDType::STRING, request, responseBody)))
 	{
@@ -80,8 +81,21 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 		return false;
 	}
 
-	std::string modeParam = request.Get("mode").AsString;
 	std::string videoUrl = request.Get("video_url").AsString;
+	std::string modeParam = request.Get("mode").AsString;
+	std::string qualityParam;
+
+	// 'quality' is an optional parameter. Default value is 'best'
+	if ((ValidateField("quality", JDType::STRING, request, responseBody)))
+	{
+		qualityParam = request.Get("quality").AsString;
+	}
+	else
+	{
+		qualityParam = "best";
+	}
+
+	// Process parameters
 	DOWNLOAD_MODE mode;
 	if (modeParam == "video") mode = DOWNLOAD_MODE::VIDEO;
 	else if (modeParam == "audio") mode = DOWNLOAD_MODE::AUDIO;
@@ -92,10 +106,27 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 		return false;
 	}
 
+	DOWNLOAD_QUALITY quality;
+	if (qualityParam == "best")
+		quality = DOWNLOAD_QUALITY::_BEST;
+	else if (qualityParam == "1080p")
+		quality = DOWNLOAD_QUALITY::_1080p;
+	else if (qualityParam == "720p")
+		quality = DOWNLOAD_QUALITY::_720p;
+	else if (qualityParam == "360p")
+		quality = DOWNLOAD_QUALITY::_360p;
+	else if (qualityParam == "144p")
+		quality = DOWNLOAD_QUALITY::_144p;
+	else {
+		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Parameter 'quality' is of wrong value. Choose either 'best', '1080p', '720p', '360p', or '144p'."));
+		return false;
+	}
+
 	log->cout << "Queued video \"" << videoUrl << "\"...";
 	log->Flush();
 
-	std::string tubId = DownloadManager::QueueDownload(videoUrl, mode);
+	std::string tubId = DownloadManager::QueueDownload(videoUrl, mode, quality);
 
 	responseCode = HTTP_STATUS_CODE::OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
