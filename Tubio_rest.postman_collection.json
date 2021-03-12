@@ -33,6 +33,33 @@
 			"response": []
 		},
 		{
+			"name": "GetServerVersion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"kill_yourself\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "DownloadVideo",
 			"request": {
 				"method": "POST",
@@ -182,12 +209,9 @@
 					}
 				},
 				"url": {
-					"raw": "192.168.1.12:6969/api",
+					"raw": "localhost:6969/api",
 					"host": [
-						"192",
-						"168",
-						"1",
-						"12"
+						"localhost"
 					],
 					"port": "6969",
 					"path": [
@@ -212,12 +236,9 @@
 					}
 				},
 				"url": {
-					"raw": "192.168.1.12:6969/api",
+					"raw": "localhost:6969/api",
 					"host": [
-						"192",
-						"168",
-						"1",
-						"12"
+						"localhost"
 					],
 					"port": "6969",
 					"path": [
@@ -323,12 +344,9 @@
 					}
 				},
 				"url": {
-					"raw": "192.168.1.12:6969/api",
+					"raw": "localhost:6969/api",
 					"host": [
-						"192",
-						"168",
-						"1",
-						"12"
+						"localhost"
 					],
 					"port": "6969",
 					"path": [
@@ -499,7 +517,33 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "ResetConfig to default",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"request\": \"reset_config_to_default_values\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6969/api",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
