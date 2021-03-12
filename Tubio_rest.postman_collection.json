@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"request\": \"kill_yourself\"\r\n}",
+					"raw": "{\r\n    \"request\": \"get_server_version\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
