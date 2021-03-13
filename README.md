@@ -89,46 +89,46 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 
 ## Setup (Windows)
 #### Install youtube-dl.exe:
-1) Go here: [click](http://ytdl-org.github.io/youtube-dl/download.html).
-2) From there, download Microsoft Visual C++ 2010 Redistributable Package (x86) and install it.
-3) Go there: [click](https://www.gyan.dev/ffmpeg/builds/).
-4) Download the ffmpeg-release-full.7z. At the time of writing this, the direct link is [this](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.7z). Save that for later.
-5) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
-6) Create some folder on your pc. This will be the installation folder.
-7) Dump in the contents of the Tubio build you just downloaded.
-8) Dump in the contents of `ffmpeg-<some-numbers>/bin/` in ffmpeg-release-full.7z into that same installation directory. It should be three .exe files. They HAVE to be in the same directory as `Tubio.exe`!
-9) Launch Tubio.exe
-10) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
-11) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
-12) Enjoy &lt;3
+1) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
+2) Create some folder on your pc. This will be the installation folder.
+3) Dump in the contents of the Tubio build you just downloaded.
+4) Launch vcredist_x86.exe and install it. This will install Microsoft Visual C++ 2010 Redistributable Package (x86) which is needed for dependencies.
+5) Launch VC_redist.x64.exe and install it. This will install Microsoft Visual C++ 2015/17/19 Redistributable Package (x64) which is needed to run Tubio.exe
+6) Launch Tubio.exe
+7) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
+8) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
+9) Enjoy &lt;3
 
 ## Frequently Asked Questions
-#### My downloads fail!
+### My downloads hang at 99% or 100%
+This happens as there often is some post-processing to do after downloading.
+
+### My downloads fail!
 First thing to do: Navigate to /settings and click "Update ytdl". This will update your local instance of [youtube-dl](http://youtube-dl.org/).  Check the logs to see if it worked. If not, restart Tubio and try again.
 
 If it\`s still not working, you are most likely trying to download a video from a playlist with a weird url. Try a different one (The one from the share button, the one from right-clicking the video or the one from the url-bar in your browser).
 
 If it\`s still not working, you\`re out of luck. :(
 
-#### I locked myself out by enabling localhost only on another device!
+### I locked myself out by enabling localhost only on another device!
 This can only be undone from the host. Open Tubio via, and this is important, either `localhost` or `127.0.0.1` and untick it again. If you can only ssh into the host, you can edit the `config.json` itself and restart Tubio.
 
-#### Does it work on linux?
+### Does it work on linux?
 Well, technically, yes.  You would have to install youtube-dl and the ffmpeg suite yourself, and compile Tubio yourself though. I have not tried it yet, but it should work.
 
-#### Can i use it on my phone?
+### Can i use it on my phone?
 Sure. Read [this](#user-content-can-i-use-tubio-on-multiple-devices).
 
-#### Can i use this to host my own downloader website?
+### Can i use this to host my own downloader website?
 On your own risk! Tubio is NOT designed for this! Also do note that tubio does NOT manage sessions or accounts! Everyone accessing this instance can see everyones downloads and access the admin panel! Tubio is really designed for one user!
 
-#### XY is not working, you have to fix it now!
+### XY is not working, you have to fix it now!
 I do not. Tubio is a tool i originally made for myself only. I just thought it\`s nice and worth sharing. I will address issues when i have time. Feel free to submit issues and i will have a look when i get to it. :)
 
-#### XY is not polished enough!
+### XY is not polished enough!
 This is an alpha-version. What did you expect? :D
 
-#### Can you please add support for website XY?
+### Can you please add support for website XY?
 Please address the awesome team at youtube-dl, as they made the downloading-end: [github.com/ytdl-org/youtube-dl/issues](https://github.com/ytdl-org/youtube-dl/issues)
 
 ## Important notice!
