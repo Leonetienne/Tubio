@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "Tubio - Companion Extension",
+  "version": "1.0",
+
+  "icons": {
+      "16": "icon/16.png",
+      "48": "icon/48.png",
+    "128": "icon/128.png"
+  },
+
+  "permissions": [
+    "background",
+    "contextMenus",
+    "webRequest",
+    "*://*/*"
+  ],
+
+  "background": {
+    "scripts": [
+      "lib/axios.js",
+      "background.js"
+    ]
+  },
+
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "js": [
+        "lib/jquery-3.5.1.min.js",
+        "lib/axios.js"
+      ],
+      "css": [
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ]
+}
