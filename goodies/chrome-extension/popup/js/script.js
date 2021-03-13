@@ -1,6 +1,6 @@
-$("#button-download").click(function() {
+$("#button--download").click(function() {
 
-    $("#button-download").addClass("lock");
+    $("#button--download").addClass("lock");
 
     // Query active tab in active window...
     chrome.windows.getCurrent(function(w) {
@@ -25,8 +25,14 @@ chrome.storage.local.get(['tubio_address'], function(result) {
     $("#tubio-address").val(result.tubio_address);
 });
 
-$("#button-save-settings").click(function() {
+$("#button--save-settings").click(function() {
     chrome.storage.local.set({
         tubio_address: $("#tubio-address").val()
+    });
+});
+
+$("#button--take-me-home").click(function() {
+    chrome.storage.local.get(['tubio_address'], function(result) {
+        chrome.tabs.create({url: result.tubio_address});
     });
 });
