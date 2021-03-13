@@ -23,6 +23,18 @@ namespace Downloader
 		FINISHED,
 		FAILED
 	};
+	enum class DOWNLOAD_QUALITY
+	{
+		_BEST,   // best quality
+		_1440p,  // 1440p
+		_1080p,  // 1080p
+		_720p,   // 720p
+		_480p,   // 480p
+		_360p,   // 360p
+		_240p,   // 240p
+		_144p,    // 144p
+		INVALID
+	};
 
 	class DownloadEntry
 	{
@@ -41,6 +53,7 @@ namespace Downloader
 		std::string download_url;
 		DOWNLOAD_STATUS status;
 		DOWNLOAD_MODE mode;
+		DOWNLOAD_QUALITY quality;
 		int download_progress;
 		time_t queued_timestamp;
 
@@ -61,7 +74,7 @@ namespace Downloader
 		/// <param name="url"></param>
 		/// <param name="mode">If video or audio</param>
 		/// <returns>Tubio download id</returns>
-		static std::string QueueDownload(std::string url, DOWNLOAD_MODE mode);
+		static std::string QueueDownload(std::string url, DOWNLOAD_MODE mode, DOWNLOAD_QUALITY quality = DOWNLOAD_QUALITY::_BEST);
 
 		/// <summary>
 		/// Returns the number of videos queued
@@ -102,12 +115,43 @@ namespace Downloader
 		/// <returns></returns>
 		static bool RemoveFromCacheByID(std::string id);
 
+		/// <summary>
+		/// Will return a name of a download quality. Like, '1080p' or 'best' for example
+		/// </summary>
+		/// <param name="quality">The quality to get the name from</param>
+		/// <returns>The name of the download quality</returns>
+		static std::string DownloadQualityToName(DOWNLOAD_QUALITY quality);
+
+		/// <summary>
+		/// Will return a download quality object based on a name, like '1080p' or 'best' for example
+		/// </summary>
+		/// <param name="qualityName"></param>
+		/// <returns></returns>
+		static DOWNLOAD_QUALITY GetDownloadQualityByName(const std::string& qualityName);
+
 	private:
 		static void Save();
 		static void Load();
 		static std::vector<DownloadEntry> ParseJsonArrayToEntries(const JasonPP::JsonArray& arr);
 
+		/// <summary>
+		/// Will return a youtube-dl quality string based on 'quality'
+		/// </summary>
+		/// <param name="quality">The download quality to get the parameter from</param>
+		/// <returns>The youtube-dl quality parameter</returns>
+		static std::string DownloadQualityToStringParams(DOWNLOAD_QUALITY quality);
+
+		/// <summary>
+		/// Will fetch metadata of an url
+		/// </summary>
+		/// <param name="url">Url to fetch from</param>
+		/// <param name="tubId">Tubio id to save data to</param>
 		static void FetchInformation(std::string url, std::string tubId);
+
+		/// <summary>
+		/// Will create an unique tubio id (based on time())
+		/// </summary>
+		/// <returns>Unique tubio id</returns>
 		static std::string CreateNewTubioID();
 
 		/// <summary>
