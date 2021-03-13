@@ -180,12 +180,11 @@ void DownloadManager::DownloadNext()
 			// Call template
 			std::string ytdl_call_audio_base =
 				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
-				" --no-mtime --no-cache-dir -f \"$$QUALITY\" --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
+				" --no-mtime --no-cache-dir -f worstvideo+bestaudio --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
 			
 			// Fill template
-			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$QUALITY", DownloadQualityToStringParams(entry->quality));
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_RATE", XGConfig::downloader.max_dlrate_per_thread);
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_FILE", XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".%(ext)s");
 			ytdl_call_audio_base = Internal::StringHelpers::Replace(ytdl_call_audio_base, "$$DL_URL", entry->webpage_url);
@@ -580,7 +579,11 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 		if ((iter.DoesExist("quality")) && (iter["quality"].GetDataType() == JDType::STRING))
 		{
 			newEntry.quality = GetDownloadQualityByName(iter["quality"].AsString);
+			if (newEntry.quality == DOWNLOAD_QUALITY::INVALID)
+				newEntry.quality = DOWNLOAD_QUALITY::_BEST;
 		}
+		else
+			newEntry.quality = DOWNLOAD_QUALITY::_BEST;
 
 		if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
 		{
@@ -626,7 +629,7 @@ std::string DownloadManager::DownloadQualityToName(DOWNLOAD_QUALITY quality)
 	switch (quality)
 	{
 	case DOWNLOAD_QUALITY::_BEST:
-		return "Best";
+		return "best";
 	case DOWNLOAD_QUALITY::_1440p:
 		return "1440p";
 	case DOWNLOAD_QUALITY::_1080p:
@@ -641,6 +644,8 @@ std::string DownloadManager::DownloadQualityToName(DOWNLOAD_QUALITY quality)
 		return "240p";
 	case DOWNLOAD_QUALITY::_144p:
 		return "144p";
+	case DOWNLOAD_QUALITY::INVALID:
+		return "INVALID";
 	}
 
 	return std::string();
