@@ -89,11 +89,11 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 
 ## Setup (Windows)
 #### Install youtube-dl.exe:
-1) Go here: [click](http://ytdl-org.github.io/youtube-dl/download.html).
-2) From there, download Microsoft Visual C++ 2010 Redistributable Package (x86) and install it.
-3) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
-4) Create some folder on your pc. This will be the installation folder.
-5) Dump in the contents of the Tubio build you just downloaded.
+1) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
+2) Create some folder on your pc. This will be the installation folder.
+3) Dump in the contents of the Tubio build you just downloaded.
+4) Launch vcredist_x86.exe and install it. This will install Microsoft Visual C++ 2010 Redistributable Package (x86) which is needed for dependencies.
+5) Launch VC_redist.x64.exe and install it. This will install Microsoft Visual C++ 2015/17/19 Redistributable Package (x64) which is needed to run Tubio.exe
 6) Launch Tubio.exe
 7) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
 8) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
