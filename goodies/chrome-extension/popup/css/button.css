@@ -9,7 +9,17 @@ button {
         transform 0.15s ease;
 }
 
+button.small {
+    padding: 0.15em 1em;
+}
+
 button:hover {
+    transform: scale(1.075);
+    color: #fff;
+    background-color: #5954a4;
+}
+
+button.special:hover {
     /*background-color: #5954a4;*/
     color: #fff;
     animation: color-cycle;

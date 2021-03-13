@@ -20,3 +20,13 @@ $("#button-download").click(function() {
 
     return;
 });
+
+chrome.storage.local.get(['tubio_address'], function(result) {
+    $("#tubio-address").val(result.tubio_address);
+});
+
+$("#button-save-settings").click(function() {
+    chrome.storage.local.set({
+        tubio_address: $("#tubio-address").val()
+    });
+});
