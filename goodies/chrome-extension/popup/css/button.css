@@ -17,6 +17,10 @@ button:hover {
     animation-iteration-count: infinite;
 }
 
+button.lock {
+    visibility: hidden;
+}
+
 @keyframes color-cycle {
     0%      {background-color: #ff6666; transform: scale(1.075);}
     16.67%  {background-color: #c966ff;}

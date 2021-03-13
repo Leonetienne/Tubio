@@ -17,18 +17,26 @@
         <div class="bgmask"></div>
 
 
-        <h1 class="text-center pt-1">Tubio</h1>
-        <h2 class="text-center">Companion Extension</h2>
+        <h1 class="text-center pt-1" style="margin-bottom: 0;">Tubio</h1>
+        <h2 class="text-center" style="margin-top: 0; padding-top: 0;">Companion Extension</h2>
 
         <div class="flex justify-content-center">
             <div class="flex flex-col align-items-center">
-                <button >Download!</button>
+                
+                <!-- Download this - button -->
+                <button id="button-download" title="Will download this pages URL as a video of highest quality.">
+                        Download!
+                </button>
                 
                 <label for="tubio-address" style="margin-top: 3em;">Where can i reach tubio?</label>
                 <input type="text" id="tubio-address" class="text-center" />
                 
             </div>
         </div>
-
+        
+        <script src="../lib/jquery-3.5.1.min.js"></script>
+        <script src="../lib/axios.js"></script>
+        <script src="../queueDownload.js"></script>
+        <script src="js/script.js"></script>
     </body>
 </html>
