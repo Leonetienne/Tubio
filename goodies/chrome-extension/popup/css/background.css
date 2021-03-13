@@ -1,0 +1,37 @@
+body {
+    width: 300px;
+    height: 300px;
+    margin: 0 !important;
+}
+body .bgmask {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -8;
+    background-image: linear-gradient(#0000 50%, #04254e);
+}
+
+body .bggatter {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -9;
+    -webkit-mask-image: url("../image/grid.png");
+    background-color: #5954a4;
+}
+
+body .bggatter__wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    z-index: -9;
+}
+
+body .bgdrop {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -10;
+    background-color: #04254e;
+}

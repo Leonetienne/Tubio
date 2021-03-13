@@ -1,0 +1,15 @@
+* {
+    font-family: 'ZillaSlab' !important;
+    color: #ddd;
+}
+
+p,
+a,
+label {
+    font-size: 14pt;
+}
+
+h1,
+h2 {
+    line-height: 1em;
+}

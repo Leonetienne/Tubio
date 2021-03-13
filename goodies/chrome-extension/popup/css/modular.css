@@ -1,0 +1,23 @@
+.text-center {
+    text-align: center;
+}
+
+.pt-1 {
+    padding-top: 1em;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}

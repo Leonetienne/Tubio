@@ -1,0 +1,28 @@
+button {
+    padding: 0.5em 2em;
+    color: #04254e;
+    font-size: 14pt;
+    border-radius: 5px;
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+button:hover {
+    /*background-color: #5954a4;*/
+    color: #fff;
+    animation: color-cycle;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes color-cycle {
+    0%      {background-color: #ff6666; transform: scale(1.075);}
+    16.67%  {background-color: #c966ff;}
+    33.33%  {background-color: #6678ff;}
+    50%     {background-color: #66edff; transform: scale(1.15);}
+    66.66%  {background-color: #66ff70;}
+    83.33%  {background-color: #fcff66;}
+    100%    {background-color: #ff6666; transform: scale(1.075);}
+}
