@@ -1,0 +1,14 @@
+label {
+    margin-bottom: 0.5em;
+}
+
+input {
+    border-radius: 5px;
+    height: 25pt;
+}
+
+input,
+textarea {
+    color: #04254e;
+    font-size: 14pt;
+}
