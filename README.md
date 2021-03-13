@@ -35,6 +35,12 @@ Have a sneak peak!
 
 ![mobile](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/mobile.png)
 
+## NEW! Get the Chrome Companion Extension!
+![extension-popup](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/chromeext-popup.png)
+
+![extension-contextmenu](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/chromeext-context.png)
+
+
 ## How can i configure it?
 See this json file (config.json).
 Most of these values are configurable in the web-interface, but not all, such as the port.

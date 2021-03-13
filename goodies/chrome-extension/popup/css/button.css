@@ -14,7 +14,7 @@ button.small {
 }
 
 button:hover {
-    transform: scale(1.075);
+    transform: scale(1.035);
     color: #fff;
     background-color: #5954a4;
 }
