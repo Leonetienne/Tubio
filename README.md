@@ -91,16 +91,13 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 #### Install youtube-dl.exe:
 1) Go here: [click](http://ytdl-org.github.io/youtube-dl/download.html).
 2) From there, download Microsoft Visual C++ 2010 Redistributable Package (x86) and install it.
-3) Go there: [click](https://www.gyan.dev/ffmpeg/builds/).
-4) Download the ffmpeg-release-full.7z. At the time of writing this, the direct link is [this](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.7z). Save that for later.
-5) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
-6) Create some folder on your pc. This will be the installation folder.
-7) Dump in the contents of the Tubio build you just downloaded.
-8) Dump in the contents of `ffmpeg-<some-numbers>/bin/` in ffmpeg-release-full.7z into that same installation directory. It should be three .exe files. They HAVE to be in the same directory as `Tubio.exe`!
-9) Launch Tubio.exe
-10) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
-11) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
-12) Enjoy &lt;3
+3) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
+4) Create some folder on your pc. This will be the installation folder.
+5) Dump in the contents of the Tubio build you just downloaded.
+6) Launch Tubio.exe
+7) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
+8) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
+9) Enjoy &lt;3
 
 ## Frequently Asked Questions
 #### My downloads fail!
