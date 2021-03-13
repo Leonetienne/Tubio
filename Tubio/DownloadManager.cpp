@@ -577,6 +577,11 @@ std::vector<DownloadEntry> DownloadManager::ParseJsonArrayToEntries(const JasonP
 			newEntry.queued_timestamp = iter["queued_timestamp"].AsInt;
 		}
 
+		if ((iter.DoesExist("quality")) && (iter["quality"].GetDataType() == JDType::STRING))
+		{
+			newEntry.quality = GetDownloadQualityByName(iter["quality"].AsString);
+		}
+
 		if ((iter.DoesExist("mode")) && (iter["mode"].GetDataType() == JDType::STRING))
 		{
 			std::string cachedStrMode = iter["mode"];
@@ -597,17 +602,70 @@ std::string DownloadManager::DownloadQualityToStringParams(DOWNLOAD_QUALITY qual
 	{
 	case DOWNLOAD_QUALITY::_BEST:
 		return "bestvideo[ext=mp4]+bestaudio";
+	case DOWNLOAD_QUALITY::_1440p:
+		return "bestvideo[ext=mp4][height<=1440]+bestaudio";
 	case DOWNLOAD_QUALITY::_1080p:
 		return "bestvideo[ext=mp4][height<=1080]+bestaudio";
 	case DOWNLOAD_QUALITY::_720p:
 		return "bestvideo[ext=mp4][height<=720]+bestaudio";
+	case DOWNLOAD_QUALITY::_480p:
+		return "bestvideo[ext=mp4][height<=480]+bestaudio";
 	case DOWNLOAD_QUALITY::_360p:
 		return "bestvideo[ext=mp4][height<=360]+bestaudio";
+	case DOWNLOAD_QUALITY::_240p:
+		return "bestvideo[ext=mp4][height<=240]+bestaudio";
 	case DOWNLOAD_QUALITY::_144p:
 		return "bestvideo[ext=mp4][height<=144]+bestaudio";
 	}
 
 	return std::string();
+}
+
+std::string DownloadManager::DownloadQualityToName(DOWNLOAD_QUALITY quality)
+{
+	switch (quality)
+	{
+	case DOWNLOAD_QUALITY::_BEST:
+		return "Best";
+	case DOWNLOAD_QUALITY::_1440p:
+		return "1440p";
+	case DOWNLOAD_QUALITY::_1080p:
+		return "1080p";
+	case DOWNLOAD_QUALITY::_720p:
+		return "720p";
+	case DOWNLOAD_QUALITY::_480p:
+		return "480p";
+	case DOWNLOAD_QUALITY::_360p:
+		return "360p";
+	case DOWNLOAD_QUALITY::_240p:
+		return "240p";
+	case DOWNLOAD_QUALITY::_144p:
+		return "144p";
+	}
+
+	return std::string();
+}
+
+DOWNLOAD_QUALITY DownloadManager::GetDownloadQualityByName(const std::string& qualityName)
+{
+	if (qualityName == "best")
+		return DOWNLOAD_QUALITY::_BEST;
+	else if (qualityName == "1440p")
+		return DOWNLOAD_QUALITY::_1440p;
+	else if (qualityName == "1080p")
+		return DOWNLOAD_QUALITY::_1080p;
+	else if (qualityName == "720p")
+		return DOWNLOAD_QUALITY::_720p;
+	else if (qualityName == "480p")
+		return DOWNLOAD_QUALITY::_480p;
+	else if (qualityName == "360p")
+		return DOWNLOAD_QUALITY::_360p;
+	else if (qualityName == "240p")
+		return DOWNLOAD_QUALITY::_240p;
+	else if (qualityName == "144p")
+		return DOWNLOAD_QUALITY::_144p;
+
+	return DOWNLOAD_QUALITY::INVALID;
 }
 
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
@@ -731,6 +789,7 @@ Downloader::DownloadEntry::DownloadEntry()
 	download_url = "";
 	status = DOWNLOAD_STATUS::QUEUED;
 	mode = DOWNLOAD_MODE::AUDIO;
+	quality = DOWNLOAD_QUALITY::INVALID;
 	download_progress = 0;
 	queued_timestamp = 0;
 
@@ -751,6 +810,7 @@ JsonBlock DownloadEntry::GetAsJson()
 	jb.Set(Ele("downloaded_filename", downloaded_filename));
 	jb.Set(Ele("download_url", download_url));
 	jb.Set(Ele("queued_timestamp", (long long int)queued_timestamp));
+	jb.Set(Ele("quality", DownloadManager::DownloadQualityToName(quality)));
 
 	switch (mode)
 	{

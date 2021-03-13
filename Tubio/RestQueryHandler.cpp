@@ -96,6 +96,7 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 	}
 
 	// Process parameters
+	// Process download mode
 	DOWNLOAD_MODE mode;
 	if (modeParam == "video") mode = DOWNLOAD_MODE::VIDEO;
 	else if (modeParam == "audio") mode = DOWNLOAD_MODE::AUDIO;
@@ -106,20 +107,11 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 		return false;
 	}
 
-	DOWNLOAD_QUALITY quality;
-	if (qualityParam == "best")
-		quality = DOWNLOAD_QUALITY::_BEST;
-	else if (qualityParam == "1080p")
-		quality = DOWNLOAD_QUALITY::_1080p;
-	else if (qualityParam == "720p")
-		quality = DOWNLOAD_QUALITY::_720p;
-	else if (qualityParam == "360p")
-		quality = DOWNLOAD_QUALITY::_360p;
-	else if (qualityParam == "144p")
-		quality = DOWNLOAD_QUALITY::_144p;
-	else {
+	// Process download quality
+	DOWNLOAD_QUALITY quality = DownloadManager::GetDownloadQualityByName(qualityParam);
+	if (quality == DOWNLOAD_QUALITY::INVALID) {
 		responseCode = HTTP_STATUS_CODE::BAD_REQUEST;
-		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Parameter 'quality' is of wrong value. Choose either 'best', '1080p', '720p', '360p', or '144p'."));
+		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Parameter 'quality' is of wrong value. Choose either 'best', '1440p', '1080p', '720p', '480p', '360p', '240p', or '144p'."));
 		return false;
 	}
 
