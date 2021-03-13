@@ -5,12 +5,15 @@
 
             <div class="flex items-end justify-between w-full md:w-auto">
 
-              <div class="flex flex-col">
+              <div class="flex flex-row">
                 <div class="icon--mode">
                   <IconFilm v-if="downloadEntry.mode === 'video'" />
                   <IconMusic v-else />
                 </div>
-                <div class="timestamp">
+                <div class="smalltext-metadata ml-1">
+                    {{typeof(downloadEntry.quality) != 'undefined' ? downloadEntry.quality : 'best'}} <!-- I also need to support older downloads that may not have a value for quality. These were downlaoded at the best quality possible. -->
+                </div>
+                <div class="smalltext-metadata ml-1">
                     {{getQueuedDateString(downloadEntry.queued_timestamp)}}
                 </div>
               </div>
@@ -146,10 +149,14 @@ export default {
   width: 100%;
   border-bottom: 2px solid theme("colors.gray-1");
 
-  & .timestamp {
+  & .smalltext-metadata {
     font-family: ZillaSlab, serif;
     font-size: 12pt;
     color: theme("colors.text-gray-1");
+
+    &::before {
+      content: '|';
+    }
   }
 
   & .thumbnail {
@@ -162,6 +169,10 @@ export default {
     position: relative;
     cursor: pointer;
     scrollbar-width: none;
+    backface-visibility: hidden;    // prevent flickering on mover
+    transform: translate3d(0, 0, 0);// prevent flickering on mover
+    transform-style: preserve-3d;   // prevent flickering on mover
+    transition: transform 0.2s ease;
 
     @media (max-width: theme('screens.md')) {
       width: 100%;
@@ -169,7 +180,7 @@ export default {
     }
 
     &:hover {
-      // transform: scale(1.05); /* shit causes flickering */
+      transform: scale(1.05); /* shit causes flickering */
     }
 
     &__vignette {

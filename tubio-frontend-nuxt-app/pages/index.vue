@@ -8,8 +8,10 @@
         <Spacer height="2em" m_height="2em" />
       </div>
 
+      <!-- URL-Field -->
       <div class="flex flex-row flex-wrap md:flex-no-wrap  input-flex justify-between md:justify-center">
-        <input class="flex-grow md:mr-4 mb-2 md:mb-0 w-full"
+
+        <input class="flex-grow mb-2 md:mb-0 w-full"
           type="url"
           name="video_url"
           id="video_url"
@@ -18,15 +20,35 @@
           v-on:keydown="keyMonitor"
         />
 
+        <!-- Flex-Break on mobile -->
         <div class="w-full md:hidden" />
 
-        <div class="flex-shrink button-submit flex-grow-0">
-          <select name="mode" id="mode" ref="mode" class="dropdown">
-            <option value="video">Video</option>
-            <option value="audio">Audio</option>
-          </select>
+        <div class="flex">
+          <!-- Mode selector -->
+          <div class="flex-shrink button-submit flex-grow-0 md:ml-4">
+            <select name="mode" id="mode" ref="mode" class="dropdown">
+              <option value="video">Video</option>
+              <option value="audio">Audio</option>
+            </select>
+          </div>
+
+          <!-- Quality selector -->
+          <div class="flex-shrink button-submit flex-grow-0 ml-3">
+            <select name="mode" id="quality" ref="quality" class="dropdown">
+              <option value="best">Best</option>
+              <option value="1440p">1440p</option>
+              <option value="1080p">1080p</option>
+              <option value="720p">720p</option>
+              <option value="480p">480p</option>
+              <option value="360p">360p</option>
+              <option value="240p">240p</option>
+              <option value="144p">144p</option>
+            </select>
+          </div>
+
         </div>
 
+        <!-- Download button -->
         <div class="button flex-shrink button-submit flex-grow-0 ml-3" v-on:click="downloadButtonClicked">
           <IconArrowRightSquare class="icon-button" />
         </div>
@@ -75,7 +97,8 @@ export default {
         axios.post("/api", {
           request: "queue_download",
           video_url: url,
-          mode: this.$refs.mode.options[this.$refs.mode.selectedIndex].value
+          mode: this.$refs.mode.options[this.$refs.mode.selectedIndex].value,
+          quality: this.$refs.quality.options[this.$refs.quality.selectedIndex].value
         }).then(function(response){
           if (response.data.status === "OK") {
             that.isWaitingForResponse = false;

@@ -15,6 +15,8 @@ export const actions = {
         axios.post("/api", {
             request: "fetch_alltime_cache"
         })
+        //axios.get("/rest-dummies/cache.json", {
+        //})
         .then(function(response) {
             if (response.data.status === "OK") {
                 context.commit("update", response.data.cache);

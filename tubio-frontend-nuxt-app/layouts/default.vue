@@ -24,8 +24,8 @@ export default {
 
 <style lang="scss" scoped>
 .main-column {
-  width: 80%;
-  padding: 0 20% 50px 20%;
+  width: 70%;
+  padding: 0 0 50px 0;
   background-color: #0005;
   box-shadow: 0 0 50px 50px #0005;
   min-height: 100vh;
