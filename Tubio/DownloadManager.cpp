@@ -604,21 +604,21 @@ std::string DownloadManager::DownloadQualityToStringParams(DOWNLOAD_QUALITY qual
 	switch (quality)
 	{
 	case DOWNLOAD_QUALITY::_BEST:
-		return "bestvideo[ext=mp4]+bestaudio";
+		return "bestvideo+bestaudio";
 	case DOWNLOAD_QUALITY::_1440p:
-		return "bestvideo[ext=mp4][height<=1440]+bestaudio";
+		return "bestvideo[height<=1440]+bestaudio";
 	case DOWNLOAD_QUALITY::_1080p:
-		return "bestvideo[ext=mp4][height<=1080]+bestaudio";
+		return "bestvideo[height<=1080]+bestaudio";
 	case DOWNLOAD_QUALITY::_720p:
-		return "bestvideo[ext=mp4][height<=720]+bestaudio";
+		return "bestvideo[height<=720]+bestaudio";
 	case DOWNLOAD_QUALITY::_480p:
-		return "bestvideo[ext=mp4][height<=480]+bestaudio";
+		return "bestvideo[height<=480]+bestaudio";
 	case DOWNLOAD_QUALITY::_360p:
-		return "bestvideo[ext=mp4][height<=360]+bestaudio";
+		return "bestvideo[height<=360]+bestaudio";
 	case DOWNLOAD_QUALITY::_240p:
-		return "bestvideo[ext=mp4][height<=240]+bestaudio";
+		return "bestvideo[height<=240]+bestaudio";
 	case DOWNLOAD_QUALITY::_144p:
-		return "bestvideo[ext=mp4][height<=144]+bestaudio";
+		return "bestvideo[height<=144]+bestaudio";
 	}
 
 	return std::string();
