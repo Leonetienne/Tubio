@@ -604,7 +604,7 @@ std::string DownloadManager::DownloadQualityToStringParams(DOWNLOAD_QUALITY qual
 	switch (quality)
 	{
 	case DOWNLOAD_QUALITY::_BEST:
-		return "bestvideo+bestaudio";
+		return "best";
 	case DOWNLOAD_QUALITY::_1440p:
 		return "bestvideo[height<=1440]+bestaudio";
 	case DOWNLOAD_QUALITY::_1080p:
