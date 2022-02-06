@@ -709,7 +709,7 @@ void DownloadManager::WarnIfMissingDependenciesWIN()
 #ifdef _WIN
 	if (!FileSystem::Exists("yt-dlp.exe"))
 	{
-		log->cout << log->Warn() << "Dependency yt-dlp.exe missing! Try updating it! (\"request\": \"update_dep_youtubedl\"). "
+		log->cout << log->Warn() << "Dependency yt-dlp.exe missing! Try updating it! (\"request\": \"update_dep_YtDlp\"). "
 				  << "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
 		log->Flush();
 	}

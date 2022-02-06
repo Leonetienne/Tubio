@@ -2,7 +2,7 @@
 
 using namespace JasonPP;
 
-std::string Updater::UpdateYoutubeDL()
+std::string Updater::UpdateYtDlp()
 {
 #ifdef _WIN
     // Fetch rest respone for latest yt-dlp release

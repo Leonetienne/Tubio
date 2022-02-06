@@ -135,10 +135,10 @@ namespace Downloader
 		static std::vector<DownloadEntry> ParseJsonArrayToEntries(const JasonPP::JsonArray& arr);
 
 		/// <summary>
-		/// Will return a youtube-dl quality string based on 'quality'
+		/// Will return a yt-dlp quality string based on 'quality'
 		/// </summary>
 		/// <param name="quality">The download quality to get the parameter from</param>
-		/// <returns>The youtube-dl quality parameter</returns>
+		/// <returns>The yt-dlp quality parameter</returns>
 		static std::string DownloadQualityToStringParams(DOWNLOAD_QUALITY quality);
 
 		/// <summary>

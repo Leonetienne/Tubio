@@ -13,8 +13,8 @@ class Updater
 {
 public:
 	/// <summary>
-	/// Will update youtube-dl.exe on windows only!! Returns error message. On linux, you have to update it yourself, since it is a package of its own!
+	/// Will update yt-dlp.exe on windows only!! Returns error message. On linux, you have to update it yourself, since it is a package of its own!
 	/// </summary>
 	/// <returns></returns>
-	static std::string UpdateYoutubeDL();
+	static std::string UpdateYtDlp();
 };
