@@ -165,7 +165,7 @@ export default {
   data: function() {
     return {
       canUpdate: {type: Boolean, default: true},
-      version__webUI: 0.77
+      version__webUI: 0.78
     };
   },
 
