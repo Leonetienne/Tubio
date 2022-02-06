@@ -5,6 +5,8 @@
 #ifdef _WIN
 #include <urlmon.h>
 #include <Windows.h>
+#include <atlbase.h>
+#include "external_dependencies/leonetienne/JasonPP/JasonPP.hpp"
 #endif
 
 class Updater
