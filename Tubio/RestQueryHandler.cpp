@@ -41,7 +41,7 @@ bool RestQueryHandler::ProcessQuery(const std::string clientAdress, const Json& 
 	else if (requestName == "get_os_name") return GetOSName(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_session_logs") return FetchSessionLogs(requestBody, responseBody, responseCode);
 	else if (requestName == "fetch_alltime_logs") return FetchAlltimeLogs(requestBody, responseBody, responseCode);
-	else if (requestName == "update_dep_youtubedl") return UpdateYoutubeDL(requestBody, responseBody, responseCode);
+	else if (requestName == "update_dep_yt-dlp") return UpdateYtDlp(requestBody, responseBody, responseCode);
 	else if (requestName == "remove_download_entry") return RemoveDownloadEntry(requestBody, responseBody, responseCode);
 	else if (requestName == "update_config") return UpdateConfig(requestBody, responseBody, responseCode);
 	else if (requestName == "reset_config_to_default_values") return ResetConfigDefaults(requestBody, responseBody, responseCode);
@@ -370,9 +370,9 @@ bool RestQueryHandler::GetDiskUsage(const JsonBlock& request, JsonBlock& respons
 	{
 		dependencies += FileSystem::CalculateSize("ffplay.exe");
 	}
-	if (FileSystem::Exists("youtube-dl.exe"))
+	if (FileSystem::Exists("yt-dlp.exe"))
 	{
-		dependencies += FileSystem::CalculateSize("youtube-dl.exe");
+		dependencies += FileSystem::CalculateSize("yt-dlp.exe");
 	}
 	diskUsages.Set("dependencies") = dependencies;
 
@@ -397,12 +397,12 @@ bool RestQueryHandler::ClearLogs(const JsonBlock& request, JsonBlock& responseBo
 	return true;
 }
 
-bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
+bool RestQueryHandler::UpdateYtDlp(const JsonBlock& request, JsonBlock& responseBody, HTTP_STATUS_CODE& responseCode)
 {
-	log->cout << "Updating youtube-dl...";
+	log->cout << "Updating yt-dlp...";
 	log->Flush();
 
-	std::string result = Updater::UpdateYoutubeDL();
+	std::string result = Updater::UpdateYtDlp();
 	if (result == "OK")
 	{
 		log->cout << "   => OK!";
@@ -410,7 +410,7 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 
 		responseCode = HTTP_STATUS_CODE::OK;
 		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));
-		responseBody.Set("message") = "Updated youtube-dl.exe successfully!";
+		responseBody.Set("message") = "Updated yt-dlp.exe successfully!";
 	}
 	else if (result == "not implemented")
 	{
@@ -420,7 +420,7 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 		log->Flush();
 		responseCode = HTTP_STATUS_CODE::NOT_IMPLEMENTED;
 		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::NOT_IMPLEMENTED));
-		responseBody.Set("message") = "On linux you have to update youtube-dl yourself since it is a system-wide package handled by various package managers!";
+		responseBody.Set("message") = "On linux you have to update yt-dlp yourself since it is a system-wide package handled by various package managers!";
 	}
 	else // Some other error
 	{
@@ -429,7 +429,7 @@ bool RestQueryHandler::UpdateYoutubeDL(const JsonBlock& request, JsonBlock& resp
 
 		responseCode = HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR;
 		responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::INTERNAL_SERVER_ERROR));
-		responseBody.Set("message") = "Unable do update youtube-dl.exe! See urlmon " + result;
+		responseBody.Set("message") = "Unable do update yt-dlp.exe! See urlmon " + result;
 	}
 	
 	return true;

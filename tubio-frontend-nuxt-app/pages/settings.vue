@@ -165,7 +165,7 @@ export default {
   data: function() {
     return {
       canUpdate: {type: Boolean, default: true},
-      version__webUI: 0.762
+      version__webUI: 0.78
     };
   },
 
@@ -209,7 +209,7 @@ export default {
     updateYtdl: function() {
       const that = this;
       axios.post("/api", {
-        request: "update_dep_youtubedl",
+        request: "update_dep_yt-dlp",
       }).then(function(response){
         if (response.data.status === "OK") {
           that.$store.dispatch("logs/update", that);

@@ -160,7 +160,7 @@ void DownloadManager::DownloadNext()
 		{
 			// Call template
 			std::string ytdl_call_video_base =
-				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
+				"yt-dlp --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir -f \"$$QUALITY\" --recode-video mp4 --prefer-ffmpeg"
 				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
@@ -171,7 +171,6 @@ void DownloadManager::DownloadNext()
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_URL", entry->webpage_url);
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$DL_PROG_BUF_FILE", XGConfig::downloader.cachedir + "/dlprogbuf/" + entry->tubio_id + ".buf");
 
-
 			entry->downloaded_filename = XGConfig::downloader.cachedir + "/download/" + entry->tubio_id + ".mp4";
 			ss << ytdl_call_video_base;
 		}
@@ -179,7 +178,7 @@ void DownloadManager::DownloadNext()
 		{
 			// Call template
 			std::string ytdl_call_audio_base =
-				"youtube-dl --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
+				"yt-dlp --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir -f worstvideo+bestaudio --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
 				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
 
@@ -676,7 +675,7 @@ DOWNLOAD_QUALITY DownloadManager::GetDownloadQualityByName(const std::string& qu
 void DownloadManager::FetchInformation(std::string url, std::string tubId)
 {
 	std::stringstream ss;
-	ss << "youtube-dl --skip-download --no-warnings --no-call-home --no-playlist --socket-timeout 5 --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"";
+	ss << "yt-dlp --skip-download --no-warnings --no-call-home --no-playlist --socket-timeout 5 --dump-json \"" << url << "\" > \"" << XGConfig::downloader.cachedir << "/metadata/" << tubId << ".json" << "\"";
 	system(ss.str().c_str());
 	return;
 }
@@ -708,9 +707,9 @@ std::string DownloadManager::CreateNewTubioID()
 void DownloadManager::WarnIfMissingDependenciesWIN()
 {
 #ifdef _WIN
-	if (!FileSystem::Exists("youtube-dl.exe"))
+	if (!FileSystem::Exists("yt-dlp.exe"))
 	{
-		log->cout << log->Warn() << "Dependency youtube-dl.exe missing! Try updating it! (\"request\": \"update_dep_youtubedl\"). "
+		log->cout << log->Warn() << "Dependency yt-dlp.exe missing! Try updating it! (\"request\": \"update_dep_YtDlp\"). "
 				  << "Dependencies HAVE to lie in Tubios working directory! (where the config.json is)";
 		log->Flush();
 	}
