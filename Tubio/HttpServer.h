@@ -31,6 +31,8 @@ namespace Rest
 
 		static bool IsConnectionAllowed(std::string peer_address, std::string& denialReason);
 
+    //! Will remove all `, | and && from a string to prevent remote code execution
+    static std::string SanitizeString(std::string in);
 
 		struct mg_mgr* pMgr;
 		struct mg_connection* pNc;

@@ -1,4 +1,5 @@
 #include "HttpServer.h"
+#include "external_dependencies/leonetienne/stringtools/StringTools.h"
 
 using namespace Logging;
 using namespace Rest;
@@ -137,6 +138,15 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 	return;
 }
 
+std::string HttpServer::SanitizeString(std::string in) {
+  in = StringTools::Replace(in, '`', "\\\\`");
+  in = StringTools::Replace(in, '|', "\\\\|");
+  in = StringTools::Replace(in, '$', "\\\\$");
+  in = StringTools::Replace(in, "&&", "\\\\&\\\\&");
+
+  return in;
+}
+
 void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p, std::string peerAddress)
 {
 	// Get struct with http message informations
@@ -144,6 +154,9 @@ void HttpServer::ProcessAPIRequest(mg_connection* pNc, int ev, void* p, std::str
 
 	// Get the transmitted message body
 	std::string requestBodyRaw = FixUnterminatedString(hpm->body.p, hpm->body.len);
+  
+  // Sanitize it
+  requestBodyRaw = SanitizeString(requestBodyRaw);
 
 	// Check for the body being valid json
 	if (IsJsonValid(requestBodyRaw))
