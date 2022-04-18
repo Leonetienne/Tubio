@@ -24,6 +24,7 @@ namespace Rest
 		bool InitWebServer();
 		static void ProcessAPIRequest(struct mg_connection* pNc, int ev, void* p, std::string peerAddress);
 		static void ServeDownloadeableResource(struct mg_connection* pNc, int ev, void* p, std::string uri);
+		static void ServeDownloadLog(struct mg_connection* pNc, int ev, void* p, std::string uri);
 
 		static void EventHandler(struct mg_connection* pNc, int ev, void* p);
 		static void ServeStringToConnection(struct mg_connection* c, std::string str, int httpStatusCode = 200);
