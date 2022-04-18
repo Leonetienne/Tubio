@@ -49,3 +49,5 @@ add_executable(Tubio
         external_dependencies/leonetienne/stringtools/StringTools.h
 )
 
+target_link_libraries(Tubio pthread)
+
