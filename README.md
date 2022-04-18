@@ -110,9 +110,9 @@ You may want to check youtube-dl compatible sites.
 ### I locked myself out by enabling localhost only on another device!
 This can only be undone from localhost. Open Tubio via, and this is important, either `localhost` or `127.0.0.1` and untick it again. If you can only ssh into the host, you can edit the `config.json` itself and restart Tubio.
 
-### Does it work on linux?
-Well, technically, yes.  You would have to install youtube-dl and the ffmpeg suite yourself, and compile Tubio yourself though. I have not tried it yet, but it should work.
-You may get warnings for missing .exe files, which are obviously not needed on linux.
+### Does it work on Windows?
+Sure it does. You just have to compile it yourself using cmake, and put yt-dlp.exe, ffmpeg.exe, ffplay.exe and ffprobe.exe
+in Tubios working directory (installation directory). You could then just launch it at startup.
 
 ### Can I use it on my phone?
 Sure. Read [this](#user-content-can-i-use-tubio-on-multiple-devices).
