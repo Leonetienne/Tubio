@@ -1,4 +1,4 @@
-![Tubio](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/teaser.png)
+![Tubio](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/teaser.png)
 
 # Tubio
 The free, open source video downloader!
@@ -25,20 +25,20 @@ The frontend is a nuxt.js web application.
 ## But how does it look?
 Have a sneak peak!
 
-![soundcloud](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/soundcloud.png)
+![soundcloud](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/soundcloud.png)
 
-![reddit](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/reddit.png)
+![reddit](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/reddit.png)
 
-![youtube](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/youtube.png)
+![youtube](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/youtube.png)
 
-![settings](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/settings.png)
+![settings](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/settings.png)
 
-![mobile](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/mobile.png)
+![mobile](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/mobile.png)
 
-## NEW! Get the Chrome Companion Extension!
-![extension-popup](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/chromeext-popup.png)
+## NEW! Get the Chrome Companion Extension! (no longer maintained)
+![extension-popup](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/chromeext-popup.png)
 
-![extension-contextmenu](https://raw.githubusercontent.com/Leonetienne/Tubio/master/github-media/chromeext-context.png)
+![extension-contextmenu](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/chromeext-context.png)
 
 
 ## How can i configure it?
@@ -87,17 +87,13 @@ Tubio does NOT manage sessions or accounts! Everyone using your Tubio instance w
 
 If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enabling the whitelist! You can do this either in the `config.json` or in /settings. Either way, it is a json-array of strings which represent IPv4 addresses.
 
-## Setup (Windows)
-#### Install yt-dlp.exe:
-1) Download the latest Tubio build from [here](https://github.com/Leonetienne/Tubio/releases).
-2) Create some folder on your pc. This will be the installation folder.
-3) Dump in the contents of the Tubio build you just downloaded.
-4) Launch vcredist_x86.exe and install it. This will install Microsoft Visual C++ 2010 Redistributable Package (x86) which is needed for dependencies.
-5) Launch VC_redist.x64.exe and install it. This will install Microsoft Visual C++ 2015/17/19 Redistributable Package (x64) which is needed to run Tubio.exe
-6) Launch Tubio.exe
-7) Navigate to `http://localhost/settings` and click "Update ytdl", as the version Tubio shipped with might be out of date.
-8) &lt;Optional&gt;: Set up `Tubio.exe` to launch with windows to have it\`s service always at hand.
-9) Enjoy &lt;3
+## Setup (Linux)
+1) Clone this repository and build it with cmake 
+2) Create some folder on your system. This will be the installation folder.
+3) In this folder, dump the contents of /Tubio/.
+4) Install python3 and then yt-dlp via `pip install yt-dlp`.
+5) Launch the tubio executable
+6) Enjoy &lt;3
 
 ## Frequently Asked Questions
 ### My downloads hang at 99% or 100%
@@ -139,4 +135,5 @@ I do NOT endorse illegal downloads in any way, shape, or form. Tubio is a tool t
 
 ## License
 Tubio is distributed under the GNU General Public License v3.0.
-Please read the [license file](https://github.com/Leonetienne/Tubio/blob/master/license.txt).
+Please read the [license file](https://gitea.leonetienne.de/leonetienne/Tubio/src/branch/master/LICENSE).
+
