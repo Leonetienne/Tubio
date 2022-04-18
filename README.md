@@ -92,8 +92,9 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 2) Create some folder on your system. This will be the installation folder.
 3) In this folder, dump the contents of /Tubio/.
 4) Install python3 and then yt-dlp via `pip install yt-dlp`.
-5) Launch the tubio executable
-6) Enjoy &lt;3
+5) Install the ffmpeg cli suite.
+6) Launch the tubio executable.
+7) Enjoy &lt;3
 
 ## Frequently Asked Questions
 ### My downloads hang at 99% or 100%
