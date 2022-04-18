@@ -88,7 +88,7 @@ Tubio does NOT manage sessions or accounts! Everyone using your Tubio instance w
 If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enabling the whitelist! You can do this either in the `config.json` or in /settings. Either way, it is a json-array of strings which represent IPv4 addresses.
 
 ## Setup (Linux)
-1) Clone this repository and build it with cmake 
+1) Clone this repository and build Tubio (in /Tubio/) with cmake.
 2) Create some folder on your system. This will be the installation folder.
 3) In this folder, dump the contents of /Tubio/.
 4) Install python3 and then yt-dlp via `pip install yt-dlp`.
