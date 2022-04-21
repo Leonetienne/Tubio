@@ -78,11 +78,9 @@ Most of these values are configurable in the web-interface, but not all, such as
 ```
 
 ## Can i use Tubio on multiple devices?
-Tubio is hosts a webserver, after all. It is intended to be used for localhost only (since no encryption), but no one is preventing you from unticking `localhost only` under /settings.
+Tubio hosts a webserver, after all. It is intended to be used for localhost only (since no encryption), but no one is preventing you from unticking `localhost only` under `/settings`. Then you could connect to it via your local IPv4 address (such as `192.168.1.12`) or even over the global WAN! However, regarding WAN, i would **strongly** advise against such a careless setup.
 
-It wouldn't be that complicated to enable SSL. You'd have to install and link `libcryptopp`, obtain a certificate + key, and pass them to the mongoose webserver. But that would break that whole *"compiles without any dependencies thing"*. See [the mongoose docs SSL page](https://mongoose.ws/tutorials/tls/) for instructions. If you implement this cleanly, like with a special make target, a merge request would be greatly appreciated.
-
-Then you could connect to it via your local IPv4 address (such as `192.168.1.12`) or even over the global WAN! However, regarding WAN, i would **strongly** advise against such a careless setup.
+It wouldn't be that complicated to enable TLS. You'd have to install and link `libcryptopp`, obtain a certificate + key, and pass them to the mongoose webserver. But that would break that whole *"compiles without any dependencies thing"*. See [the mongoose docs TLS page](https://mongoose.ws/tutorials/tls/) for instructions. If you implement this cleanly, like with a special make target, a merge request would be greatly appreciated.
 
 !!! IMPORTANT
 Tubio does NOT manage sessions or accounts! Everyone using your Tubio instance will see **all your downloads** and vica versa.
