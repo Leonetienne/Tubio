@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  main:
+    build: .
+    restart: always
+    container_name: tubio
+    volumes:
+      - .:/app
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    ports:
+      - 80:80
+
+    environment:
+      - TZ=Europe/Berlin
+
