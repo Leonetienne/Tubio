@@ -162,7 +162,7 @@ void DownloadManager::DownloadNext()
 			std::string ytdl_call_video_base =
 				"yt-dlp --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir -f \"$$QUALITY\" --recode-video mp4 --prefer-ffmpeg"
-				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
+				" -o \"$$DL_FILE\" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\" 2>&1";
 
 			// Fill template
 			ytdl_call_video_base = Internal::StringHelpers::Replace(ytdl_call_video_base, "$$QUALITY", DownloadQualityToStringParams(entry->quality));
@@ -180,7 +180,7 @@ void DownloadManager::DownloadNext()
 			std::string ytdl_call_audio_base =
 				"yt-dlp --newline --no-call-home --no-playlist --no-part --no-warnings --socket-timeout 5 --limit-rate $$DL_RATE"
 				" --no-mtime --no-cache-dir -f worstvideo+bestaudio --audio-format mp3 --audio-quality 0 --extract-audio -o \"$$DL_FILE\""
-				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\"";
+				" \"$$DL_URL\" > \"$$DL_PROG_BUF_FILE\" 2>&1";
 
 			
 			// Fill template

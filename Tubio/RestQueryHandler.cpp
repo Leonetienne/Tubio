@@ -115,10 +115,10 @@ bool RestQueryHandler::QueueDownload(const JsonBlock& request, JsonBlock& respon
 		return false;
 	}
 
-	log->cout << "Queued video \"" << videoUrl << "\"...";
-	log->Flush();
-
 	std::string tubId = DownloadManager::QueueDownload(videoUrl, mode, quality);
+
+	log->cout << "Queued video \"" << videoUrl << "\" with id \"" << tubId << "\"...";
+	log->Flush();
 
 	responseCode = HTTP_STATUS_CODE::OK;
 	responseBody.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::OK));

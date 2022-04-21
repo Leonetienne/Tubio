@@ -102,6 +102,10 @@ void HttpServer::EventHandler(mg_connection* pNc, int ev, void* p)
 				{
 					ProcessAPIRequest(pNc, ev, p, peer_addr);
 				}
+				else if (requestedUri.substr(0, 12) == "/downloadlog")
+				{
+					ServeDownloadLog(pNc, ev, p, requestedUri);
+				}
 				else if (requestedUri.substr(0, 9) == "/download")
 				{
 					ServeDownloadeableResource(pNc, ev, p, requestedUri);
@@ -209,6 +213,31 @@ void HttpServer::ServeDownloadeableResource(mg_connection* pNc, int ev, void* p,
 	else
 	{
 		Json j;
+		j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Invalid tubio id!"));
+		ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::BAD_REQUEST);
+	}
+
+	return;
+}
+
+void HttpServer::ServeDownloadLog(mg_connection* pNc, int ev, void* p, std::string uri)
+{
+	std::string fileId = uri.substr(13, uri.length() - 13);
+
+	if (Downloader::DownloadManager::DoesTubioIDExist(fileId))
+	{
+		Downloader::DownloadEntry& entry = Downloader::DownloadManager::GetDownloadEntryByTubioID(fileId);
+		
+    std::stringstream ss;
+    std::string logFilename = std::string("./dlcache/dlprogbuf/") + fileId + ".buf";
+
+    ss << "Access-Control-Allow-Origin: *\nContent-Type: text/plain; Cache-Control: must-revalidate, post-check=0, pre-check=0";
+    mg_http_serve_file(pNc, (http_message*)p, logFilename.c_str(), mg_mk_str("text/plain"), mg_mk_str(ss.str().c_str()));
+	}
+	else
+	{
+		Json j;
+    std::stringstream ss;
 		j.CloneFrom(RestResponseTemplates::GetByCode(HTTP_STATUS_CODE::BAD_REQUEST, "Invalid tubio id!"));
 		ServeStringToConnection(pNc, j.Render(), (int)HTTP_STATUS_CODE::BAD_REQUEST);
 	}
