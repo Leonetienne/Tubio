@@ -78,7 +78,9 @@ Most of these values are configurable in the web-interface, but not all, such as
 ```
 
 ## Can i use Tubio on multiple devices?
-Tubio is a webserver, after all. It is intended to be used for localhost only (since no encryption), but no one is preventing you from unticking `localhost only` under /settings.
+Tubio is hosts a webserver, after all. It is intended to be used for localhost only (since no encryption), but no one is preventing you from unticking `localhost only` under /settings.
+
+It wouldn't be that complicated to enable SSL. You'd have to install and link `libcryptopp`, obtain a certificate + key, and pass them to the mongoose webserver. But that would break that whole *"compiles without any dependencies thing"*. See [the mongoose docs SSL page](https://mongoose.ws/tutorials/tls/) for instructions. If you implement this cleanly, like with a special make target, a merge request would be greatly appreciated.
 
 Then you could connect to it via your local IPv4 address (such as `192.168.1.12`) or even over the global WAN! However, regarding WAN, i would **strongly** advise against such a careless setup.
 
@@ -100,9 +102,8 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 This happens as there often is some post-processing to do after downloading.
 
 ### My downloads fail!
-First thing to do: Navigate to /settings and click "Update ytdl". This will update your local instance of [yt-dlp](https://github.com/yt-dlp/yt-dlp/). Check the logs to see if it worked. If not, you can always download it yourself (from the [releases-page](https://github.com/yt-dlp/yt-dlp/releases) and put yt-dlp.exe in the same directory tubio.exe lies in.).
-
-If it\`s still not working, you are most likely trying to download a video from a playlist with a weird url. Try a different one (The one from the share button, the one from right-clicking the video or the one from the url-bar in your browser).
+First thing to do: Verify that are using the latest version of yt-dlp. The team behind its upstream, youtube-dl, are quite fast adjusting the downloading backend to changes in popular platforms, such as youtube. If your downloads still fail,
+verify that yt-dlp is in fact capable of downloading the url you supplied by executing `yt-dlp $url`, replacing `$url` with your url. If this works, you can extract the tubio id of the url you just queued in `/settings`, and then open `<your-tubio-host>/downloadlog/<tubio-id>` to see the output stdout and stderr of the yt-dlp call. Then work from the error messages you see in there.
 
 If it\`s still not working, you\`re out of luck. :(
 You may want to check youtube-dl compatible sites.
@@ -115,9 +116,9 @@ Sure it does. You just have to compile it yourself using cmake, and put yt-dlp.e
 in Tubios working directory (installation directory). You could then just launch it at startup.
 
 ### Can I use it on my phone?
-Sure. Read [this](#user-content-can-i-use-tubio-on-multiple-devices).
+You bet! That's what I'm mainly using it for :) Read [this](#user-content-can-i-use-tubio-on-multiple-devices).
 
-### Can i use this to host my own downloader website?
+### Can I use this to host my own downloader website?
 On your own risk! Tubio is NOT designed for this! Also do note that tubio does NOT manage sessions or accounts! Everyone accessing this instance can see everyones downloads and access the admin panel! Tubio is really designed for one user!
 
 ### XY is not working, you have to fix it now!
@@ -127,7 +128,7 @@ I do not. Tubio is a tool I originally made for myself only. I just thought it\`
 This is an alpha-version. What did you expect? :D
 
 ### Can you please add support for website XY?
-Please address the awesome team at youtube-dl, as they made the downloading-end: [github.com/ytdl-org/youtube-dl/issues](https://github.com/ytdl-org/youtube-dl/issues).
+Please address the awesome team at youtube-dl, as they make the downloading-backend: [github.com/ytdl-org/youtube-dl/issues](https://github.com/ytdl-org/youtube-dl/issues).
 The downloader tubio uses ([yt-dlp](https://github.com/yt-dlp/yt-dlp/)) is based on youtube-dl.
 
 ## Important notice!
