@@ -35,7 +35,7 @@ Have a sneak peak!
 
 ![mobile](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/mobile.png)
 
-## NEW! Get the Chrome Companion Extension! (no longer maintained)
+## There's also a Chrome Extension
 ![extension-popup](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/chromeext-popup.png)
 
 ![extension-contextmenu](https://gitea.leonetienne.de/leonetienne/Tubio/raw/branch/master/github-media/chromeext-context.png)
@@ -97,7 +97,8 @@ If you opt for unleashing Tubio on your LAN, i would **strongly** recommend enab
 
 ## Frequently Asked Questions
 ### My downloads hang at 99% or 100%
-This happens as there often is some post-processing to do after downloading.
+This happens as there almost always is some post-processing to do after downloading. Like, audio-extracting and/or video recoding. If you're downloading
+a video this may take a while, as it may be converting webm to mp4.
 
 ### My downloads fail!
 First thing to do: Verify that are using the latest version of yt-dlp. The team behind its upstream, youtube-dl, are quite fast adjusting the downloading backend to changes in popular platforms, such as youtube. If your downloads still fail,
@@ -127,7 +128,7 @@ This is an alpha-version. What did you expect? :D
 
 ### Can you please add support for website XY?
 Please address the awesome team at youtube-dl, as they make the downloading-backend: [github.com/ytdl-org/youtube-dl/issues](https://github.com/ytdl-org/youtube-dl/issues).
-The downloader tubio uses ([yt-dlp](https://github.com/yt-dlp/yt-dlp/)) is based on youtube-dl.
+The downloader uses ([yt-dlp](https://github.com/yt-dlp/yt-dlp/)), which is based on youtube-dl.
 
 ## Important notice!
 I do NOT endorse illegal downloads in any way, shape, or form. Tubio is a tool to download media from legal sources! Use Tubio at your own discretion! Neither do i provide ANY warranty in ANY way, shape, or form!
