@@ -147,6 +147,7 @@ std::string HttpServer::SanitizeString(std::string in) {
   in = StringTools::Replace(in, '|', "\\\\|");
   in = StringTools::Replace(in, '$', "\\\\$");
   in = StringTools::Replace(in, "&&", "\\\\&\\\\&");
+  in = StringTools::Replace(in, ";", "\\\\;");
 
   return in;
 }
