@@ -22,7 +22,7 @@
   "devDependencies": {
     "@nuxtjs/stylelint-module": "^4.0.0",
     "@nuxtjs/tailwindcss": "^3.0.2",
-    "stylelint": "^13.7.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^20.0.0"
   }
 }
